@@ -1,0 +1,25 @@
+{
+	"template": "<div><i18n id=\"query\"></i18n></div> <hr /> display data here <hr/> <i18n id=\"result\"></i18n>",
+	"data": {
+		"query": "",
+		"searchData": {
+			"music": [{
+				"name": "Gammaray",
+				"type": "Metal"
+			}, {
+				"name": "Sabaton",
+				"type": "Metal"
+			}, {
+				"name": "Angra",
+				"type": "Metal"
+			}]
+		},
+		"results": ""
+	},
+	"i18n": {
+		"pt-BR": {
+			"query": "Sua pesquisa por <data id=\"query\"></data>",
+			"result": "Retornou <b><data id=\"results\"></data></b> resultados."
+		}
+	}
+}
