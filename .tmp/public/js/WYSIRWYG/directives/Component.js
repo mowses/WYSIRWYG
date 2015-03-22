@@ -17,13 +17,11 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 				utils = WYSIRWYG.Component.utils,
 				base = WYSIRWYG.Component.getData(id),
 				local = utils.getProp($scope.$parent.data, 'components.' + id);
-console.log(id);
+
 			// when changes occurs on base:
 			WYSIRWYG.Component
 				.watch(id, function(data) {
-					$.extend($scope, {
-						data: $.extend(true, {}, data.new[id], local)
-					});
+					$scope.data = $.extend(true, {}, data.new[id], local);
 					$scope.$apply();
 				});
 
@@ -37,9 +35,7 @@ console.log(id);
 					.append(compiled.contents());
 			});
 
-			$.extend($scope, {
-				data: $.extend(true, {}, base, local)
-			});
+			$scope.data = $.extend(true, {}, base, local);
 
 		}
 	};

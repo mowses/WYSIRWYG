@@ -7,23 +7,6 @@
 		$.extend(this, new ObserverCore(), {
 			events: new Events([])
 		});
-
-		this.setData({})
-		/*.watch(['components'], function(data) {
-			// create `stage` if has components
-			// otherwise remove `stage` object
-			var self = this;
-			if (!data.new.components.length) {
-				this.stage = null;
-				return;
-			} else if (!this.stage) {
-				this.stage = new WYSIRWYG.Stage();
-			}
-
-			$.each(data.diff.components, function(i, component) {
-				self.stage.add(component);
-			});
-		})*/;
 	}
 
 	// the Object itself
