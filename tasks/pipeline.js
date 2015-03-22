@@ -42,6 +42,8 @@ var jsFilesToInject = [
 
   'js/WYSIRWYG/directives/Stage.js',
   'js/WYSIRWYG/directives/Component.js',
+  'js/WYSIRWYG/directives/i18n.js',
+  'js/WYSIRWYG/directives/Data.js',
   'js/WYSIRWYG/App.js'
 
   // All of the rest of your client-side js files
