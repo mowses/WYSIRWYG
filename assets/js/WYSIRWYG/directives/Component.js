@@ -7,45 +7,40 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 		restrict: 'E',
 		transclude: true,
 		scope: {
-			id: '@'
+			id: '@',
+			language: '@'
 		},
 
-		controller: ['$scope', '$element', function($scope, $element) {
+		link: function($scope, $element) {
 
-			//setTimeout(function() {
-				var utils = WYSIRWYG.Component.utils;
-
-				function render() {
-					var id = $scope.id,
-						base = WYSIRWYG.Component.getData(id),
-						local = utils.getProp($scope.$parent.data, 'components.' + id),
-						component_data = $.extend(true, {}, base, local),
-						template = component_data.template,
-						compiled;
-
+			var id = $scope.id,
+				utils = WYSIRWYG.Component.utils,
+				base = WYSIRWYG.Component.getData(id),
+				local = utils.getProp($scope.$parent.data, 'components.' + id);
+console.log(id);
+			// when changes occurs on base:
+			WYSIRWYG.Component
+				.watch(id, function(data) {
 					$.extend($scope, {
-						data: component_data
+						data: $.extend(true, {}, data.new[id], local)
 					});
-					compiled = $compile('<div>' + template + '</div>')($scope);
-
-					$element
-						.empty()
-						.append(compiled.contents());
-				}
-
-				// when changes occurs on base:
-				WYSIRWYG.Component.watch($scope.id, function(data) {
-console.log('something changed on base');
-					render();
+					$scope.$apply();
 				});
 
-				// when changes occurs locally:
-				$scope.$parent.$watch('data.components.' + $scope.id, function() {
-console.log('something changed locally');
-					render();
-				}, true);
-		//}, 3000);
-			
-		}]
+			// re-render on template changes
+			$scope.$watch('data.template', function(new_template) {
+				new_template = new_template || '';
+				var compiled = $compile('<div>' + new_template + '</div>')($scope);
+
+				$element
+					.empty()
+					.append(compiled.contents());
+			});
+
+			$.extend($scope, {
+				data: $.extend(true, {}, base, local)
+			});
+
+		}
 	};
 }]);

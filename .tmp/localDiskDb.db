@@ -58,6 +58,9 @@
               "birthday": "1986-01-13"
             },
             "i18n": {
+              "en-US": {
+                "searchFor": "Search:"
+              },
               "pt-BR": {
                 "searchFor": "Localizar:"
               }

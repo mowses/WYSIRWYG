@@ -6,19 +6,21 @@ angular.module('WYSIRWYG.data', [])
 	return {
 		restrict: 'E',
 		transclude: true,
-		require: '^component',
+		//require: '^component',
 		scope: {
 			id: '@'
 		},
 
-		controller: ['$scope', '$element', function($scope, $element) {
+		link: function($scope, $element) {
 			var component_scope = $scope.$parent,
 				data = component_scope.data.data,
 				index = $scope.id;
 
-			$element
-				.empty()
-				.append(data[index]);
-		}]
+			component_scope.$watch('data.data["' + index + '"]', function(data) {
+				$element
+					.empty()
+					.append(data);
+			});
+		}
 	};
 }]);

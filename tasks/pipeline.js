@@ -37,10 +37,8 @@ var jsFilesToInject = [
   'js/libraries/ObserverCore/ObserverCore.js',
 
   'js/libraries/WYSIRWYG/WYSIRWYG.js',
-  'js/libraries/WYSIRWYG/Stage.js',
   'js/libraries/WYSIRWYG/Component.js',
 
-  'js/WYSIRWYG/directives/Stage.js',
   'js/WYSIRWYG/directives/Component.js',
   'js/WYSIRWYG/directives/i18n.js',
   'js/WYSIRWYG/directives/Data.js',

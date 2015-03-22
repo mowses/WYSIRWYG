@@ -1,4 +1,4 @@
-angular.module('WYSIRWYG', ['WYSIRWYG.Stage'])
+angular.module('WYSIRWYG', [])
 
 .controller('App', ['$scope', function($scope) {
 	'use strict';
@@ -16,7 +16,7 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Stage'])
 		});
 	});
 
-	console.log('para acessar $scope use a variavel global $App');
-	window.$App = $scope;
+	/*console.log('para acessar $scope use a variavel global $App');
+	window.$App = $scope;*/
 
 }]);
