@@ -53,7 +53,7 @@
         },
         "components": {
           "foolish": {
-            "template": "<i18n id=\"searchFor\"></i18n> <input type=\"text\" name=\"foolish\" value=\"{{birthday | date}}\" /> <component id=\"resultBox\" language=\"pt-BR\"></component>",
+            "template": "<i18n id=\"searchFor\"></i18n> <input type=\"text\" name=\"foolish\" value=\"{{birthday | date}}\" /> <component id=\"resultBox\"></component>",
             "data": {
               "birthday": "1986-01-13"
             },
@@ -67,7 +67,6 @@
             },
             "components": {
               "resultBox": {
-                "reference": "resultBoxComponent",
                 "data": {
                   "searchData": {
                     "series": [
@@ -94,6 +93,11 @@
                         "type": "Animation"
                       }
                     ]
+                  }
+                },
+                "i18n": {
+                  "pt-BR": {
+                    "query": "SUA PEXQUISA POR:::: <data id=\"query\"></data>"
                   }
                 }
               }

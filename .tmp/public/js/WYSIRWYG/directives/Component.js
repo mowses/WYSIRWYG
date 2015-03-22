@@ -13,10 +13,12 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 
 		link: function($scope, $element) {
 
-			var id = $scope.id,
+			var parent_component = $scope.$parent,
+				id = $scope.id,
+				language = $scope.language || parent_component.language,
 				utils = WYSIRWYG.Component.utils,
 				base = WYSIRWYG.Component.getData(id),
-				local = utils.getProp($scope.$parent.data, 'components.' + id);
+				local = utils.getProp(parent_component.data, 'components.' + id);
 
 			// when changes occurs on base:
 			WYSIRWYG.Component
