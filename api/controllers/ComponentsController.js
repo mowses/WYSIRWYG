@@ -7,6 +7,19 @@
 
 module.exports = {
 	index: function(req, res, next) {
+		var $ = sails.config.globals.jQuery;
+
+		Components.find()
+			.exec(function(err, data) {
+				if (err || !data) return res.badRequest(err);
+				
+				return res.view({
+					'components': data
+				});
+			});
+	},
+
+	list: function(req, res, next) {
 		Components.find()
 			.exec(function(err, data) {
 				if (err || !data) return res.badRequest(err);

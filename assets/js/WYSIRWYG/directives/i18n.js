@@ -13,14 +13,14 @@ angular.module('WYSIRWYG.i18n', [])
 		},
 
 		link: function($scope, $element) {
-			var component_scope = $scope.$parent,
-				i18n_data = component_scope.data.i18n,
-				language = $scope.language || component_scope.language || Object.keys(i18n_data)[0],
+			var parent_component = $scope.$parent,
+				i18n_data = parent_component.data.i18n,
+				language = $scope.language || parent_component.language || Object.keys(i18n_data)[0],
 				i18n = i18n_data[language] || {},
 				index = $scope.id;
 
-			component_scope.$watch('data.i18n["' + language + '"]["' + index + '"]', function(data) {
-				var compiled = $compile('<div>' + data + '</div>')(component_scope);
+			parent_component.$watch('data.i18n["' + language + '"]["' + index + '"]', function(data) {
+				var compiled = $compile('<div>' + data + '</div>')(parent_component);
 				$element
 					.empty()
 					.append(compiled.contents());

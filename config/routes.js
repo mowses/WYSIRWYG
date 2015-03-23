@@ -37,7 +37,13 @@ module.exports.routes = {
     },
 
     '/components': {
-        controller: 'Components'
+        controller: 'Components',
+        action: 'list'
+    },
+
+    '/components/index': {
+        controller: 'Components',
+        action: 'index'
     }
 
     /***************************************************************************

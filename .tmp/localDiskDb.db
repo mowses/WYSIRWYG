@@ -40,15 +40,15 @@
           "name": "Moisés mosele"
         },
         "i18n": {
-          "en-US": {
-            "salutation": "Hello <data id=\"name\" filter=\"upper-first\"></data>",
-            "introduction": "This is our components example.",
-            "description": "This is the description. Note that was not passed the language attribute to this text in the template. It's showing the text from the default language of the component."
-          },
           "pt-BR": {
             "salutation": "Olá <data id=\"name\" filter=\"upper-first\"></data>",
             "introduction": "Esse é nosso primeiro exemplo.",
             "description": "Essa é a descrição. Note que não foi informado o idioma para este texto no template. Está exibindo o texto do idioma padrão do componente."
+          },
+          "en-US": {
+            "salutation": "Hello <data id=\"name\" filter=\"upper-first\"></data>",
+            "introduction": "This is our components example.",
+            "description": "This is the description. Note that was not passed the language attribute to this text in the template. It's showing the text from the default language of the component."
           }
         },
         "components": {

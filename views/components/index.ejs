@@ -1,0 +1,22 @@
+<div ng-controller="ComponentsEdit" class="components-index">
+	<% components.forEach(function(component, i) { %>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title"><%= component.name %></h3>
+		</div>
+		<div class="panel-body">
+			<component class="preview" id="<%= component.name %>"></component>
+
+			<textarea name="template" ng-model="Component.<%= component.name %>.template" ng-model-setter="WYSIRWYG.Component.extendData({'<%= component.name %>': {template: $value}});"></textarea>
+			
+			<textarea name="data" ng-model="Component.<%= component.name %>.data" ng-model-setter="WYSIRWYG.Component.extendData({'<%= component.name %>': {data: stringToData($value)}});"></textarea>
+			
+			<textarea name="i18n" ng-model="Component.<%= component.name %>.i18n" ng-model-setter="WYSIRWYG.Component.extendData({'<%= component.name %>': {i18n: stringToData($value)}});"></textarea>
+
+			<textarea name="components" ng-model="Component.<%= component.name %>.components" ng-model-setter="WYSIRWYG.Component.extendData({'<%= component.name %>': {components: stringToData($value)}});"></textarea>
+
+			<a href="#" class="btn btn-primary">Submit</a>
+		</div>
+	</div>
+	<% }) %>
+</div>

@@ -60,4 +60,7 @@ module.exports.globals = {
   ****************************************************************************/
 
 	// models: true
+  
+  jQuery: require('../assets/js/libraries/jQuery.utils-nodejs/jQuery.utils-nodejs-2.1.0').jQuery
+  
 };

@@ -1,0 +1,7 @@
+.components-index component.preview {
+	float: right;
+	border: 2px solid grey;
+	width: 30%;
+	height: 200px;
+	overflow: auto;
+}

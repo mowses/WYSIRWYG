@@ -15,8 +15,13 @@
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
-  'styles/reset.css',
-  'styles/WYSIRWYG/main.css'
+  //'styles/reset.css',
+  'styles/bootstrap/bootstrap.min.css',
+  'styles/bootstrap/bootstrap-theme.min.css',
+  'styles/WYSIRWYG/main.css',
+
+  'styles/components/*.css',
+  'styles/WYSIRWYG/*.css'
 ];
 
 
@@ -35,6 +40,8 @@ var jsFilesToInject = [
   'js/libraries/Events/Events.js',
   'js/libraries/ObjDiff/ObjDiff.js',
   'js/libraries/ObserverCore/ObserverCore.js',
+  'js/libraries/bootstrap/bootstrap.min.js',
+  'js/ngModelUtils.js',
 
   'js/libraries/WYSIRWYG/WYSIRWYG.js',
   'js/libraries/WYSIRWYG/Component.js',

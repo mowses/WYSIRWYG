@@ -12,11 +12,12 @@ angular.module('WYSIRWYG.data', [])
 		},
 
 		link: function($scope, $element) {
-			var component_scope = $scope.$parent,
-				data = component_scope.data.data,
+			var parent_component = $scope.$parent,
+				data = parent_component.data.data,
 				index = $scope.id;
 
-			component_scope.$watch('data.data["' + index + '"]', function(data) {
+			// watch for parent component changes
+			parent_component.$watch('data.data["' + index + '"]', function(data) {
 				$element
 					.empty()
 					.append(data);
