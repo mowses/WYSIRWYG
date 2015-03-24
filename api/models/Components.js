@@ -13,6 +13,7 @@ module.exports = {
 			required: true,
 			unique: true,
 			primaryKey: true,
+			alphanumeric: true,
 			minLength: 5,
 			maxLength: 255
 		},

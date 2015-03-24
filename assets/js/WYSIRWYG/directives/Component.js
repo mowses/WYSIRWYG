@@ -11,28 +11,61 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 			language: '@'
 		},
 
-		link: function($scope, $element) {
+		controller: ['$scope', function($scope) {
+			var parent = $scope.$parent && $scope.$parent.data;
 
-			var parent_component = $scope.$parent,
-				id = $scope.id,
-				language = $scope.language || parent_component.language,
-				utils = WYSIRWYG.Component.utils,
-				getLocal = function() {
-					return utils.getProp(parent_component.data, 'components.' + id);
-				};
+			$scope.getTemplate = function() {
+				var local = $scope.data.local || {},
+					base = $scope.data.base || {};
+
+				return (local.template || base.template || '');
+			}
+
+			// initialize scope vars
+			
+			// base data comes directly from WYSIRWYG.Component.getData($scope.id)
+			// local data means when this is a subcomponent and it's data is located inside its parent component
+			// local data represents the current component data (when it is inside a parent component)
+			$scope.data = {
+				base: null,
+				local: null
+			};
+
+			// listen for changes...
+			if (parent) {
+				$scope.$parent.$watch('data.base.components["' + $scope.id + '"]', function(new_data) {
+					$scope.data.local = new_data;
+					console.log($scope.id, new_data, $scope.$parent.data);
+				}, true);
+			}
 
 			// when changes occurs on base:
 			WYSIRWYG.Component
-				.watch(id, function(data) {
-					$scope.data = $.extend(true, {}, data.new[id], getLocal());
+				.watch($scope.id, function(data) {
+					$scope.data.base = data.new[$scope.id];
 					$scope.$apply();
 				});
 
-			$scope.data = $.extend(true, {}, WYSIRWYG.Component.getData(id), getLocal());
+			$scope.$watch('id', function(id) {
+				$scope.data.base = WYSIRWYG.Component.getData(id);
+			});
+			// watch for data change
+			$scope.$watch('data.base.template', function() {
+				$scope.template = $scope.getTemplate();
+			});
+			$scope.$watch('data.local.template', function() {
+				$scope.template = $scope.getTemplate();
+			});
+			// parent watch
+			$scope.$parent.$watch('language', function(new_language) {
+				$scope.language = $scope.language || new_language;
+			});
+		}],
+
+		link: function($scope, $element) {
 
 			// re-compile on template changes
-			$scope.$watch('data.template', function(new_template, old) {
-				new_template = new_template || '';
+			$scope.$watch('template', function(new_template) {
 				var compiled = $compile('<div>' + new_template + '</div>')($scope);
 
 				$element
@@ -40,7 +73,7 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 					.append(compiled.contents());
 			});
 
-			// watch changes for the local component on `template` property
+			/*// watch changes for the local component on `template` property
 			parent_component.$watch('data.components["' + id + '"].template', function(new_template, old_template) {
 				
 				// need to check `new_template` with `old_template`
@@ -52,7 +85,7 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 				if (new_template === old_template) return;
 
 				$scope.data.template = new_template;
-			});
+			});*/
 
 		}
 	};
