@@ -12,63 +12,28 @@ angular.module('WYSIRWYG.i18n', [])
 		},
 
 		controller: ['$scope', function($scope) {
-			$scope.getString = function() {
-				var language = $scope.i18nLanguages[$scope.language];
+			$scope.getParentLanguage = function(scope) {
+				if (scope.language) return scope.language;
+				if (!scope.$parent) return;
 
-				return (language && language[$scope.id]);
+				return $scope.getParentLanguage(scope.$parent);
 			}
-
-			$scope.geti18nLanguages = function() {
-				var local = ($scope.$parent.data.local || {}).i18n,
-					base = ($scope.$parent.data.base || {}).i18n;
-
-				return (local || base);
-			}
-
-			$scope.getLanguage = function() {
-				return ($scope.language || $scope.$parent.language || Object.keys($scope.i18nLanguages)[0]);
-			}
-
-			$scope.i18nLanguages = $scope.geti18nLanguages();
-			$scope.i18n = $scope.getString();
-			
-			// watch for base data changes
-			$scope.$parent.$watch('data.base.i18n', function() {
-				$scope.i18nLanguages = $scope.geti18nLanguages();
-			});
-			$scope.$parent.$watch('data.base.i18n["' + $scope.language + '"]["' + $scope.id + '"]', function() {
-				$scope.i18n = $scope.getString();
-			});
-
-			// watch for local data changes
-			$scope.$parent.$watch('data.local.i18n', function() {
-				$scope.i18nLanguages = $scope.geti18nLanguages();
-				$scope.i18n = $scope.getString();
-			}, true);
-
-			// watch for local language change
-			if ($scope.language === undefined) {
-				$scope.$watch('i18nLanguages', function() {
-					$scope.language = $scope.getLanguage();
-				});
-			}
-
-			$scope.$watch('language', function() {
-				$scope.language = $scope.getLanguage();
-				$scope.i18n = $scope.getString();
-			});
-
+			$scope.language = $scope.language || $scope.getParentLanguage($scope.$parent);
+			// i18n deve herdar data do scopo pai (para que a directive <data> saiba de onde pegar as variaveis)
+			// não passar $scope.$parent no compile pois esta directive deverá funcionar mesmo quando não estiver dentro de <component>
 		}],
 
-		link: function($scope, $element) {
-			$scope.$watch('i18n', function(new_i18n, old) {
-
-				var compiled = $compile('<div>' + new_i18n + '</div>')($scope.$parent);
-				
-				$element
-					.empty()
-					.append(compiled.contents());
-			});
+		compile: function($element, $attrs) {
+			
+			return {
+				post: function($scope, $element) {
+					console.log($scope.id, $scope.language);
+					$scope.$parent.$watch('data.i18n["' + $scope.language + '"]["' + $scope.id + '"]', function(string) {
+						var compiled = $compile('<div>' + string + '</div>')($scope);
+						$element.empty().append(compiled.contents());
+					});
+				}
+			}
 		}
 	};
 }]);

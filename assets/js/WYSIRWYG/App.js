@@ -19,6 +19,17 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'ngModelUtils'])
 })
 
 .controller('App', ['$scope', 'getComponents', function($scope, getComponents) {
+
+	$scope.Component = WYSIRWYG.Component;
+	$scope.data = {
+		components: null
+	};
+
+	WYSIRWYG.Component.watch(null, function(data) {
+		$scope.data.components = data.new;
+		console.log('all the data', $scope.data);
+		$scope.$apply();
+	});
 	
 	getComponents();
 
