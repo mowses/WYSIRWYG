@@ -18,7 +18,6 @@ angular.module('WYSIRWYG.data', [])
 
 			return {
 				post: function($scope, $element) {
-					console.log('=DATA:', $scope.id, $scope.$parent);
 					$scope.$parent.$watch('data.data["' + $scope.id + '"]', function(new_data) {
 						$element.empty().append(new_data);
 					});

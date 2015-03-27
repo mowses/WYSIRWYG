@@ -14,6 +14,7 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 
 		controller: ['$scope', function($scope) {
 			//console.log($scope.id, $scope.data);
+			$scope.language = $scope.language || Object.keys($scope.data.i18n)[0];
 			
 		}],
 
@@ -22,6 +23,7 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 
 			return {
 				pre: function($scope, $element, $attrs) {
+					
 				},
 
 				post: function($scope, $element) {

@@ -25,6 +25,13 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'ngModelUtils'])
 		components: null
 	};
 
+	$scope.getParentLanguage = function(scope) {
+		if (scope.language) return scope.language;
+		if (!scope.$parent) return;
+
+		return $scope.getParentLanguage(scope.$parent);
+	}
+
 	WYSIRWYG.Component.watch(null, function(data) {
 		$scope.data.components = data.new;
 		console.log('all the data', $scope.data);
