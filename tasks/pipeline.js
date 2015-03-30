@@ -48,10 +48,10 @@ var jsFilesToInject = [
 
 
   // components files
-  'js/WYSIRWYG/components/module.js',
   'js/WYSIRWYG/components/foolish/controller.js',
   'js/WYSIRWYG/components/resultBox/controller.js',
   'js/WYSIRWYG/components/searcher/controller.js',
+  'js/WYSIRWYG/components/module.js',  // after all components
 
   'js/WYSIRWYG/directives/Component.js',
   'js/WYSIRWYG/directives/i18n.js',

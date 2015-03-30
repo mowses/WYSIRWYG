@@ -1,3 +1,7 @@
 'use strict';
 
-var WYSIRWYG = {};
+var WYSIRWYG = {
+	Components: {
+		controllers: {}
+	}
+};
