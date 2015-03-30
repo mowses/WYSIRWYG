@@ -1,4 +1,4 @@
-angular.module('WYSIRWYG.Components.Controllers', [])
+angular.module('WYSIRWYG.Components.Controllers')
 
 .controller('searcher', ['$scope', function($scope) {
 	$scope.alerta = function() {

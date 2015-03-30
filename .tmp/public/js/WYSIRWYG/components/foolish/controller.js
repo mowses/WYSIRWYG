@@ -1,4 +1,4 @@
-angular.module('WYSIRWYG.Components.Controllers', [])
+angular.module('WYSIRWYG.Components.Controllers')
 
 .controller('foolish', ['$scope', function($scope) {
 	console.log('fooolishh', $scope);
