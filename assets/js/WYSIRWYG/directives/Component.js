@@ -1,29 +1,29 @@
 angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 
-.directive('component', ['$compile', function($compile) {
+.directive('component', ['$compile', 'getParentLanguage', function($compile, getParentLanguage) {
 	'use strict';
 
 	return {
 		restrict: 'E',
 		transclude: false,
+		// define controller config
+		controller : '@',
+		name: 'controllerName',
+		// end controller definition
 		scope: {
 			id: '@',
 			language: '@',
 			data: '='
 		},
 
-		controller: ['$scope', function($scope) {
-			//console.log($scope.id, $scope.data);
-			$scope.language = $scope.language || Object.keys($scope.data.i18n)[0];
-			
-		}],
-
 		compile: function($element, $attrs) {
 			$attrs.data = $attrs.data || 'data.components["' + $attrs.id + '"]';
+			$attrs.controllerName = $attrs.controllerName || $attrs.id;
 
 			return {
 				pre: function($scope, $element, $attrs) {
-					
+					$attrs.language = $attrs.language || getParentLanguage($scope.$parent);
+					$attrs.language = $scope.data.i18n[$attrs.language] ? $attrs.language : Object.keys($scope.data.i18n)[0];
 				},
 
 				post: function($scope, $element) {

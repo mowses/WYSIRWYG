@@ -1,32 +1,36 @@
 angular.module('WYSIRWYG.i18n', [])
 
-.directive('i18n', ['$compile', function($compile) {
+.directive('i18n', ['$compile', 'getParentLanguage', function($compile, getParentLanguage) {
 	'use strict';
 
 	return {
 		restrict: 'E',
-		transclude: true,
-		//require: '^component',
+		transclude: false,
 		scope: {
 			id: '@',
-			language: '@'
+			language: '@',
+			data: '='
 		},
 
-		link: function($scope, $element) {
-			var parent_component = $scope.$parent,
-				i18n_data = parent_component.data.i18n,
-				language = $scope.language || parent_component.language || Object.keys(i18n_data)[0],
-				i18n = i18n_data[language] || {},
-				index = $scope.id;
+		controller: ['$scope', function($scope) {
+			
+		}],
 
-			parent_component.$watch('data.i18n["' + language + '"]["' + index + '"]', function(data) {
-				var compiled = $compile('<div>' + data + '</div>')(parent_component);
-				$element
-					.empty()
-					.append(compiled.contents());
-			});
+		compile: function($element, $attrs) {
+			$attrs.data = $attrs.data || 'data.i18n';
 
-			console.log('i18n', language, index, $scope, parent_component);
+			return {
+				pre: function($scope, $element, $attrs) {
+					$attrs.language = $attrs.language || getParentLanguage($scope.$parent);
+					$attrs.language = $scope.data[$attrs.language] ? $attrs.language : Object.keys($scope.data)[0];
+				},
+				post: function($scope, $element, $attrs) {
+					$scope.$watch('data["' + $attrs.language + '"]["' + $scope.id + '"]', function(string) {
+						var compiled = $compile('<div>' + string + '</div>')($scope.$parent);
+						$element.empty().append(compiled.contents());
+					});
+				}
+			}
 		}
 	};
 }]);

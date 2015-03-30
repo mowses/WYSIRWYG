@@ -3,6 +3,16 @@
 angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'ngModelUtils'])
 
 .factory('getComponents', function() {
+	
+	function mergeReferences(components) {
+		$.each(components || [], function(i, component) {
+			mergeReferences(component.components);
+			if (component.reference) {
+				$.extend(true, component, WYSIRWYG.Component.getData(component.reference), component);
+			}
+		});
+	}
+
 	return function() {
 		var socket = io.socket;
 
@@ -13,13 +23,39 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'ngModelUtils'])
 				$.each(data, function(i, component) {
 					components[component.name] = component;
 				});
+
+				mergeReferences(components);
 			});
 		});
 	}
 })
 
+.factory('getParentLanguage', function() {
+	function getParentLanguage(scope) {
+		if (scope.language) return scope.language;
+		if (!scope.$parent) return;
+
+		return getParentLanguage(scope.$parent);
+	}
+
+	return function(scope) {
+		return getParentLanguage(scope);
+	}
+})
+
 .controller('App', ['$scope', 'getComponents', function($scope, getComponents) {
-	
+
+	$scope.Component = WYSIRWYG.Component;
+	$scope.data = {
+		components: null
+	};
+
+	WYSIRWYG.Component.watch(null, function(data) {
+		$scope.data.components = $.extend(true, $scope.data.components || {}, data.diff);
+		$scope.$apply();
+		console.log('values changed', data.diff);
+	});
+
 	getComponents();
 
 	console.log('para acessar $scope use a variavel global $App');
@@ -28,7 +64,7 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'ngModelUtils'])
 }])
 
 .controller('ComponentsEdit', ['$scope', 'getComponents', function($scope, getComponents) {
-	
+
 	getComponents();
 
 	$scope.WYSIRWYG = WYSIRWYG;
@@ -36,7 +72,7 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'ngModelUtils'])
 		if ($.type(str) != 'string') return;
 
 		var data = JSON.parse(str);
-		
+
 		return data;
 	};
 

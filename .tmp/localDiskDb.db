@@ -3,7 +3,7 @@
     "components": [
       {
         "name": "resultBox",
-        "template": "<div><i18n id=\"query\"></i18n></div> <hr /> display data here <hr/> <i18n id=\"result\"></i18n>",
+        "template": "<div><i18n id=\"query\"></i18n></div> <hr /> {{data.data.searchData}} <hr/> <i18n id=\"result\"></i18n>",
         "data": {
           "query": "",
           "searchData": {
@@ -35,38 +35,41 @@
       },
       {
         "name": "searcher",
-        "template": "<h1><i18n id=\"salutation\" language=\"pt-BR\"></h1> <h2><i18n id=\"introduction\" language=\"en-US\"></i18n></h2> <p><i18n id=\"description\"></i18n></p> <component id=\"foolish\" language=\"pt-BR\"></component>",
+        "template": "<h1><i18n id=\"salutation\" language=\"pt-BR\"></h1> <h2><i18n id=\"introduction\" language=\"en-US\"></i18n></h2> <p><i18n id=\"description\"></i18n></p> <component id=\"foolish\"></component>",
         "data": {
           "name": "Moisés mosele"
         },
         "i18n": {
           "pt-BR": {
-            "salutation": "Olá <data id=\"name\" filter=\"upper-first\"></data>",
+            "salutation": "Olá <data id=\"name\"></data>",
             "introduction": "Esse é nosso primeiro exemplo.",
             "description": "Essa é a descrição. Note que não foi informado o idioma para este texto no template. Está exibindo o texto do idioma padrão do componente."
           },
           "en-US": {
-            "salutation": "Hello <data id=\"name\" filter=\"upper-first\"></data>",
+            "salutation": "Hello <data id=\"name\"></data>",
             "introduction": "This is our components example.",
             "description": "This is the description. Note that was not passed the language attribute to this text in the template. It's showing the text from the default language of the component."
           }
         },
         "components": {
           "foolish": {
-            "template": "<i18n id=\"searchFor\"></i18n> <input type=\"text\" name=\"foolish\" value=\"{{birthday | date}}\" /> <component id=\"resultBox\"></component>",
+            "template": "<i18n id=\"currentLanguage\"></i18n> - <i18n id=\"searchFor\"></i18n> <input type=\"text\" name=\"foolish\" ng-click=\"alerta()\" ng-model=\"data.components.resultBox.data.query\" /> {{data.data.birthday | date : 'dd/MM/yyyy'}} <component id=\"resultBox\"></component>",
             "data": {
               "birthday": "1986-01-13"
             },
             "i18n": {
               "en-US": {
+                "currentLanguage": "Current Language is: {{language}}",
                 "searchFor": "Search:"
               },
               "pt-BR": {
+                "currentLanguage": "Idioma corrente é: {{language}}",
                 "searchFor": "Localizar:"
               }
             },
             "components": {
               "resultBox": {
+                "reference": "resultBox",
                 "data": {
                   "searchData": {
                     "series": [

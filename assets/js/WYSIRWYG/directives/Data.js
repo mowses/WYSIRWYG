@@ -1,13 +1,15 @@
 angular.module('WYSIRWYG.data', [])
 
-.directive('data', ['$compile', function($compile) {
+.directive('data', ['$compile', '$interpolate', function($compile, $interpolate) {
 	'use strict';
 
 	return {
 		restrict: 'E',
-		transclude: true,
+		transclude: false,
 		scope: {
-			id: '@'
+			id: '@',
+			filter: '@',
+			data: '='
 		},
 
 		controller: ['$scope', function($scope) {
@@ -15,11 +17,26 @@ angular.module('WYSIRWYG.data', [])
 		}],
 
 		compile: function($element, $attrs) {
+			$attrs.data = $attrs.data || 'data.data';
+
+			function prepareData(data) {
+				return data
+					.replace(/"/g, '\\"')
+					.replace(/\{/g, '\\{')
+					.replace(/\}/g, '\\}');
+			}
 
 			return {
 				post: function($scope, $element) {
-					$scope.$parent.$watch('data.data["' + $scope.id + '"]', function(new_data) {
-						$element.empty().append(new_data);
+					$scope.$watch('data["' + $scope.id + '"]', function(new_data) {
+						var filter = $scope.filter,
+							data = new_data;
+
+						if (filter) {
+							data = $interpolate('{{"' + prepareData(data) + '" | ' + $scope.filter + '}}');
+						}
+						
+						$element.empty().append(data);
 					});
 				}
 			}
