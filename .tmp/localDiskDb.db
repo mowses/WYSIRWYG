@@ -3,7 +3,7 @@
     "components": [
       {
         "name": "resultBox",
-        "template": "<div><i18n id=\"query\"></i18n></div> <hr /> {{data.data.searchData}} <hr/> <i18n id=\"result\"></i18n>",
+        "template": "<div><i18n id=\"query\"></i18n></div> <hr /> {{data.data.searchData}} <hr/> <table border=\"1\" style=\"float:left; margin-right: 10px;\" ng-repeat=\"(kind, type) in data.data.searchData\"><caption>{{kind}}</caption><tr><th>Name</th><th>Type</th></tr><tr ng-repeat=\"(i, item) in type | filter:data.data.query \"><td>{{item.name}}</td><td>{{item.type}}</td></tr><tr><td colspan=\"2\"><i18n id=\"result\"></i18n></td></tr></table><br clear=\"all\" />",
         "data": {
           "query": "",
           "searchData": {
@@ -21,13 +21,12 @@
                 "type": "Metal"
               }
             ]
-          },
-          "results": ""
+          }
         },
         "i18n": {
           "pt-BR": {
             "query": "Sua pesquisa por <data id=\"query\"></data>",
-            "result": "Retornou <b><data id=\"results\"></data></b> resultados."
+            "result": "Retornou <b>{{(type | filter:data.data.query).length}}</b> resultados."
           }
         },
         "createdAt": "2015-03-21T17:06:22.188Z",
