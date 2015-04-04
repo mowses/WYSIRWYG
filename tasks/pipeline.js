@@ -48,9 +48,9 @@ var jsFilesToInject = [
 
 
   // components files
-  'js/WYSIRWYG/components/foolish/controller.js',
-  'js/WYSIRWYG/components/resultBox/controller.js',
-  'js/WYSIRWYG/components/searcher/controller.js',
+  'js/WYSIRWYG/components/Foolish/controller.js',
+  'js/WYSIRWYG/components/ResultBox/controller.js',
+  'js/WYSIRWYG/components/Searcher/controller.js',
   'js/WYSIRWYG/components/module.js',  // after all components
 
   'js/WYSIRWYG/directives/Component.js',

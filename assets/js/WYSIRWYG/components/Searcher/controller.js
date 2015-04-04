@@ -11,7 +11,7 @@
 	}
 
 	$.extend(WYSIRWYG.Components.controllers, {
-		searcher: Searcher
+		Searcher: Searcher
 	});
 
 	return Searcher;

@@ -11,7 +11,7 @@
 	}
 
 	$.extend(WYSIRWYG.Components.controllers, {
-		resultBox: ResultBox
+		ResultBox: ResultBox
 	});
 
 	return ResultBox;

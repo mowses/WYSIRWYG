@@ -43,7 +43,7 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.Components.Controlle
 	}
 })
 
-.controller('App', ['$scope', 'getComponents', function($scope, getComponents) {
+.controller('AppController', ['$scope', 'getComponents', function($scope, getComponents) {
 
 	$scope.Component = WYSIRWYG.Component;
 	$scope.data = {
@@ -63,7 +63,7 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.Components.Controlle
 
 }])
 
-.controller('ComponentsEdit', ['$scope', 'getComponents', function($scope, getComponents) {
+.controller('ComponentsEditController', ['$scope', 'getComponents', function($scope, getComponents) {
 
 	getComponents();
 
