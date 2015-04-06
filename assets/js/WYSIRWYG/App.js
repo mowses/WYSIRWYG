@@ -50,7 +50,7 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.Components.Controlle
 		components: null
 	};
 
-	WYSIRWYG.Component.watch(null, function(data) {
+	$scope.Component.watch(null, function(data) {
 		$scope.data.components = $.extend(true, $scope.data.components || {}, data.diff);
 		$scope.$apply();
 		console.log('values changed', data.diff);
@@ -64,10 +64,8 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.Components.Controlle
 }])
 
 .controller('ComponentsEditController', ['$scope', 'getComponents', function($scope, getComponents) {
+	var stringify = JSON.stringify;
 
-	getComponents();
-
-	$scope.WYSIRWYG = WYSIRWYG;
 	$scope.stringToData = function(str) {
 		if ($.type(str) != 'string') return;
 
@@ -76,17 +74,25 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.Components.Controlle
 		return data;
 	};
 
-	WYSIRWYG.Component.watch(null, function(data) {
-		var stringify = JSON.stringify;
-		$scope.Component = $.extend(true, {}, data.new);
-		$.each($scope.Component, function(i, component) {
+	$scope.Component = WYSIRWYG.Component;
+	$scope.data = {
+		components: null
+	};
+
+	$scope.Component.watch(null, function(data) {
+		$scope.data.components = $.extend(true, $scope.data.components || {}, data.diff);
+		/*$.each($scope.data.components, function(i, component) {
 			component.data = stringify(component.data);
 			component.i18n = stringify(component.i18n);
 			component.components = stringify(component.components);
-		});
+		});*/
+
 		$scope.$apply();
 	});
 
-	$scope.Component = WYSIRWYG.Component.getData();
+	getComponents();
+
+	console.log('para acessar $scope use a variavel global $App');
+	window.$App = $scope;
 
 }]);

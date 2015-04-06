@@ -83,6 +83,58 @@
                       {
                         "name": "Game of Thrones",
                         "type": "Drama"
+                      },
+                      {
+                        "name": "Bible",
+                        "type": "Religious"
+                      },
+                      {
+                        "name": "Breaking Bad",
+                        "type": "Drama"
+                      },
+                      {
+                        "name": "Generals at War",
+                        "type": "Documentary"
+                      },
+                      {
+                        "name": "History of Humanity",
+                        "type": "Documentary"
+                      },
+                      {
+                        "name": "The Prime Fields",
+                        "type": "Documentary"
+                      },
+                      {
+                        "name": "The Adventures of Robin Hood",
+                        "type": "Cartoon"
+                      },
+                      {
+                        "name": "Adventures of Sonic The Hedgehog",
+                        "type": "Cartoon"
+                      },
+                      {
+                        "name": "The Adventures of Jimmy Neutron: Boy Genius",
+                        "type": "Cartoon"
+                      },
+                      {
+                        "name": "The Adventures of Rin Tin Tin",
+                        "type": "Cartoon"
+                      },
+                      {
+                        "name": "The Adventures of Super Mario Bros. 3",
+                        "type": "Cartoon"
+                      },
+                      {
+                        "name": "Afro Samurai",
+                        "type": "Cartoon"
+                      },
+                      {
+                        "name": "Adventures of Superman",
+                        "type": "TV Show"
+                      },
+                      {
+                        "name": "ALF",
+                        "type": "TV Show"
                       }
                     ],
                     "movies": [
