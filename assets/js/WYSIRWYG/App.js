@@ -80,13 +80,19 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.Components.Controlle
 	};
 
 	$scope.Component.watch(null, function(data) {
-		$scope.data.components = $.extend(true, $scope.data.components || {}, data.diff);
-		/*$.each($scope.data.components, function(i, component) {
-			component.data = stringify(component.data);
-			component.i18n = stringify(component.i18n);
-			component.components = stringify(component.components);
-		});*/
+		var diff_data = $.extend(true, {}, data.diff);
 
+		$.each(diff_data, function(i, component) {
+			if ($scope.data.components && $scope.data.components[i]) return;
+			
+			var new_data = data.new[i];
+
+			component.dataStringified = stringify(new_data.data);
+			component.i18nStringified = stringify(new_data.i18n);
+			component.componentsStringified = stringify(new_data.components);
+		});
+
+		$scope.data.components = $.extend(true, $scope.data.components || {}, diff_data);
 		$scope.$apply();
 	});
 
