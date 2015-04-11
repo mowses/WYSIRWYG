@@ -64,7 +64,8 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.Components.Controlle
 }])
 
 .controller('ComponentsEditController', ['$scope', 'getComponents', function($scope, getComponents) {
-	var stringify = JSON.stringify;
+	var stringify = JSON.stringify,
+		deleteProperties = delete_properties;
 
 	$scope.stringToData = function(str) {
 		if ($.type(str) != 'string') return;
@@ -82,14 +83,24 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.Components.Controlle
 	$scope.Component.watch(null, function(data) {
 		var diff_data = $.extend(true, {}, data.diff);
 
+		$scope.data.components = deleteProperties($scope.data.components, data.deleted || {});
+		
 		$.each(diff_data, function(i, component) {
 			if ($scope.data.components && $scope.data.components[i]) return;
 			
 			var new_data = data.new[i];
 
-			component.dataStringified = stringify(new_data.data);
-			component.i18nStringified = stringify(new_data.i18n);
-			component.componentsStringified = stringify(new_data.components);
+			if (new_data.data !== undefined) {
+				component.dataStringified = stringify(new_data.data);
+			}
+
+			if (new_data.i18n !== undefined) {
+				component.i18nStringified = stringify(new_data.i18n);
+			}
+
+			if (new_data.components !== undefined) {
+				component.componentsStringified = stringify(new_data.components);
+			}
 		});
 
 		$scope.data.components = $.extend(true, $scope.data.components || {}, diff_data);
