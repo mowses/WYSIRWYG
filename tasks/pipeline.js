@@ -18,6 +18,7 @@ var cssFilesToInject = [
   //'styles/reset.css',
   'styles/bootstrap/bootstrap.min.css',
   'styles/bootstrap/bootstrap-theme.min.css',
+  'js/libraries/jQuery.ui/jquery-ui.structure.min.css',
   'styles/WYSIRWYG/main.css',
 
   'styles/components/*.css',
@@ -36,6 +37,7 @@ var jsFilesToInject = [
   'js/dependencies/**/*.js',
 
   'js/libraries/jQuery/jquery-2.1.1.js',
+  'js/libraries/jQuery.ui/jquery-ui.min.js',
   'js/libraries/angular/angular.js',
   'js/libraries/Events/Events.js',
   'js/libraries/ObjDiff/ObjDiff.js',
@@ -56,6 +58,7 @@ var jsFilesToInject = [
   'js/WYSIRWYG/directives/Component.js',
   'js/WYSIRWYG/directives/i18n.js',
   'js/WYSIRWYG/directives/Data.js',
+  'js/WYSIRWYG/directives/BoundingBox.js',
   'js/WYSIRWYG/App.js'
 
   // All of the rest of your client-side js files

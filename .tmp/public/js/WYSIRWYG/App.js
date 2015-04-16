@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.Components.Controllers', 'ngModelUtils'])
+angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.BoundingBox', 'WYSIRWYG.Components.Controllers', 'ngModelUtils'])
 
 .factory('getComponents', function() {
 	
@@ -50,7 +50,7 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.Components.Controlle
 		components: null
 	};
 
-	WYSIRWYG.Component.watch(null, function(data) {
+	$scope.Component.watch(null, function(data) {
 		$scope.data.components = $.extend(true, $scope.data.components || {}, data.diff);
 		$scope.$apply();
 		console.log('values changed', data.diff);
@@ -64,10 +64,9 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.Components.Controlle
 }])
 
 .controller('ComponentsEditController', ['$scope', 'getComponents', function($scope, getComponents) {
+	var stringify = JSON.stringify,
+		deleteProperties = delete_properties;
 
-	getComponents();
-
-	$scope.WYSIRWYG = WYSIRWYG;
 	$scope.stringToData = function(str) {
 		if ($.type(str) != 'string') return;
 
@@ -76,17 +75,41 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.Components.Controlle
 		return data;
 	};
 
-	WYSIRWYG.Component.watch(null, function(data) {
-		var stringify = JSON.stringify;
-		$scope.Component = $.extend(true, {}, data.new);
-		$.each($scope.Component, function(i, component) {
-			component.data = stringify(component.data);
-			component.i18n = stringify(component.i18n);
-			component.components = stringify(component.components);
+	$scope.Component = WYSIRWYG.Component;
+	$scope.data = {
+		components: null
+	};
+
+	$scope.Component.watch(null, function(data) {
+		var diff_data = $.extend(true, {}, data.diff);
+
+		$scope.data.components = deleteProperties($scope.data.components, data.deleted || {});
+		
+		$.each(diff_data, function(i, component) {
+			if ($scope.data.components && $scope.data.components[i]) return;
+			
+			var new_data = data.new[i];
+
+			if (new_data.data !== undefined) {
+				component.dataStringified = stringify(new_data.data);
+			}
+
+			if (new_data.i18n !== undefined) {
+				component.i18nStringified = stringify(new_data.i18n);
+			}
+
+			if (new_data.components !== undefined) {
+				component.componentsStringified = stringify(new_data.components);
+			}
 		});
+
+		$scope.data.components = $.extend(true, $scope.data.components || {}, diff_data);
 		$scope.$apply();
 	});
 
-	$scope.Component = WYSIRWYG.Component.getData();
+	getComponents();
+
+	console.log('para acessar $scope use a variavel global $App');
+	window.$App = $scope;
 
 }]);
