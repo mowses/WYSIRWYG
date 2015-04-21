@@ -27,8 +27,18 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 				},
 
 				post: function($scope, $element) {
+					// hold child scope - used by the compiled sub-components
+					// and destroyed on data change
+					// preventing memory leaks
+					$scope.childScope = $scope.$new();
+
 					$scope.$watch('data.template', function(new_template) {
-						var compiled = $compile('<div>' + new_template + '</div>')($scope);
+						// destroy previous child scope
+						$scope.childScope.$destroy();
+						// create a new child scope for sub-components
+						$scope.childScope = $scope.$new();
+
+						var compiled = $compile('<div>' + new_template + '</div>')($scope.childScope);
 						$element.empty().append(compiled.contents());
 					});
 				}
