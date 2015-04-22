@@ -29,6 +29,7 @@ angular.module('WYSIRWYG.data', [])
 			return {
 				post: function($scope, $element) {
 					$scope.$watch('data["' + $scope.id + '"]', function(new_data) {
+						//console.log('data changed', 'data["' + $scope.id + '"]', $scope, $attrs);
 						var filter = $scope.filter,
 							data = new_data;
 

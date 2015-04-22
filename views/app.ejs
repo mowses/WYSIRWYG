@@ -1,13 +1,16 @@
 <div ng-controller="AppController">
 	<div ng-if="data.components">
-		<!-- <component id="Searcher" language="en-US"></component>
+		<component id="Searcher" language="en-US" style="border: 1px solid grey; width: 50%; display:block; float:left;"></component>
+
+		<component id="Searcher" language="pt-BR" style="border: 1px solid grey; width: 50%; display:block; float:left;"></component>
 
 		<hr />
 		<i18n id="description" language="pt-BR" data="data.components.Searcher.i18n"></i18n>
 
 		<hr />
-		BIRTHDAY: <data id="birthday" data="data.components.Searcher.components.Foolish.data" filter="date : 'dd/MM/yyyy'" /> -->
 
 		<bounding-box bb-handles="n, s" style="background:red; width: 100px; height: 100px; display: block; position: absolute; top: 50px; left: 100px;"></bounding-box>
+
+		BIRTHDAY: <data id="birthday" data="data.components.Searcher.components.Foolish.data" filter="date : 'dd/MM/yyyy'"></data>
 	</div>
 </div>

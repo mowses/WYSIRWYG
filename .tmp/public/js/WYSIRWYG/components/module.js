@@ -3,6 +3,6 @@
 	var module = angular.module('WYSIRWYG.Components.Controllers', []);
 
 	$.each(WYSIRWYG.Components.controllers, function(name, controller) {
-		module.controller(name + 'Controller', ['$scope', controller]);
+		module.controller(name + 'Controller', controller);
 	});
 })();

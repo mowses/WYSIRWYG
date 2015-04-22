@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.BoundingBox', 'WYSIRWYG.Components.Controllers', 'ngModelUtils'])
+angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.BoundingBox', 'WYSIRWYG.Components.Controllers', 'ngModelUtils', 'Debug'])
 
 .factory('getComponents', function() {
-	
+
 	function mergeReferences(components) {
 		$.each(components || [], function(i, component) {
 			mergeReferences(component.components);
@@ -43,7 +43,7 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.BoundingBox', 'WYSIR
 	}
 })
 
-.controller('AppController', ['$scope', 'getComponents', function($scope, getComponents) {
+.controller('AppController', ['$scope', 'getComponents', 'getScopes', function($scope, getComponents, getScopes) {
 
 	$scope.Component = WYSIRWYG.Component;
 	$scope.data = {
@@ -53,13 +53,13 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.BoundingBox', 'WYSIR
 	$scope.Component.watch(null, function(data) {
 		$scope.data.components = $.extend(true, $scope.data.components || {}, data.diff);
 		$scope.$apply();
-		console.log('values changed', data.diff);
 	});
 
 	getComponents();
 
-	console.log('para acessar $scope use a variavel global $App');
-	window.$App = $scope;
+	console.log('para acessar $scope use a variavel global $scope, getScopes');
+	window.$scope = $scope;
+	window.getScopes = getScopes;
 
 }])
 
@@ -84,10 +84,10 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.BoundingBox', 'WYSIR
 		var diff_data = $.extend(true, {}, data.diff);
 
 		$scope.data.components = deleteProperties($scope.data.components, data.deleted || {});
-		
+
 		$.each(diff_data, function(i, component) {
 			if ($scope.data.components && $scope.data.components[i]) return;
-			
+
 			var new_data = data.new[i];
 
 			if (new_data.data !== undefined) {
@@ -109,7 +109,7 @@ angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.BoundingBox', 'WYSIR
 
 	getComponents();
 
-	console.log('para acessar $scope use a variavel global $App');
-	window.$App = $scope;
+	console.log('para acessar $scope use a variavel global $scope');
+	window.$scope = $scope;
 
 }]);
