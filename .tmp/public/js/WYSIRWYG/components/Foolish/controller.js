@@ -1,15 +1,15 @@
 (function() {
+	
+	'use strict';
 
-	function Foolish() {
+	function Foolish(data) {
+		var self = this;
+
 		this.alerta = function() {
-			console.log('Foolish - alerta - this.alerta');
+			console.log('Foolish alerta runs - the current data is:', self, data.data);
 		}
 	}
-console.log('foooo', arguments);
-	Foolish.prototype.alerta = function() {
-		console.log('Foolish - alerta - prototype');
-	}
-
+	
 	$.extend(WYSIRWYG.Components.controllers, {
 		Foolish: Foolish
 	});

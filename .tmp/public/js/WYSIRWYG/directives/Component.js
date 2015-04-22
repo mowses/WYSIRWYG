@@ -18,7 +18,7 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 
 		compile: function($element, $attrs) {
 			$attrs.data = $attrs.data || 'data.components["' + $attrs.id + '"]';
-			$attrs.controllerName = $attrs.controllerName || ($attrs.id + 'Controller');
+			$attrs.controllerName = $attrs.controllerName || ($attrs.id + 'Controller as controller');
 
 			return {
 				pre: function($scope, $element, $attrs) {

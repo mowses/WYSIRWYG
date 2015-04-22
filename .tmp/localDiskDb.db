@@ -3,7 +3,7 @@
     "components": [
       {
         "name": "ResultBox",
-        "template": "<div><i18n id=\"query\"></i18n></div> <hr /> {{data.data.searchData}} <hr/> <table border=\"1\" style=\"float:left; margin-right: 10px;\" ng-repeat=\"(kind, type) in data.data.searchData\"><caption>{{kind}}</caption><tr><th>Name</th><th>Type</th></tr><tr ng-repeat=\"(i, item) in type | filter:data.data.query \"><td>{{item.name}}</td><td>{{item.type}}</td></tr><tr><td colspan=\"2\"><i18n id=\"result\"></i18n></td></tr></table><br clear=\"all\" />",
+        "template": "<div><i18n id=\"query\"></i18n></div> <hr /> <!--{{data.data.searchData}} <hr/> --> <table border=\"1\" style=\"float:left; margin-right: 10px;\" ng-repeat=\"(kind, type) in data.data.searchData\"><caption>{{kind}}</caption><tr><th>Name</th><th>Type</th></tr><tr ng-repeat=\"(i, item) in type | filter:data.data.query \"><td>{{item.name}}</td><td>{{item.type}}</td></tr><tr><td colspan=\"2\"><i18n id=\"result\"></i18n></td></tr></table><br clear=\"all\" />",
         "data": {
           "query": "",
           "searchData": {
@@ -52,7 +52,7 @@
         },
         "components": {
           "Foolish": {
-            "template": "<i18n id=\"currentLanguage\"></i18n> - <i18n id=\"searchFor\"></i18n> <input type=\"text\" name=\"foolish\" ng-click=\"alerta()\" ng-model=\"data.components.ResultBox.data.query\" /> {{data.data.birthday | date : 'dd/MM/yyyy'}} <component id=\"ResultBox\"></component>",
+            "template": "<i18n id=\"currentLanguage\"></i18n> - <i18n id=\"searchFor\"></i18n> <input type=\"text\" name=\"foolish\" ng-click=\"controller.alerta()\" ng-model=\"data.components.ResultBox.data.query\" /> {{data.data.birthday | date : 'dd/MM/yyyy'}} <component id=\"ResultBox\"></component>",
             "data": {
               "birthday": "1986-01-13"
             },

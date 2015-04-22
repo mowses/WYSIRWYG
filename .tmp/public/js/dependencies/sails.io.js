@@ -496,7 +496,7 @@ var parts=["source","protocol","authority","userInfo","user","password","host","
          */
         self.on('connect', function socketConnected() {
 
-          consolog.noPrefix(
+          /*consolog.noPrefix(
             '\n' +
             '\n' +
             // '    |>    ' + '\n' +
@@ -512,7 +512,7 @@ var parts=["source","protocol","authority","userInfo","user","password","host","
             // ' ⚓︎ (development mode)'
             // 'e.g. to send a GET request to Sails via WebSockets, run:'+ '\n' +
             // '`io.socket.get("/foo", function serverRespondedWith (body, jwr) { console.log(body); })`'+ '\n' +
-          );
+          );*/
         });
         
         self.on('disconnect', function() {
