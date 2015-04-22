@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.BoundingBox', 'WYSIRWYG.Components.Controllers', 'ngModelUtils', 'Debug'])
+angular.module('WYSIRWYG', ['WYSIRWYG.Component', 'WYSIRWYG.Draggable', 'WYSIRWYG.BoundingBox', 'WYSIRWYG.Components.Controllers', 'ngModelUtils', 'Debug'])
 
 .factory('getComponents', function() {
 

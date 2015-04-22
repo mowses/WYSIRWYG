@@ -1,11 +1,7 @@
-angular.module('WYSIRWYG.BoundingBox', [])
+angular.module('WYSIRWYG.Draggable', [])
 
-.directive('boundingBox', [function() {
+.directive('draggable', [function() {
 	'use strict';
-
-	// get ui options
-	/*var options = $.ui.resizable.prototype.options,
-		scope = {};*/
 
 	return {
 		restrict: 'A',
@@ -13,17 +9,16 @@ angular.module('WYSIRWYG.BoundingBox', [])
 		priority: -1000,
 		
 		compile: function($element, $attrs) {
-
-			console.log($element.html());
+			
 			return {
 				pre: function($scope, $element, $attrs) {
-
+					
 				},
 
 				post: function($scope, $element) {
 					$element
-					.resizable({
-						handles: $attrs.bbHandles
+					.draggable({
+						delay: $attrs.dragDelay
 					});
 				}
 			};

@@ -3,35 +3,28 @@ angular.module('WYSIRWYG.BoundingBox', [])
 .directive('boundingBox', [function() {
 	'use strict';
 
-	var options = $.ui.resizable.prototype.options,
-		scope = {};
-
-	// get all jQuery's resizable options to pass as scope
-	// prefix all the keys with 'bb'
-	$.each(options, function(k, val) {
-		scope[k] = '@bb' + k.substr(0,1).toUpperCase() + k.substr(1);
-	});
+	// get ui options
+	/*var options = $.ui.resizable.prototype.options,
+		scope = {};*/
 
 	return {
-		restrict: 'AE',
+		restrict: 'A',
 		transclude: false,
-		scope: scope,
-
+		priority: -1000,
+		
 		compile: function($element, $attrs) {
-			
+
+			console.log($element.html());
 			return {
 				pre: function($scope, $element, $attrs) {
-					
+
 				},
 
 				post: function($scope, $element) {
-					var _options = {};
-					$.each(options, function(name, option) {
-						if ($scope[name] === undefined) return;
-						_options[name] = $scope[name];
+					$element
+					.resizable({
+						handles: $attrs.bbHandles
 					});
-
-					$element.resizable(_options);
 				}
 			};
 		}
