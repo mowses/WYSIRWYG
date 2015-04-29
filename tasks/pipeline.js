@@ -61,6 +61,7 @@ var jsFilesToInject = [
   'js/WYSIRWYG/directives/Component.js',
   'js/WYSIRWYG/directives/i18n.js',
   'js/WYSIRWYG/directives/Data.js',
+  'js/WYSIRWYG/directives/Editor.js',
   'js/WYSIRWYG/directives/Draggable.js',
   'js/WYSIRWYG/directives/Resizable.js',
   'js/WYSIRWYG/directives/BoundingBox.js',

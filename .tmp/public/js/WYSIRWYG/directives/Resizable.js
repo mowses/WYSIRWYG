@@ -16,7 +16,7 @@ angular.module('WYSIRWYG.Resizable', [])
 
 				post: function($scope, $element) {
 					$element.resizable({
-						handles: $attrs.bbHandles
+						handles: $attrs.resHandles
 					});
 				}
 			};

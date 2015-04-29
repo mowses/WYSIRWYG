@@ -1,24 +1,22 @@
-angular.module('WYSIRWYG.Draggable', [])
+angular.module('WYSIRWYG.Editor', [])
 
-.directive('draggable', [function() {
+.directive('wysirwygEditor', ['$compile', function($compile) {
 
 	return {
 		restrict: 'A',
 		transclude: false,
-		priority: -1000,
-
+		
 		compile: function($element, $attrs) {
-			// $.ui.draggable.prototype.options
 			
 			return {
 				pre: function($scope, $element, $attrs) {
-
+					
 				},
 
 				post: function($scope, $element) {
-					$element.draggable({
-						delay: $attrs.dragDelay,
-						disabled: $attrs.dragDisabled
+					$element.selectable({
+						autoRefresh: false,
+						filter: '> *'
 					});
 				}
 			};
