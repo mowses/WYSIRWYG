@@ -58,9 +58,12 @@ var jsFilesToInject = [
   'js/WYSIRWYG/components/Searcher/controller.js',
   'js/WYSIRWYG/components/module.js',  // after all components
 
+  'js/WYSIRWYG/directives/Grid.js',
   'js/WYSIRWYG/directives/Component.js',
   'js/WYSIRWYG/directives/i18n.js',
   'js/WYSIRWYG/directives/Data.js',
+  'js/WYSIRWYG/directives/Selectable.js',
+  'js/WYSIRWYG/directives/Sortable.js',
   'js/WYSIRWYG/directives/Draggable.js',
   'js/WYSIRWYG/directives/Resizable.js',
   'js/WYSIRWYG/directives/BoundingBox.js',
