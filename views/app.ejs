@@ -1,5 +1,12 @@
 <div ng-controller="AppController">
-	<div ng-if="data.components">
+	<div ng-if="data.components" Wysirwyg-editor>
+		
+		<div style="background:red; height: 100px; padding: 20px; margin: 5px; float: left;">1</div>
+		<div style="background:green; height: 150px; padding: 20px; margin: 5px; float: left;">2</div>
+		<div style="background:yellow; height: 100px; padding: 20px; margin: 5px; float: left;">3</div>
+
+		<hr style="clear: both;" />
+
 		<component id="Searcher" language="en-US" style="border: 1px solid grey; width: 50%; display:block; float:left;"></component>
 
 		<component id="Searcher" language="pt-BR" style="border: 1px solid grey; width: 50%; display:block; float:left;"></component>
@@ -9,7 +16,6 @@
 
 		<hr />
 
-		<div bounding-box resizable draggable bb-handles="n, e, s, w, ne, se, sw, nw" style="background:red; width: 100px; height: 100px; display: block; position: absolute; top: 50px; left: 100px;">conteudo da div</div>
 
 		BIRTHDAY: <data id="birthday" data="data.components.Searcher.components.Foolish.data" filter="date : 'dd/MM/yyyy'"></data>
 	</div>

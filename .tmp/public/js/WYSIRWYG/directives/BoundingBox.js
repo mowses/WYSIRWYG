@@ -11,12 +11,15 @@ angular.module('WYSIRWYG.BoundingBox', [])
 			var isDefined = angular.isDefined,
 				defined_draggable = isDefined($attrs['draggable']),
 				defined_resizable = isDefined($attrs['resizable']),
-				recompile = !defined_draggable || !defined_resizable;
+				recompile = false,
+				css = $element.css(['position']);
 
-			if (!defined_draggable) {
+			if (!defined_draggable && $.inArray(css.position, ['absolute', 'fixed']) >= 0) {
+				recompile = true;
 				$element.attr('draggable', '');
 			}
 			if (!defined_resizable) {
+				recompile = true;
 				$element.attr('resizable', '');
 			}
 			if (recompile) {
