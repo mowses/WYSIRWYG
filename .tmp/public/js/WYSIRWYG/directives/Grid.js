@@ -1,6 +1,6 @@
-angular.module('WYSIRWYG.Draggable', [])
+angular.module('WYSIRWYG.Grid', [])
 
-.directive('draggable', [function() {
+.directive('grid', [function() {
 
 	return {
 		restrict: 'A',
@@ -8,18 +8,14 @@ angular.module('WYSIRWYG.Draggable', [])
 		priority: -1000,
 
 		compile: function($element, $attrs) {
-			// $.ui.draggable.prototype.options
-			
+
 			return {
 				pre: function($scope, $element, $attrs) {
 
 				},
 
 				post: function($scope, $element) {
-					$element.draggable({
-						delay: $attrs.dragDelay,
-						disabled: $attrs.dragDisabled
-					});
+					
 				}
 			};
 		}

@@ -1,6 +1,18 @@
 'use strict';
 
-angular.module('WYSIRWYG', ['WYSIRWYG.Grid', 'WYSIRWYG.Component', 'WYSIRWYG.Selectable', 'WYSIRWYG.Sortable', 'WYSIRWYG.Draggable', 'WYSIRWYG.Resizable', 'WYSIRWYG.BoundingBox', 'WYSIRWYG.Components.Controllers', 'ngModelUtils', 'Debug'])
+angular.module('WYSIRWYG', [
+	'WYSIRWYG.Grid',
+	'WYSIRWYG.EditableArea',
+	'WYSIRWYG.Component',
+	//'WYSIRWYG.Selectable',
+	//'WYSIRWYG.Sortable',
+	//'WYSIRWYG.Draggable',
+	//'WYSIRWYG.Resizable',
+	//'WYSIRWYG.BoundingBox',
+	'WYSIRWYG.Components.Controllers',
+	'ngModelUtils',
+	'Debug'
+])
 
 .factory('getComponents', function() {
 
