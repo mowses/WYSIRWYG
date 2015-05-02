@@ -29,6 +29,7 @@ angular.module('WYSIRWYG', [
 		var socket = io.socket;
 
 		socket.on('connect', function() {
+			console.log('connected on socket');
 			socket.get('/components', function(data) {
 				var components = WYSIRWYG.Component.getData();
 

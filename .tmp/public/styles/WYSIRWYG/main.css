@@ -1,3 +1,71 @@
 .ui-selected {
 	background: purple !important;
+	z-index: 1000;
+}
+
+.ui-selected:before {
+	content: "";
+	border: 2px dotted #1A1A1A;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	z-index: -1;
+}
+
+.ui-resizable-handle {
+	display: none;
+	width: 10px;
+	height: 10px;
+	border: 1px solid #1A1A1A;
+	background: #00BFFF;
+}
+
+.ui-resizable-n {
+	top: -5px;
+	left: 50%;
+	margin-left: -5px;
+}
+
+.ui-resizable-ne {
+	top: -5px;
+	right: -5;
+}
+
+.ui-resizable-e {
+	top: 50%;
+	right: -5px;
+	margin-top: -5px;
+}
+
+.ui-resizable-se {
+	bottom: -5px;
+	right: -5px;
+}
+
+.ui-resizable-s {
+	bottom: -5px;
+	left: 50%;
+	margin-left: -5px;
+}
+
+.ui-resizable-sw {
+	bottom: -5px;
+	left: -5px;
+}
+
+.ui-resizable-w {
+	top: 50%;
+	left: -5px;
+	margin-top: -5px;
+}
+
+.ui-resizable-nw {
+	top: -5px;
+	left: -5px;
+}
+
+.ui-selected .ui-resizable-handle {
+	display: block;
 }
