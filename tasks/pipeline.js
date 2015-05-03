@@ -38,7 +38,7 @@ var jsFilesToInject = [
   'js/dependencies/**/*.js',
 
   'js/libraries/jQuery/jquery-2.1.1.js',
-  'js/libraries/jQuery.ui/jquery-ui.min.js',
+  'js/libraries/jQuery.ui/jquery-ui.js',
   'js/libraries/angular/angular.js',
   'js/libraries/Events/Events.js',
   'js/libraries/ObjDiff/ObjDiff.js',

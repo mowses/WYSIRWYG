@@ -69,3 +69,11 @@
 .ui-selected .ui-resizable-handle {
 	display: block;
 }
+
+.ui-draggable-dragging .ui-resizable-handle {
+	display: none;
+}
+
+.ui-resizable-disabled .ui-resizable-handle {
+	display: none;
+}
