@@ -1,6 +1,6 @@
 angular.module('WYSIRWYG.BoundingBox', [])
 
-.directive('boundingBox', ['$compile', 'getAttributes', function($compile, getAttributes) {
+.directive('boundingBox', ['$compile', function($compile) {
 	'use strict';
 
 	return {

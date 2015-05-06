@@ -1,6 +1,6 @@
 angular.module('WYSIRWYG.Resizable', [])
 
-.directive('resizable', [function() {
+.directive('resizable', ['$parse', function($parse) {
 
 	return {
 		restrict: 'A',
@@ -10,18 +10,19 @@ angular.module('WYSIRWYG.Resizable', [])
 		compile: function($element, attrs) {
 
 			return {
-				pre: function($scope, $element, attrs) {
+				pre: function(scope, $element, attrs) {
 
 				},
 
-				post: function($scope, $element, attrs) {
-					attrs.$observe('resizable', function() {
-						//console.log('foo reizable', attrs.resizable);
-						//$element.resizable('option', 'disabled', attrs.resizable);
-					});
+				post: function(scope, $element, attrs) {
+					attrs.$observe('resizable', function(resizable) {
+						var parsed = $parse(resizable);
 
-					$element.resizable({
-						handles: attrs.resHandles
+						scope.$watch(function() {
+							return parsed(scope);
+						}, function(config) {
+							$element.resizable(config);
+						});
 					});
 				}
 			};
