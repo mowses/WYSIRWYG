@@ -69,7 +69,7 @@ var jsFilesToInject = [
   //'js/WYSIRWYG/directives/Selectable.js',
   //'js/WYSIRWYG/directives/Sortable.js',
   'js/WYSIRWYG/directives/Draggable.js',
-  //'js/WYSIRWYG/directives/Resizable.js',
+  'js/WYSIRWYG/directives/Resizable.js',
   'js/WYSIRWYG/App.js'
 
   // All of the rest of your client-side js files

@@ -7,7 +7,7 @@ angular.module('WYSIRWYG', [
 	//'WYSIRWYG.Selectable',
 	//'WYSIRWYG.Sortable',
 	'WYSIRWYG.Draggable',
-	//'WYSIRWYG.Resizable',
+	'WYSIRWYG.Resizable',
 	'WYSIRWYG.BoundingBox',
 	'WYSIRWYG.Components.Controllers',
 	'ngModelUtils',

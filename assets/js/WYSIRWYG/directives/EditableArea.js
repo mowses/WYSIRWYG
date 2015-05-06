@@ -2,6 +2,57 @@ angular.module('WYSIRWYG.EditableArea', [])
 
 .directive('editableArea', ['$compile', function($compile) {
 
+	// configs
+	var configs = {
+		boundingBox: function(config) {
+			$.extend(true, this, config);
+		}
+	};
+
+	$.extend(configs.boundingBox.prototype, {
+		draggable: {
+			appendTo: 'body',
+			cursor: 'move',
+			delay: 80,
+			disabled: false
+		},
+		resizable: {
+			alsoResize: false,
+			disabled: false,
+			handles: 'all',
+			create: function() {
+				//$element.find('> .ui-resizable-handle').removeAttr('style');  // prevent jQuery stylize element, so we can change its style via css
+			},
+			start: function(event, ui) {
+				var instance = ui.element.resizable('instance'),
+					width = instance.sizeDiff.width + ui.originalSize.width,
+					height = instance.sizeDiff.height + ui.originalSize.height;
+
+				ui.originalSize._bkp = {
+					width: ui.originalSize.width,
+					height: ui.originalSize.height
+				};
+				ui.originalSize.width = width;
+				ui.originalSize.height = height;
+				ui.size.width = undefined;
+				ui.size.height = undefined;
+			},
+			resize: function(event, ui) {
+				var max = Math.max,
+					min = Math.min;
+
+				if (ui.size.width) {
+					ui.size.width = max(ui.size.width, ui.originalSize.width - ui.originalSize._bkp.width);
+					ui.position.left = min(ui.position.left, ui.originalPosition.left + ui.originalSize._bkp.width);
+				}
+				if (ui.size.height) {
+					ui.size.height = max(ui.size.height, ui.originalSize.height - ui.originalSize._bkp.height);
+					ui.position.top = min(ui.position.top, ui.originalPosition.top + ui.originalSize._bkp.height);
+				}
+			}
+		}
+	});
+
 	return {
 		restrict: 'A',
 		transclude: false,
@@ -31,7 +82,7 @@ angular.module('WYSIRWYG.EditableArea', [])
 
 				if (!event.ctrlKey) {
 					$scope.$selected = $el;
-				} else if(index == -1) {
+				} else if (index == -1) {
 					$scope.$selected = $scope.$selected.add($el);
 				} else {
 					$scope.$selected = $scope.$selected.not($el);
@@ -49,99 +100,56 @@ angular.module('WYSIRWYG.EditableArea', [])
 			// create bounding-boxes for each element
 			$scope.$watchCollection('$elements', function(new_elements, old_elements) {
 				// remove previous bounding-boxes
-				
+
 
 				// create bounding-boxes to all elements
 				$.each(new_elements, function(i, element) {
 					var $element = $(element),
-						// bounding-box should inherit `style` attribute from $element
-						$bounding_box = $('<bounding-box draggable resizable ng-mousedown="selectBB($event)"></bounding-box>').attr('style', $element.attr('style')),
-						css = $bounding_box.css(['position']),
-						// bb attributes
-						attrs = {
-							// draggable config
-							drag: {
-								'append-to': 'body',
-								cursor: 'move',
-								delay: 80,
+						css = $element.css(['position']),
+						bb_config = new configs.boundingBox({
+							draggable: {
 								disabled: ($.inArray(css.position, ['absolute', 'fixed']) == -1)
 							},
-							// resizable config
-							res: {
-								'also-resize': false,
-								disabled: ($.inArray(css.display, ['inline']) >= 0),
-								handles: 'all',
-								/*create: function() {
-									$element.find('> .ui-resizable-handle').removeAttr('style');  // prevent jQuery stylize element, so we can change its style via css
-								},
-								start: function(event, ui) {
-									var instance = ui.element.resizable('instance'),
-										width = instance.sizeDiff.width + ui.originalSize.width,
-										height = instance.sizeDiff.height + ui.originalSize.height;
-
-									ui.originalSize._bkp = {
-										width: ui.originalSize.width,
-										height: ui.originalSize.height
-									};
-									ui.originalSize.width = width;
-									ui.originalSize.height = height;
-									ui.size.width = undefined;
-									ui.size.height = undefined;
-								},
-								resize: function(event, ui) {
-									var max = Math.max,
-										min = Math.min;
-
-									if (ui.size.width) {
-										ui.size.width = max(ui.size.width, ui.originalSize.width - ui.originalSize._bkp.width);
-										ui.position.left = min(ui.position.left, ui.originalPosition.left + ui.originalSize._bkp.width);
-									}
-									if (ui.size.height) {
-										ui.size.height = max(ui.size.height, ui.originalSize.height - ui.originalSize._bkp.height);
-										ui.position.top = min(ui.position.top, ui.originalPosition.top + ui.originalSize._bkp.height);
-									}
-								}*/
+							resizable: {
+								disabled: ($.inArray(css.display, ['inline']) >= 0)
 							}
-						},
+						}),
+						// bounding-box should inherit `style` attribute from $element
+						$bounding_box = $('<bounding-box draggable resizable="boundingBoxes[' + i + '].config.resizable" ng-mousedown="selectBB($event)"></bounding-box>').attr('style', $element.attr('style')),
+						// bb attributes
 						bb_scope = $scope.$new(),
-						compiled;
+						compiled = $compile($bounding_box)(bb_scope);
 
-					// set bb attrs
-					$.each(attrs, function(attr, config) {
-						$.each(config, function(k, param) {
-							$bounding_box.attr(attr + '-' + k, param);
-						});
-					});
-
-					compiled = $compile($bounding_box)(bb_scope);
-					
 					// add compiled to DOM and insert $element inside it
 					$element.removeAttr('style').after(compiled);
 					compiled.prepend($element);
 
 					// add compiled BB to BBs array
-					$scope.$boundingBoxes.push(compiled);
+					$scope.$boundingBoxes.push({
+						$el: compiled,
+						config: bb_config
+					});
 				});
 			});
 		}],
 
-		compile: function($element, $attrs) {
+		compile: function($element, attrs) {
 			return {
-				pre: function($scope, $element, $attrs) {
+				pre: function(scope, $element, attrs) {
 
 				},
 
-				post: function($scope, $element) {
-					$scope.$elements = $element.find('> *');
+				post: function(scope, $element) {
+					scope.$elements = $element.find('> *');
 
 					// selectable
 					// every time the editable-area element is clicked
 					$element
-					.on('mousedown', function(event) {
-						if (event.ctrlKey) return;
-						$scope.$selected = $(null);
-						$scope.$apply();
-					});
+						.on('mousedown', function(event) {
+							if (event.ctrlKey) return;
+							scope.$selected = $(null);
+							scope.$apply();
+						});
 				}
 			};
 		}

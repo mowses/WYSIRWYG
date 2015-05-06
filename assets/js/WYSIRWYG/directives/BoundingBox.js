@@ -18,7 +18,7 @@ angular.module('WYSIRWYG.BoundingBox', [])
 					
 				},
 				post: function(scope, $element, attrs) {
-					//$element.draggable(getAttributes('drag', attrs));
+					
 				}
 			}
 		}
