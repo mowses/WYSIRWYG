@@ -1,6 +1,6 @@
 angular.module('WYSIRWYG.Draggable', [])
 
-.directive('draggable', ['getAttributes', function(getAttributes) {
+.directive('draggable', ['$parse', function($parse) {
 
 	return {
 		restrict: 'A',
@@ -8,7 +8,6 @@ angular.module('WYSIRWYG.Draggable', [])
 		priority: -1000,
 
 		compile: function($element, attrs) {
-			// $.ui.draggable.prototype.options
 			
 			return {
 				pre: function(scope, $element, attrs) {
@@ -16,7 +15,15 @@ angular.module('WYSIRWYG.Draggable', [])
 				},
 
 				post: function(scope, $element, attrs) {
-					$element.draggable(getAttributes('drag', attrs));
+					attrs.$observe('draggable', function(draggable) {
+						var parsed = $parse(draggable);
+
+						scope.$watch(function() {
+							return parsed(scope);
+						}, function(config) {
+							$element.draggable(config);
+						});
+					});
 				}
 			};
 		}

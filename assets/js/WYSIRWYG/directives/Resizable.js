@@ -1,6 +1,6 @@
 angular.module('WYSIRWYG.Resizable', [])
 
-.directive('resizable', [function() {
+.directive('resizable', ['$parse', function($parse) {
 
 	return {
 		restrict: 'A',
@@ -15,12 +15,15 @@ angular.module('WYSIRWYG.Resizable', [])
 				},
 
 				post: function(scope, $element, attrs) {
-					/*attrs.$observe('resizable', function() {
-						//console.log('foo reizable', attrs.resizable);
-						//$element.resizable('option', 'disabled', attrs.resizable);
-					});*/
-console.log('cofog', $scope.boundingBoxes[0].config.resizable, attrs.resizable);
-					$element.resizable($scope[attrs['res-config']]);
+					attrs.$observe('resizable', function(resizable) {
+						var parsed = $parse(resizable);
+
+						scope.$watch(function() {
+							return parsed(scope);
+						}, function(config) {
+							$element.resizable(config);
+						});
+					});
 				}
 			};
 		}

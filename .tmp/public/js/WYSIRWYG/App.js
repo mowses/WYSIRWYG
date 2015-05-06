@@ -58,7 +58,7 @@ angular.module('WYSIRWYG', [
 /**
  * get attributes in @attrs that its property name prefixes @prefix
  */
-.factory('getAttributes', function() {
+/*.factory('getAttributes', function() {
 	function getAttributes(prefix, attrs) {
 
 		var filtered_attrs = {},
@@ -88,7 +88,7 @@ angular.module('WYSIRWYG', [
 	return function(prefix, attrs) {
 		return getAttributes(prefix, attrs);
 	}
-})
+})*/
 
 .controller('AppController', ['$scope', 'getComponents', 'getScopes', function($scope, getComponents, getScopes) {
 
