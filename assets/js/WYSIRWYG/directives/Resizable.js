@@ -21,6 +21,7 @@ angular.module('WYSIRWYG.Resizable', [])
 						scope.$watch(function() {
 							return parsed(scope);
 						}, function(config) {
+							console.log(config);
 							$element.resizable(config);
 						});
 					});
