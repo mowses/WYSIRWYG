@@ -4,56 +4,45 @@ angular.module('WYSIRWYG.EditableArea', [])
 
 	// configs for draggable and resizable
 	var configs = {
-		draggable: function(config) {
-			$.extend(true, this, config);
+		draggable: {
+			appendTo: 'body',
+			cursor: 'move',
+			delay: 80,
+			disabled: false
 		},
-		resizable: function(config) {
-			$.extend(true, this, config);
+		resizable: {
+			alsoResize: false,
+			disabled: false,
+			handles: 'all',
+			start: function(event, ui) {
+				var instance = ui.element.resizable('instance'),
+					width = instance.sizeDiff.width + ui.originalSize.width,
+					height = instance.sizeDiff.height + ui.originalSize.height;
+
+				ui.originalSize._bkp = {
+					width: ui.originalSize.width,
+					height: ui.originalSize.height
+				};
+				ui.originalSize.width = width;
+				ui.originalSize.height = height;
+				ui.size.width = undefined;
+				ui.size.height = undefined;
+			},
+			resize: function(event, ui) {
+				var max = Math.max,
+					min = Math.min;
+
+				if (ui.size.width) {
+					ui.size.width = max(ui.size.width, ui.originalSize.width - ui.originalSize._bkp.width);
+					ui.position.left = min(ui.position.left, ui.originalPosition.left + ui.originalSize._bkp.width);
+				}
+				if (ui.size.height) {
+					ui.size.height = max(ui.size.height, ui.originalSize.height - ui.originalSize._bkp.height);
+					ui.position.top = min(ui.position.top, ui.originalPosition.top + ui.originalSize._bkp.height);
+				}
+			}
 		}
 	};
-
-	$.extend(configs.draggable.prototype, {
-		appendTo: 'body',
-		cursor: 'move',
-		delay: 80,
-		disabled: false
-	});
-
-	$.extend(configs.resizable.prototype, {
-		alsoResize: false,
-		disabled: false,
-		handles: 'all',
-		create: function() {
-			//$element.find('> .ui-resizable-handle').removeAttr('style');  // prevent jQuery stylize element, so we can change its style via css
-		},
-		start: function(event, ui) {
-			var instance = ui.element.resizable('instance'),
-				width = instance.sizeDiff.width + ui.originalSize.width,
-				height = instance.sizeDiff.height + ui.originalSize.height;
-
-			ui.originalSize._bkp = {
-				width: ui.originalSize.width,
-				height: ui.originalSize.height
-			};
-			ui.originalSize.width = width;
-			ui.originalSize.height = height;
-			ui.size.width = undefined;
-			ui.size.height = undefined;
-		},
-		resize: function(event, ui) {
-			var max = Math.max,
-				min = Math.min;
-
-			if (ui.size.width) {
-				ui.size.width = max(ui.size.width, ui.originalSize.width - ui.originalSize._bkp.width);
-				ui.position.left = min(ui.position.left, ui.originalPosition.left + ui.originalSize._bkp.width);
-			}
-			if (ui.size.height) {
-				ui.size.height = max(ui.size.height, ui.originalSize.height - ui.originalSize._bkp.height);
-				ui.position.top = min(ui.position.top, ui.originalPosition.top + ui.originalSize._bkp.height);
-			}
-		}
-	});
 
 	return {
 		restrict: 'A',
@@ -108,11 +97,14 @@ angular.module('WYSIRWYG.EditableArea', [])
 				$.each(new_elements, function(i, element) {
 					var $element = $(element),
 						css = $element.css(['position', 'display']),
-						draggable_config = new configs.draggable({
+						draggable_config = $.extend(true, {}, configs.draggable, {
 							disabled: ($.inArray(css.position, ['absolute', 'fixed']) == -1)
 						}),
-						resizable_config = new configs.resizable({
-							disabled: ($.inArray(css.display, ['inline']) >= 0)
+						resizable_config = $.extend(true, {}, configs.resizable, {
+							disabled: ($.inArray(css.display, ['inline']) >= 0),
+							create: function(event, ui) {
+								$bounding_box.find('> .ui-resizable-handle').removeAttr('style');  // prevent jQuery stylize element, so we can change its style via css*/
+							}
 						}),
 						// bounding-box should inherit `style` attribute from $element
 						$bounding_box = $('<bounding-box draggable="boundingBoxes[' + i + '].config.draggable" resizable="boundingBoxes[' + i + '].config.resizable" ng-mousedown="selectBB($event)"></bounding-box>').attr('style', $element.attr('style')),
