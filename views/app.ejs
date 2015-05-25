@@ -1,5 +1,9 @@
 <div ng-controller="AppController">
-	<div ng-if="data.components" editable-area>
+	<div class="slides-list" ng-if="data.components">
+		
+		<component ng-repeat="(id, component) in data.components" data="component" ng-attr-id="{{id}}" controller-name="" class="slide"></component>
+	</div>
+	<!-- <div ng-if="data.components" editable-area>
 		
 		<div style="background:red; height: 100px; padding: 20px; margin: 5px; float: left;">1</div>
 		<div style="background:green; height: 150px; padding: 20px; margin: 5px; float: left; position: absolute; left: 180px; border: 20px solid gold; border-right-width: 10px; border-bottom-width: 5px; border-left-width: 0px">2</div>
@@ -19,5 +23,9 @@
 
 
 		BIRTHDAY: <data id="birthday" data="data.components.Searcher.components.Foolish.data" filter="date : 'dd/MM/yyyy'"></data>
-	</div>
+
+		<hr />
+
+		BIRTHDAY2: <data id="birthday" data="data.components.Searcher.components.Foolish.data" filter="date : 'dd/MM/yyyy'" style="display: block;"></data>
+	</div> -->
 </div>

@@ -22,7 +22,7 @@ angular.module('WYSIRWYG.Resizable', [])
 							return parsed(scope);
 						}, function(config) {
 							$element.resizable(config);
-						});
+						}, true);
 					});
 				}
 			};

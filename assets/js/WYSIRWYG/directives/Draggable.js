@@ -22,7 +22,7 @@ angular.module('WYSIRWYG.Draggable', [])
 							return parsed(scope);
 						}, function(config) {
 							$element.draggable(config);
-						});
+						}, true);
 					});
 				}
 			};

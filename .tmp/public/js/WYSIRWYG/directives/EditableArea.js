@@ -52,8 +52,8 @@ angular.module('WYSIRWYG.EditableArea', [])
 		},
 
 		controller: ['$scope', function($scope) {
-			$scope.$elements = $(null);
-			$scope.$selected = $(null);
+			$scope.$elements = $(null);  // hold child elements
+			$scope.$selected = $(null);  // hold bounding-box elements
 			$scope.boundingBoxes = [];
 
 			/**
@@ -85,23 +85,34 @@ angular.module('WYSIRWYG.EditableArea', [])
 				// deselect old
 				$(old_selected).removeClass('ui-selected');
 				// select new
-				$(new_selected).addClass('ui-selected');
+				$.each(new_selected, function(i, selected) {
+					var $selected = $(selected),
+						selected_bb = $.grep($scope.boundingBoxes, function(bb) {
+							if (bb.$el.is(selected)) return true;
+						})[0],
+						css = selected_bb.wrapperOf.css(['display']);
+
+					$selected.addClass('ui-selected');
+					// re-set some config
+					$.extend(true, selected_bb.config.resizable, {
+						disabled: ($.inArray(css['display'], ['inline']) >= 0)
+					});
+				});
 			});
 
 			// create bounding-boxes for each element
 			$scope.$watchCollection('$elements', function(new_elements, old_elements) {
-				// remove previous bounding-boxes
+				// TODO: remove previous bounding-boxes
 
 
 				// create bounding-boxes to child elements
 				$.each(new_elements, function(i, element) {
 					var $element = $(element),
-						css = $element.css(['position', 'display']),
+						css = $element.css(['position']),
 						draggable_config = $.extend(true, {}, configs.draggable, {
 							disabled: ($.inArray(css.position, ['absolute', 'fixed']) == -1)
 						}),
 						resizable_config = $.extend(true, {}, configs.resizable, {
-							disabled: ($.inArray(css.display, ['inline']) >= 0),
 							create: function(event, ui) {
 								$bounding_box.find('> .ui-resizable-handle').removeAttr('style');  // prevent jQuery stylize element, so we can change its style via css*/
 							}
@@ -119,6 +130,7 @@ angular.module('WYSIRWYG.EditableArea', [])
 					// add compiled BB to BBs array
 					$scope.boundingBoxes.push({
 						$el: compiled,
+						wrapperOf: $element,
 						config: {
 							draggable: draggable_config,
 							resizable: resizable_config
