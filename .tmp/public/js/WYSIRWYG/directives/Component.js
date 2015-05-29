@@ -1,13 +1,24 @@
 angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 
-.directive('component', ['$compile', 'getParentLanguage', function($compile, getParentLanguage) {
+.directive('component', ['$compile', '$interpolate', 'getParentLanguage', function($compile, $interpolate, getParentLanguage) {
 	'use strict';
 
 	return {
 		restrict: 'E',
 		transclude: false,
-		// define controller config
-		controller : '@',
+		// controller config
+		controller : ['$scope', '$attrs', '$controller', function($scope, attrs, $controller) {
+			var controller_name = $interpolate(attrs.controllerName)($scope);
+
+			return $controller(controller_name, {
+				$scope: {
+					id: $scope.id,
+					language: $scope.language,
+					data: $scope.data
+				}
+			});
+		}],
+		controllerAs: 'controller',
 		name: 'controllerName',
 		// end controller definition
 		scope: {
@@ -18,7 +29,7 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 
 		compile: function($element, attrs) {
 			attrs.data = attrs.data || 'data.components["' + attrs.id + '"]';
-			attrs.controllerName = attrs.controllerName || (attrs.id + 'Controller as controller');
+			attrs.controllerName = attrs.controllerName || (attrs.id + 'Controller');
 
 			return {
 				pre: function(scope, $element, attrs) {
