@@ -46,6 +46,7 @@ var jsFilesToInject = [
   'js/libraries/ObserverCore/ObserverCore.js',
   'js/libraries/bootstrap/bootstrap.min.js',
   'js/ngModelUtils.js',
+  'js/libraries/JSS/jss.js',
 
   'js/libraries/WYSIRWYG/WYSIRWYG.js',
   'js/libraries/WYSIRWYG/Component.js',

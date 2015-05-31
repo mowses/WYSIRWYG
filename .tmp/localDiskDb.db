@@ -3,7 +3,7 @@
     "components": [
       {
         "name": "ResultBox",
-        "template": "<div><i18n id=\"query\"></i18n></div> <hr /> <!--{{data.data.searchData}} <hr/> --> <table border=\"1\" style=\"float:left; margin-right: 10px;\" ng-repeat=\"(kind, type) in data.data.searchData\"><caption>{{kind}}</caption><tr><th>Name</th><th>Type</th></tr><tr ng-repeat=\"(i, item) in type | filter:data.data.query \"><td>{{item.name}}</td><td>{{item.type}}</td></tr><tr><td colspan=\"2\"><i18n id=\"result\"></i18n></td></tr></table><br clear=\"all\" />",
+        "template": "<div><i18n id=\"query\"></i18n></div> <hr /> <!--{{data.data.searchData}} <hr/> --> <table border=\"1\" style=\"float:left; margin-right: 10px;\" ng-repeat=\"(kind, type) in data.data.searchData\"><caption class=\"id-12345\">{{kind}}</caption><tr><th>Name</th><th>Type</th></tr><tr ng-repeat=\"(i, item) in type | filter:data.data.query \"><td>{{item.name}}</td><td>{{item.type}}</td></tr><tr><td colspan=\"2\"><i18n id=\"result\"></i18n></td></tr></table><br clear=\"all\" />",
         "data": {
           "query": "",
           "searchData": {
@@ -27,6 +27,14 @@
           "pt-BR": {
             "query": "Sua pesquisa por <data id=\"query\"></data>",
             "result": "Retornou <b>{{(type | filter:data.data.query).length}}</b> resultados."
+          }
+        },
+        "styles": {
+          "&.theme1": {
+            ".id-12345": {
+              "background": "red",
+              "color": "green"
+            }
           }
         },
         "createdAt": "2015-03-21T17:06:22.188Z",
@@ -156,6 +164,11 @@
                 }
               }
             }
+          }
+        },
+        "styles": {
+          "&.theme-any": {
+            
           }
         },
         "createdAt": "2015-03-21T17:06:34.418Z",

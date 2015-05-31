@@ -55,6 +55,20 @@ angular.module('WYSIRWYG', [
 	}
 })
 
+.factory('generateCSS', function() {
+	return function(id, jss) {
+		var css = JSS.toCSS(jss),
+			head = $('head'),
+			style = (css ? $('<style id="' + id + '">' + css + '</style>') : $(null));
+
+		head
+			.find('style#' + id)
+			.remove()
+			.end()
+			.append(style);
+	}
+})
+
 /**
  * get attributes in @attrs that its property name prefixes @prefix
  */
@@ -110,7 +124,7 @@ angular.module('WYSIRWYG', [
 
 }])
 
-.controller('ComponentsEditController', ['$scope', 'getComponents', function($scope, getComponents) {
+.controller('ComponentsEditController', ['$scope', 'getComponents', 'generateCSS', function($scope, getComponents, generateCSS) {
 	var stringify = JSON.stringify,
 		deleteProperties = delete_properties;
 
@@ -132,10 +146,10 @@ angular.module('WYSIRWYG', [
 
 		$scope.data.components = deleteProperties($scope.data.components, data.deleted || {});
 
-		$.each(diff_data, function(i, component) {
-			if ($scope.data.components && $scope.data.components[i]) return;
+		$.each(diff_data, function(k, component) {
+			if ($scope.data.components && $scope.data.components[k]) return;
 
-			var new_data = data.new[i];
+			var new_data = data.new[k];
 
 			if (new_data.data !== undefined) {
 				component.dataStringified = stringify(new_data.data);
@@ -145,6 +159,10 @@ angular.module('WYSIRWYG', [
 				component.i18nStringified = stringify(new_data.i18n);
 			}
 
+			if (new_data.styles !== undefined) {
+				component.stylesStringified = stringify(new_data.styles);
+			}
+
 			if (new_data.components !== undefined) {
 				component.componentsStringified = stringify(new_data.components);
 			}
@@ -152,6 +170,14 @@ angular.module('WYSIRWYG', [
 
 		$scope.data.components = $.extend(true, $scope.data.components || {}, diff_data);
 		$scope.$apply();
+	})
+	.watch(null, function(data) {
+		$.each(data.deleted || [], function(k) {
+			generateCSS(k, null);
+		});
+		$.each(data.new || [], function(k, data) {
+			generateCSS(k, data.styles);
+		});
 	});
 
 	getComponents();

@@ -7,13 +7,15 @@
 				<h3 class="panel-title"><%= component.name %></h3>
 			</div>
 			<div class="panel-body">
-				<component class="preview" id="<%= component.name %>"></component>
+				<component class="preview theme1" id="<%= component.name %>"></component>
 
 				<textarea name="template" ng-model="data.components['<%= component.name %>'].template" ng-model-setter="Component.setData('<%= component.name %>.template', $value);"></textarea>
 				
 				<textarea name="data" ng-model="data.components['<%= component.name %>'].dataStringified" ng-model-setter="Component.setData('<%= component.name %>.data', stringToData($value));"></textarea>
 				
 				<textarea name="i18n" ng-model="data.components['<%= component.name %>'].i18nStringified" ng-model-setter="Component.setData('<%= component.name %>.i18n', stringToData($value));"></textarea>
+
+				<textarea name="styles" ng-model="data.components['<%= component.name %>'].stylesStringified" ng-model-setter="Component.setData('<%= component.name %>.styles', stringToData($value));"></textarea>
 
 				<!-- <textarea name="components" ng-model="data.components['<%= component.name %>'].componentsStringified" ng-model-setter="Component.setData('<%= component.name %>.components', stringToData($value));"></textarea> -->
 
