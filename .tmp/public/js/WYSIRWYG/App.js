@@ -16,15 +16,6 @@ angular.module('WYSIRWYG', [
 
 .factory('getComponents', function() {
 
-	function mergeReferences(components) {
-		$.each(components || [], function(i, component) {
-			mergeReferences(component.components);
-			if (component.reference) {
-				$.extend(true, component, WYSIRWYG.Component.getData(component.reference), component);
-			}
-		});
-	}
-
 	return function() {
 		var socket = io.socket;
 
@@ -35,8 +26,6 @@ angular.module('WYSIRWYG', [
 				$.each(data, function(i, component) {
 					components[component.name] = component;
 				});
-
-				mergeReferences(components);
 			});
 		});
 	}
@@ -66,6 +55,22 @@ angular.module('WYSIRWYG', [
 			.remove()
 			.end()
 			.append(style);
+	}
+})
+
+.factory('mergeReferences', function() {
+	function mergeReferences(components, path) {
+		$.each(components || [], function(k, component) {
+			var _path = !path ? k : path + '.components.' + k;
+			mergeReferences(component.components, _path);
+			if (component.reference) {
+				$.extend(true, component, WYSIRWYG.Component.getData(component.reference), WYSIRWYG.Component.getData(_path));
+			}
+		});
+	}
+
+	return function(components, path) {
+		return mergeReferences(components, path);
 	}
 })
 
@@ -104,7 +109,7 @@ angular.module('WYSIRWYG', [
 	}
 })*/
 
-.controller('AppController', ['$scope', 'getComponents', 'getScopes', function($scope, getComponents, getScopes) {
+.controller('AppController', ['$scope', 'getComponents', 'getScopes', 'mergeReferences', function($scope, getComponents, getScopes, mergeReferences) {
 
 	$scope.Component = WYSIRWYG.Component;
 	$scope.data = {
@@ -113,6 +118,7 @@ angular.module('WYSIRWYG', [
 
 	$scope.Component.watch(null, function(data) {
 		$scope.data.components = $.extend(true, $scope.data.components || {}, data.diff);
+		mergeReferences($scope.data.components);
 		$scope.$apply();
 	});
 
@@ -124,12 +130,12 @@ angular.module('WYSIRWYG', [
 
 }])
 
-.controller('ComponentsEditController', ['$scope', 'getComponents', 'generateCSS', function($scope, getComponents, generateCSS) {
+.controller('ComponentsEditController', ['$scope', 'getComponents', 'generateCSS', 'mergeReferences', function($scope, getComponents, generateCSS, mergeReferences) {
 	var stringify = JSON.stringify,
 		deleteProperties = delete_properties;
 
 	$scope.stringToData = function(str) {
-		if ($.type(str) != 'string') return;
+		if ($.type(str) != 'string') return {};
 
 		var data = JSON.parse(str);
 
@@ -169,6 +175,7 @@ angular.module('WYSIRWYG', [
 		});
 
 		$scope.data.components = $.extend(true, $scope.data.components || {}, diff_data);
+		mergeReferences($scope.data.components);
 		$scope.$apply();
 	})
 	.watch(null, function(data) {

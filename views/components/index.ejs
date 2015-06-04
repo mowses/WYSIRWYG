@@ -17,7 +17,7 @@
 
 				<textarea name="styles" ng-model="data.components['<%= component.name %>'].stylesStringified" ng-model-setter="Component.setData('<%= component.name %>.styles', stringToData($value));"></textarea>
 
-				<!-- <textarea name="components" ng-model="data.components['<%= component.name %>'].componentsStringified" ng-model-setter="Component.setData('<%= component.name %>.components', stringToData($value));"></textarea> -->
+				<textarea name="components" ng-model="data.components['<%= component.name %>'].componentsStringified" ng-model-setter="Component.setData('<%= component.name %>.components', stringToData($value));"></textarea>
 
 				<a href="#" class="btn btn-primary">Submit</a>
 			</div>
