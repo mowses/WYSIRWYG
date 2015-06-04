@@ -16,8 +16,8 @@ angular.module('WYSIRWYG.data', [])
 
 		}],
 
-		compile: function($element, $attrs) {
-			$attrs.data = $attrs.data || 'data.data';
+		compile: function($element, attrs) {
+			attrs.data = attrs.data || 'data.data';
 
 			function prepareData(data) {
 				return data
@@ -27,14 +27,14 @@ angular.module('WYSIRWYG.data', [])
 			}
 
 			return {
-				post: function($scope, $element) {
-					$scope.$watch('data["' + $scope.id + '"]', function(new_data) {
-						//console.log('data changed', 'data["' + $scope.id + '"]', $scope, $attrs);
-						var filter = $scope.filter,
+				post: function(scope, $element) {
+					scope.$watch('data["' + scope.id + '"]', function(new_data) {
+						//console.log('data changed', 'data["' + scope.id + '"]', scope, attrs);
+						var filter = scope.filter,
 							data = new_data;
 
 						if (filter) {
-							data = $interpolate('{{"' + prepareData(data) + '" | ' + $scope.filter + '}}');
+							data = $interpolate('{{"' + prepareData(data) + '" | ' + scope.filter + '}}');
 						}
 						
 						$element.empty().append(data);
