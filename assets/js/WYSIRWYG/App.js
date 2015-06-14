@@ -52,7 +52,6 @@ angular.module('WYSIRWYG', [
 		var css = JSS.toCSS(ObserverCore.utils.object(['#' + id], jss)),
 			head = $('head'),
 			style = (css ? $('<style id="style-' + id + '">' + css + '</style>') : $(null));
-
 console.log(id, css);
 		head
 			.find('#style-' + id)
@@ -216,6 +215,8 @@ console.log(id, css);
 		$.extend(true, scope.slide.boundingBox.draggable, {
 			disabled: ($.inArray(css['position'], ['absolute', 'fixed']) == -1)
 		});
+
+		console.log('carry on from here. position esta errado, porque $element ainda nao existe no DOM (acho q é isso). foo draggable ipdated', scope.slide.boundingBox.draggable.disabled, $element, css, scope.slide.component.styles['&.theme-default'].position);
 	};
 
 	/**
@@ -256,7 +257,22 @@ console.log(id, css);
 			cursor: 'move',
 			delay: 80,
 			disabled: true,
-			grid: $scope.grid.grid
+			grid: $scope.grid.grid,
+			// should not have `style` attribute setted on bounding-box
+			stop: function(event, ui) {
+				var element = ui.helper,
+					scope = element.scope(),
+					selected_theme = scope.slide.selectedTheme,
+					current_theme = '&.' + selected_theme,
+					extend_to = scope.slide.component.name + '.styles["' + current_theme + '"]',
+					styles = $.extend(true, {}, ui.position);
+
+				if (selected_theme) {
+					WYSIRWYG.Component.extendData(extend_to, styles).apply(); // do apply otherwise the element will be flickering
+				}
+				element.prop('style', '');  // prevent having `style` attribute
+
+			}
 		},
 		resizable: {
 			alsoResize: false,
@@ -267,11 +283,16 @@ console.log(id, css);
 			stop: function(event, ui) {
 				// nao sei qual usar: ui.element ou ui.originalElement ????
 				var element = ui.originalElement,
-					scope = element.scope();
-
-				element.prop('style', '');
-				$.extend(true, scope.slide.component.styles['&.' + scope.slide.selectedTheme], ui.position, ui.size);
-				console.log('continuar daqui', scope);
+					scope = element.scope(),
+					selected_theme = scope.slide.selectedTheme,
+					current_theme = '&.' + selected_theme,
+					extend_to = scope.slide.component.name + '.styles["' + current_theme + '"]',
+					styles = $.extend(true, {}, ui.position, ui.size);
+				
+				if (selected_theme) {
+					WYSIRWYG.Component.extendData(extend_to, styles).apply(); // do apply otherwise the element will be flickering
+				}
+				element.prop('style', '');  // prevent having `style` attribute
 
 			}/*,
 			start: function(event, ui) {

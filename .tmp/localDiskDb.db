@@ -42,6 +42,20 @@
               "background": "red",
               "color": "green"
             }
+          },
+
+          "&.theme-algo": {
+            "background": "blue",
+            "position": "absolute",
+            "left": "20px",
+            "top": "20px",
+            "width": "200px",
+            "color": "white",
+            
+            ".id-12345": {
+              "background": "white",
+              "color": "black"
+            }
           }
         },
         "createdAt": "2015-03-21T17:06:22.188Z",
