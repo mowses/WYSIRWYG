@@ -44,6 +44,11 @@ module.exports.routes = {
     '/components/index': {
         controller: 'Components',
         action: 'index'
+    },
+
+    '/editor': {
+        controller: 'Editor',
+        action: 'index'
     }
 
     /***************************************************************************

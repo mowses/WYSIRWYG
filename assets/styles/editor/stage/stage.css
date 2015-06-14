@@ -1,0 +1,12 @@
+.editor .stage {
+	float: left;
+	border: 1px solid grey;
+	width: 800px;
+	height: 400px;
+	overflow: auto;
+	position: relative;
+}
+
+.editor .stage component {
+	display: block;
+}

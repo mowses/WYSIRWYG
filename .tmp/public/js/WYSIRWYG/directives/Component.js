@@ -8,7 +8,8 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 		transclude: false,
 		// controller config
 		controller : ['$scope', '$attrs', '$controller', function($scope, attrs, $controller) {
-			var controller_name = $interpolate(attrs.controllerName)($scope);
+			var controller_name = attrs.controllerName || ($scope.data.name + 'Controller'),
+				controller_name = $interpolate(controller_name)($scope);
 
 			return $controller(controller_name, {
 				$scope: {
@@ -28,9 +29,6 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 		},
 
 		compile: function($element, attrs) {
-			attrs.data = attrs.data || 'data.components["' + attrs.id + '"]';
-			attrs.controllerName = attrs.controllerName || (attrs.id + 'Controller');
-
 			return {
 				pre: function(scope, $element, attrs) {
 					attrs.language = attrs.language || getParentLanguage(scope.$parent);
@@ -52,6 +50,10 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 						var compiled = $compile('<div>' + new_template + '</div>')(scope.childScope);
 						$element.empty().append(compiled.contents());
 					});
+
+					/*scope.$watch('data.styles', function(new_styles) {
+						scope.$emit('updatedStyle', $element);
+					});*/
 				}
 			};
 		}

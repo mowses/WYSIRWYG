@@ -15,7 +15,7 @@
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
-  //'styles/reset.css',
+  'styles/reset.css',
   'styles/bootstrap/bootstrap.min.css',
   'styles/bootstrap/bootstrap-theme.min.css',
   'js/libraries/jQuery.ui/jquery-ui.structure.min.css',
@@ -23,6 +23,7 @@ var cssFilesToInject = [
   'styles/WYSIRWYG/main.css',
 
   'styles/components/*.css',
+  'styles/editor/*.css',
   'styles/WYSIRWYG/*.css',
   'styles/WYSIRWYG/directives/*.css'
 ];
@@ -54,6 +55,7 @@ var jsFilesToInject = [
 
   // filter files
   'js/WYSIRWYG/filters/debug.js',
+  'js/WYSIRWYG/filters/css.js',
   'js/WYSIRWYG/filters/trustAsHtml.js',
 
   // components files
@@ -68,6 +70,7 @@ var jsFilesToInject = [
   'js/WYSIRWYG/directives/i18n.js',
   'js/WYSIRWYG/directives/Data.js',
   'js/WYSIRWYG/directives/EditableArea.js',
+  'js/WYSIRWYG/directives/ElementScopeWatcher.js',
   //'js/WYSIRWYG/directives/Selectable.js',
   //'js/WYSIRWYG/directives/Sortable.js',
   'js/WYSIRWYG/directives/Draggable.js',

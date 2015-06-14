@@ -30,7 +30,14 @@
           }
         },
         "styles": {
-          "&.theme1": {
+          "&.theme-default": {
+            "background": "yellow",
+            "position": "absolute",
+            "top": "10px",
+            "right": "100px",
+            "bottom": "10px",
+            "left": "100px",
+
             ".id-12345": {
               "background": "red",
               "color": "green"
@@ -42,7 +49,7 @@
       },
       {
         "name": "Searcher",
-        "template": "<h1><i18n id=\"salutation\" language=\"pt-BR\"></h1> <h2><i18n id=\"introduction\" language=\"en-US\"></i18n></h2> <p><i18n id=\"description\"></i18n></p> <component id=\"Foolish\"></component>",
+        "template": "<h1><i18n id=\"salutation\" language=\"pt-BR\"></h1> <h2><i18n id=\"introduction\" language=\"en-US\"></i18n></h2> <p><i18n id=\"description\"></i18n></p> <component id=\"Foolish\" data=\"data.components.Foolish\"></component>",
         "data": {
           "name": "Moisés mosele"
         },
@@ -60,7 +67,8 @@
         },
         "components": {
           "Foolish": {
-            "template": "<i18n id=\"currentLanguage\"></i18n> - <i18n id=\"searchFor\"></i18n> <input type=\"text\" name=\"foolish\" ng-click=\"controller.setTodayBirthDate()\" ng-blur=\"controller.setOldBirthDate()\" ng-keyup=\"controller.logInputText()\" ng-model=\"data.components.ResultBox.data.query\" /> {{data.data.birthday | date : 'dd/MM/yyyy'}} <component id=\"ResultBox\"></component>",
+            "name": "Foolish",
+            "template": "<i18n id=\"currentLanguage\"></i18n> - <i18n id=\"searchFor\"></i18n> <input type=\"text\" name=\"foolish\" ng-click=\"controller.setTodayBirthDate()\" ng-blur=\"controller.setOldBirthDate()\" ng-keyup=\"controller.logInputText()\" ng-model=\"data.components.ResultBox.data.query\" /> {{data.data.birthday | date : 'dd/MM/yyyy'}} <component id=\"ResultBox\" data=\"data.components.ResultBox\"></component>",
             "data": {
               "birthday": "1986-01-13"
             },
@@ -167,8 +175,22 @@
           }
         },
         "styles": {
-          "&.theme-any": {
-            
+          "&.theme-default": {
+            "position": "absolute",
+
+            "input": {
+              "background": "crimson"
+            }
+          },
+
+          "&.theme-1": {
+            "background": "yellow",
+
+            "input": {
+              "background": "pink",
+              "border": "3px dashed grey",
+              "border-bottom": "5px solid black"
+            }
           }
         },
         "createdAt": "2015-03-21T17:06:34.418Z",

@@ -1,0 +1,32 @@
+.editor .slides {
+	width: 200px;
+	padding: 0px;
+	background: #DEDEDE;
+	border-right: 1px solid grey;
+	height: 100%;
+	float: left;
+}
+
+.editor .slides .slide {
+	list-style: inside;
+	list-style-type: decimal;
+	margin: 1px;
+	clear: both;
+	padding: 2px;
+}
+
+.editor .slides .slide.selected {
+	background: darkblue;
+	color: white;
+}
+
+.editor .slides .slide.selected .slide-name {
+	color: white;
+}
+
+.editor .slides .preview {
+	background: white;
+	border: 1px solid grey;
+	width: 100px;
+	height: 80px;
+}

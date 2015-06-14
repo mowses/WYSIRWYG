@@ -4,7 +4,7 @@ angular.module('WYSIRWYG.BoundingBox', [])
 	'use strict';
 
 	return {
-		restrict: 'E',
+		restrict: 'AE',
 		transclude: false,
 		
 		controller: ['$scope', function($scope) {
