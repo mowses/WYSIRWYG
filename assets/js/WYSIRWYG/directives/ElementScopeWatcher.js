@@ -25,11 +25,15 @@ angular.module('WYSIRWYG.ElementScopeWatcher', [])
                 watchers = [];
                 
                 // bind new watchers
-                angular.forEach(new_watchers, function(callback, k) {
-                    var callback = $scope.$eval(callback);
-                    watchers.push($scope.$watch(k, function() {
-                    	return callback($scope, $element);
-                    }));
+                angular.forEach(new_watchers, function(callbacks, k) {
+                	callbacks = $.makeArray(callbacks);
+                	
+                    angular.forEach(callbacks, function(callback, i) {
+                    	var callback = $scope.$eval(callback);
+	                    watchers.push($scope.$watch(k, function() {
+	                    	return callback($scope, $element);
+	                    }));
+                    });
                 });
             });
 		}],

@@ -1,4 +1,4 @@
-<div ng-controller="EditorController" class="editor">
+<div ng-controller="EditorController" class="editor" ng-cloak>
 	
 	<div class="slides">
 		<ol>
@@ -20,7 +20,7 @@
 		<div class="stage" editable-area ng-mousedown="deselectCtrlBB($event)">
 			<!-- <div style="background:pink; height: 100px; width: 100px; padding: 20px; margin: 5px;">=======</div> -->
 			
-			<bounding-box draggable="slide.boundingBox.draggable" id="{{slide.component.name}}" resizable="slide.boundingBox.resizable" ng-mousedown="toggleCtrlBB($event)" class="{{slide.selectedTheme}}" watcher="{'slide.component.styles[\'&.{{slide.selectedTheme}}\'].display': 'updateResizable', 'slide.component.styles[\'&.{{slide.selectedTheme}}\'].position': 'updateDraggable'}">
+			<bounding-box draggable="slide.boundingBox.draggable" id="{{slide.component.name}}" resizable="slide.boundingBox.resizable" ng-mousedown="toggleCtrlBB($event)" class="{{slide.selectedTheme}}" watcher="{'slide.component.styles[\'&.{{slide.selectedTheme}}\'].display': 'updateResizable', 'slide.component.styles[\'&.{{slide.selectedTheme}}\'].position': 'updateDraggable', 'slide.selectedTheme': 'checkDisableResizable'}">
 				<component data="slide.component" ng-attr-id="component-{{slide.component.name}}" controller-name="{{data.name}}Controller" class="slide"></component>
 			</bounding-box>
 

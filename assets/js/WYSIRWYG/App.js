@@ -1,21 +1,11 @@
 'use strict';
 
 angular.module('WYSIRWYG', [
-	'WYSIRWYG.Grid',
-	'WYSIRWYG.EditableArea',
-	'WYSIRWYG.Component',
-	//'WYSIRWYG.Selectable',
-	//'WYSIRWYG.Sortable',
-	'WYSIRWYG.Draggable',
-	'WYSIRWYG.Resizable',
-	'WYSIRWYG.BoundingBox',
-	'WYSIRWYG.ElementScopeWatcher',
-	'WYSIRWYG.Components.Controllers',
-	'ngModelUtils',
-	'Debug'
+	'WYSIRWYG.modules.Editor',
+	'WYSIRWYG.modules.RawEditor'
 ])
 
-.factory('getComponents', function() {
+/*.factory('getComponents', function() {
 
 	return function(callback) {
 		var socket = io.socket;
@@ -31,6 +21,236 @@ angular.module('WYSIRWYG', [
 				callback ? callback(data) : null;
 			});
 		});
+	}
+})*/
+
+/**
+ * só um wrapper para agilizar o processo do desenvolvimento - remover getComponents abaixo e descomentar o de cima
+ */
+.factory('getComponents', function() {
+
+	return function(callback) {
+		//setTimeout(function() {
+		var components = WYSIRWYG.Component.getData(),
+			data = ([
+      {
+        "name": "ResultBox",
+        "template": "<div><i18n id=\"query\"></i18n></div> <hr /> <!--{{data.data.searchData}} <hr/> --> <table border=\"1\" style=\"float:left; margin-right: 10px;\" ng-repeat=\"(kind, type) in data.data.searchData\"><caption class=\"id-12345\">{{kind}}</caption><tr><th>Name</th><th>Type</th></tr><tr ng-repeat=\"(i, item) in type | filter:data.data.query \"><td>{{item.name}}</td><td>{{item.type}}</td></tr><tr><td colspan=\"2\"><i18n id=\"result\"></i18n></td></tr></table><br clear=\"all\" />",
+        "data": {
+          "query": "",
+          "searchData": {
+            "music": [
+              {
+                "name": "Gammaray",
+                "type": "Metal"
+              },
+              {
+                "name": "Sabaton",
+                "type": "Metal"
+              },
+              {
+                "name": "Angra",
+                "type": "Metal"
+              }
+            ]
+          }
+        },
+        "i18n": {
+          "pt-BR": {
+            "query": "Sua pesquisa por <data id=\"query\"></data>",
+            "result": "Retornou <b>{{(type | filter:data.data.query).length}}</b> resultados."
+          }
+        },
+        "styles": {
+          "&.theme-default": {
+            "background": "yellow",
+            "position": "absolute",
+            "top": "10px",
+            "right": "100px",
+            "bottom": "10px",
+            "left": "100px",
+
+            ".id-12345": {
+              "background": "red",
+              "color": "green"
+            }
+          },
+
+          "&.theme-algo": {
+            "background": "blue",
+            "position": "relative",
+            "left": "20px",
+            "top": "20px",
+            "width": "200px",
+            "color": "white",
+            
+            ".id-12345": {
+              "background": "white",
+              "color": "black"
+            }
+          }
+        },
+        "createdAt": "2015-03-21T17:06:22.188Z",
+        "updatedAt": "2015-03-21T17:06:22.188Z"
+      },
+      {
+        "name": "Searcher",
+        "template": "<h1><i18n id=\"salutation\" language=\"pt-BR\"></h1> <h2><i18n id=\"introduction\" language=\"en-US\"></i18n></h2> <p><i18n id=\"description\"></i18n></p> <component id=\"Foolish\" data=\"data.components.Foolish\"></component>",
+        "data": {
+          "name": "Moisés mosele"
+        },
+        "i18n": {
+          "pt-BR": {
+            "salutation": "Olá <data id=\"name\"></data>",
+            "introduction": "Esse é nosso primeiro exemplo.",
+            "description": "Essa é a descrição. Note que não foi informado o idioma para este texto no template. Está exibindo o texto do idioma padrão do componente."
+          },
+          "en-US": {
+            "salutation": "Hello <data id=\"name\"></data>",
+            "introduction": "This is our components example.",
+            "description": "This is the description. Note that was not passed the language attribute to this text in the template. It's showing the text from the default language of the component."
+          }
+        },
+        "components": {
+          "Foolish": {
+            "name": "Foolish",
+            "template": "<i18n id=\"currentLanguage\"></i18n> - <i18n id=\"searchFor\"></i18n> <input type=\"text\" name=\"foolish\" ng-click=\"controller.setTodayBirthDate()\" ng-blur=\"controller.setOldBirthDate()\" ng-keyup=\"controller.logInputText()\" ng-model=\"data.components.ResultBox.data.query\" /> {{data.data.birthday | date : 'dd/MM/yyyy'}} <component id=\"ResultBox\" data=\"data.components.ResultBox\"></component>",
+            "data": {
+              "birthday": "1986-01-13"
+            },
+            "i18n": {
+              "en-US": {
+                "currentLanguage": "Current Language is: {{language}}",
+                "searchFor": "Search:"
+              },
+              "pt-BR": {
+                "currentLanguage": "Idioma corrente é: {{language}}",
+                "searchFor": "Localizar:"
+              }
+            },
+            "components": {
+              "ResultBox": {
+                "reference": "ResultBox",
+                "data": {
+                  "searchData": {
+                    "series": [
+                      {
+                        "name": "Two and a Half Men",
+                        "type": "Comedy"
+                      },
+                      {
+                        "name": "Walking Dead",
+                        "type": "Zombie"
+                      },
+                      {
+                        "name": "Game of Thrones",
+                        "type": "Drama"
+                      },
+                      {
+                        "name": "Bible",
+                        "type": "Religious"
+                      },
+                      {
+                        "name": "Breaking Bad",
+                        "type": "Drama"
+                      },
+                      {
+                        "name": "Generals at War",
+                        "type": "Documentary"
+                      },
+                      {
+                        "name": "History of Humanity",
+                        "type": "Documentary"
+                      },
+                      {
+                        "name": "The Prime Fields",
+                        "type": "Documentary"
+                      },
+                      {
+                        "name": "The Adventures of Robin Hood",
+                        "type": "Cartoon"
+                      },
+                      {
+                        "name": "Adventures of Sonic The Hedgehog",
+                        "type": "Cartoon"
+                      },
+                      {
+                        "name": "The Adventures of Jimmy Neutron: Boy Genius",
+                        "type": "Cartoon"
+                      },
+                      {
+                        "name": "The Adventures of Rin Tin Tin",
+                        "type": "Cartoon"
+                      },
+                      {
+                        "name": "The Adventures of Super Mario Bros. 3",
+                        "type": "Cartoon"
+                      },
+                      {
+                        "name": "Afro Samurai",
+                        "type": "Cartoon"
+                      },
+                      {
+                        "name": "Adventures of Superman",
+                        "type": "TV Show"
+                      },
+                      {
+                        "name": "ALF",
+                        "type": "TV Show"
+                      }
+                    ],
+                    "movies": [
+                      {
+                        "name": "Saving Private Ryan",
+                        "type": "World War II"
+                      },
+                      {
+                        "name": "Shrek",
+                        "type": "Animation"
+                      }
+                    ]
+                  }
+                },
+                "i18n": {
+                  "pt-BR": {
+                    "query": "SUA PEXQUISA POR:::: <data id=\"query\"></data>"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "styles": {
+          "&.theme-default": {
+            "position": "absolute",
+
+            "input": {
+              "background": "crimson"
+            }
+          },
+
+          "&.theme-1": {
+            "background": "yellow",
+
+            "input": {
+              "background": "pink",
+              "border": "3px dashed grey",
+              "border-bottom": "5px solid black"
+            }
+          }
+        },
+        "createdAt": "2015-03-21T17:06:34.418Z",
+        "updatedAt": "2015-03-21T17:06:34.418Z"
+      }
+    ]);
+
+	$.each(data, function(i, component) {
+			components[component.name] = component;
+		});
+
+			callback ? callback(data) : null;
+
+		//}, 2000);
 	}
 })
 
@@ -52,7 +272,7 @@ angular.module('WYSIRWYG', [
 		var css = JSS.toCSS(ObserverCore.utils.object(['#' + id], jss)),
 			head = $('head'),
 			style = (css ? $('<style id="style-' + id + '">' + css + '</style>') : $(null));
-console.log(id, css);
+
 		head
 			.find('#style-' + id)
 			.remove()
@@ -130,299 +350,5 @@ console.log(id, css);
 	console.log('para acessar $scope use a variavel global $scope, getScopes');
 	window.$scope = $scope;
 	window.getScopes = getScopes;
-
-}])
-
-.controller('ComponentsEditController', ['$scope', 'getComponents', 'generateCSS', 'mergeReferences', function($scope, getComponents, generateCSS, mergeReferences) {
-	var stringify = JSON.stringify,
-		deleteProperties = delete_properties;
-
-	$scope.stringToData = function(str) {
-		if ($.type(str) != 'string') return {};
-
-		var data = JSON.parse(str);
-
-		return data;
-	};
-
-	$scope.Component = WYSIRWYG.Component;
-	$scope.data = {
-		components: null
-	};
-
-	$scope.Component.watch(null, function(data) {
-			var diff_data = $.extend(true, {}, data.diff);
-
-			$scope.data.components = deleteProperties($scope.data.components, data.deleted || {});
-
-			$.each(diff_data, function(k, component) {
-				if ($scope.data.components && $scope.data.components[k]) return;
-
-				var new_data = data.new[k];
-
-				if (new_data.data !== undefined) {
-					component.dataStringified = stringify(new_data.data);
-				}
-
-				if (new_data.i18n !== undefined) {
-					component.i18nStringified = stringify(new_data.i18n);
-				}
-
-				if (new_data.styles !== undefined) {
-					component.stylesStringified = stringify(new_data.styles);
-				}
-
-				if (new_data.components !== undefined) {
-					component.componentsStringified = stringify(new_data.components);
-				}
-			});
-
-			$scope.data.components = $.extend(true, $scope.data.components || {}, diff_data);
-			mergeReferences($scope.data.components);
-			$scope.$apply();
-		})
-		.watch(null, function(data) {
-			$.each(data.deleted || [], function(k) {
-				generateCSS(k, null);
-			});
-			$.each(data.new || [], function(k, data) {
-				generateCSS(k, data.styles);
-			});
-		});
-
-	getComponents();
-
-	console.log('para acessar $scope use a variavel global $scope');
-	window.$scope = $scope;
-
-}])
-
-.controller('EditorController', ['$scope', 'getComponents', 'generateCSS', 'mergeReferences', function($scope, getComponents, generateCSS, mergeReferences) {
-
-	// set directive watcher in the view, so every time updated theme should update bb
-	$scope.updateResizable = function(scope, $element) {
-		var css = $element.css(['display']);
-
-		$.extend(true, scope.slide.boundingBox.resizable, {
-			disabled: ($.inArray(css['display'], ['inline']) >= 0)
-		});
-	};
-
-	// set directive watcher in the view, so every time updated theme should update bb
-	$scope.updateDraggable = function(scope, $element) {
-		var css = $element.css(['position']);
-
-		$.extend(true, scope.slide.boundingBox.draggable, {
-			disabled: ($.inArray(css['position'], ['absolute', 'fixed']) == -1)
-		});
-
-		console.log('carry on from here. position esta errado, porque $element ainda nao existe no DOM (acho q é isso). foo draggable ipdated', scope.slide.boundingBox.draggable.disabled, $element, css, scope.slide.component.styles['&.theme-default'].position);
-	};
-
-	/**
-	 * get component available themes
-	 * return theme names
-	 */
-	function getThemes(component) {
-		var themes = [];
-
-		$.each(component.styles, function(k) {
-			if (k.substr(0, 2) != '&.') return;
-
-			var theme_name = k.substr(2);
-
-			themes.push(theme_name);
-		});
-
-		return themes;
-	}
-
-	$scope.data = {
-		slides: {
-		/* id: {
-			name: null,
-			selected: true,
-			component: null
-		}*/}
-	};
-
-	$scope.grid = {
-		grid: [50, 50]
-	};
-
-	// configs for draggable and resizable
-	$scope.editableArea = {
-		draggable: {
-			appendTo: 'body',
-			cursor: 'move',
-			delay: 80,
-			disabled: true,
-			grid: $scope.grid.grid,
-			// should not have `style` attribute setted on bounding-box
-			stop: function(event, ui) {
-				var element = ui.helper,
-					scope = element.scope(),
-					selected_theme = scope.slide.selectedTheme,
-					current_theme = '&.' + selected_theme,
-					extend_to = scope.slide.component.name + '.styles["' + current_theme + '"]',
-					styles = $.extend(true, {}, ui.position);
-
-				if (selected_theme) {
-					WYSIRWYG.Component.extendData(extend_to, styles).apply(); // do apply otherwise the element will be flickering
-				}
-				element.prop('style', '');  // prevent having `style` attribute
-
-			}
-		},
-		resizable: {
-			alsoResize: false,
-			disabled: true,
-			handles: 'all',
-			grid: $scope.grid.grid,
-			// should not have `style` attribute setted on bounding-box
-			stop: function(event, ui) {
-				// nao sei qual usar: ui.element ou ui.originalElement ????
-				var element = ui.originalElement,
-					scope = element.scope(),
-					selected_theme = scope.slide.selectedTheme,
-					current_theme = '&.' + selected_theme,
-					extend_to = scope.slide.component.name + '.styles["' + current_theme + '"]',
-					styles = $.extend(true, {}, ui.position, ui.size);
-				
-				if (selected_theme) {
-					WYSIRWYG.Component.extendData(extend_to, styles).apply(); // do apply otherwise the element will be flickering
-				}
-				element.prop('style', '');  // prevent having `style` attribute
-
-			}/*,
-			start: function(event, ui) {
-				var instance = ui.element.resizable('instance'),
-					width = instance.sizeDiff.width + ui.originalSize.width,
-					height = instance.sizeDiff.height + ui.originalSize.height;
-
-				ui.originalSize._bkp = {
-					width: ui.originalSize.width,
-					height: ui.originalSize.height
-				};
-				ui.originalSize.width = width;
-				ui.originalSize.height = height;
-				ui.size.width = undefined;
-				ui.size.height = undefined;
-			},
-			resize: function(event, ui) {
-				var max = Math.max,
-					min = Math.min;
-
-				if (ui.size.width) {
-					ui.size.width = max(ui.size.width, ui.originalSize.width - ui.originalSize._bkp.width);
-					ui.position.left = min(ui.position.left, ui.originalPosition.left + ui.originalSize._bkp.width);
-				}
-				if (ui.size.height) {
-					ui.size.height = max(ui.size.height, ui.originalSize.height - ui.originalSize._bkp.height);
-					ui.position.top = min(ui.position.top, ui.originalPosition.top + ui.originalSize._bkp.height);
-				}
-			}*/
-		}
-	}
-
-	$scope.slides = {
-		selectedSlides: [],
-		deselectAllSlides: function() {
-			$.each($scope.data.slides, function(k, slide) {
-				slide.selected = false;
-			});
-
-			$scope.slides.selectedSlides = [];
-		},
-
-		selectSlide: function(slide_id) {
-			$scope.data.slides[slide_id].selected = true;
-			$scope.slides.selectedSlides.push(slide_id);
-		},
-
-		getSelectedSlides: function() {
-			var selected = [];
-			$.each($scope.data.slides, function(k, slide) {
-				if (!slide.selected) return;
-				selected.push(i);
-			});
-
-			return selected;
-		}
-	};
-
-	WYSIRWYG.Component.watch(null, function(data) {
-		$.each(data.deleted || [], function(k) {
-			generateCSS(k, null);
-			$scope.data.slides = delete_properties($scope.data.slides, data.deleted || {});
-		});
-
-		$.each(data.new, function(k, _new) {
-			var new_data = $.extend(true, {}, _new),
-				slide = $scope.data.slides[k],
-				diff = data.diff ? data.diff[k] : undefined,
-				deleted = data.deleted ? data.deleted[k] : undefined,
-				themes,
-				selected_theme;
-			
-			mergeReferences([new_data]);
-
-			if (!slide) {  // slide doesnt exist
-
-				themes = getThemes(new_data);
-				selected_theme = themes[0];
-
-				slide = $scope.data.slides[k] = {
-					name: new_data.name,
-					selected: false,
-					component: new_data,
-					themes: themes,
-					selectedTheme: selected_theme
-				};
-			} else {
-				selected_theme = slide.selectedTheme;
-
-				if ((diff && diff.styles) || deleted && deleted.styles) {
-					// changed styles
-					themes = getThemes(new_data);
-
-					// re-set selected theme once its no more exists
-					if ($.inArray(selected_theme, themes) == -1) {
-						selected_theme = themes[0];
-					}
-				}
-
-				$.extend(slide, {
-					name: new_data.name,
-					component: new_data,
-					themes: themes,
-					selectedTheme: selected_theme
-				});
-			}
-
-			if (diff || deleted) {
-				generateCSS(k, new_data.styles);
-
-				// every time a component's css changes, we should recalculate some of its properties
-				if (!slide.boundingBox) {
-					slide.boundingBox = {
-						draggable: $.extend(true, {}, $scope.editableArea.draggable),
-						resizable: $.extend(true, {}, $scope.editableArea.resizable)
-					};
-				}
-			}
-
-		});
-
-
-		$scope.$apply();
-	});
-
-	getComponents();
-
-	$scope.slides.selectedSlides = $scope.slides.getSelectedSlides();
-
-	console.log('para acessar $scope use a variavel global $scope');
-	window.$scope = $scope;
 
 }]);

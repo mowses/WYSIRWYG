@@ -58,6 +58,10 @@ var jsFilesToInject = [
   'js/WYSIRWYG/filters/css.js',
   'js/WYSIRWYG/filters/trustAsHtml.js',
 
+  // controller files
+  'js/WYSIRWYG/modules/Editor/controller.js',
+  'js/WYSIRWYG/modules/RawEditor/controller.js',
+
   // components files
   'js/WYSIRWYG/components/Foolish/controller.js',
   'js/WYSIRWYG/components/ResultBox/controller.js',
