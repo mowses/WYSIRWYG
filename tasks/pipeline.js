@@ -48,6 +48,7 @@ var jsFilesToInject = [
   'js/libraries/bootstrap/bootstrap.min.js',
   'js/ngModelUtils.js',
   'js/libraries/JSS/jss.js',
+  'js/libraries/jquery-ui.ruler-master/jqueryui-ruler/js/jquery.ui.ruler.js',
 
   'js/libraries/WYSIRWYG/WYSIRWYG.js',
   'js/libraries/WYSIRWYG/Component.js',
@@ -69,6 +70,7 @@ var jsFilesToInject = [
   'js/WYSIRWYG/components/module.js',  // after all components
 
   'js/WYSIRWYG/directives/Grid.js',
+  'js/WYSIRWYG/directives/Ruler.js',
   'js/WYSIRWYG/directives/BoundingBox.js',
   'js/WYSIRWYG/directives/Component.js',
   'js/WYSIRWYG/directives/i18n.js',

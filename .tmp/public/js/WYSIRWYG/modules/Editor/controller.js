@@ -2,6 +2,7 @@
 
 angular.module('WYSIRWYG.modules.Editor', [
 	'WYSIRWYG.Grid',
+	'WYSIRWYG.Ruler',
 	'WYSIRWYG.EditableArea',
 	'WYSIRWYG.Component',
 	//'WYSIRWYG.Selectable',
@@ -44,6 +45,16 @@ angular.module('WYSIRWYG.modules.Editor', [
 
 		console.log('carry on from here. position esta errado, porque $element ainda nao existe no DOM (acho q é isso). foo draggable ipdated', scope.slide.boundingBox.draggable.disabled, $element, css, scope.slide.component.styles['&.theme-default'].position);
 	};
+
+	$scope.rulers = {
+		updateMousePosition: function(event) {
+			$scope.mousePosition = [event.offsetX, event.offsetY];
+		},
+
+		updateRulerFloatingMarker: function(scope, $element) {
+			console.log('updateRulerFloatingMarker continuar daqui. verificar quantas vezes esta rodando esta funcao para a quantidade de rulers que tem na pagina', scope, $element);
+		}
+	}
 
 	/**
 	 * get component available themes

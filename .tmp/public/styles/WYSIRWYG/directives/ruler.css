@@ -1,0 +1,51 @@
+ruler {
+	display: block;
+	position: absolute;
+	font-size: 10px;
+	overflow: hidden;
+	z-index: 500;
+	background: #E0E0E0;
+	white-space: nowrap;
+}
+
+ruler .floating-marker {
+	position: absolute;
+	background: red;
+}
+
+ruler.horizontal-ruler .floating-marker {
+	height: inherit;
+	width: 10px;
+}
+
+ruler.vertical-ruler .floating-marker {
+	height: 10px;
+	width: inherit;
+}
+
+ruler.horizontal-ruler {
+	border-bottom: 1px solid #000000;
+	top: 0px;
+	right: 0px;
+	left: 0px;
+	height: 17px;
+	cursor: row-resize;
+}
+
+ruler.horizontal-ruler .step {
+	display: inline-block;
+	width: 50px;
+}
+
+ruler.vertical-ruler {
+	border-right: 1px solid #000000;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	width: 17px;
+	cursor: col-resize;
+}
+
+ruler.vertical-ruler .step {
+	height: 50px;
+}

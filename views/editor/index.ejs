@@ -17,7 +17,9 @@
 			</select>
 		</label>
 
-		<div class="stage" editable-area ng-mousedown="deselectCtrlBB($event)">
+		<div class="stage" editable-area ng-mousedown="deselectCtrlBB($event)" ng-mousemove="rulers.updateMousePosition($event);">
+			<ruler orientation="horizontal" from="0" to="1500" step="50" watcher="{'mousePosition': 'rulers.updateRulerFloatingMarker'}"></ruler>
+			<ruler orientation="vertical" from="0" to="1500" step="50"></ruler>
 			<!-- <div style="background:pink; height: 100px; width: 100px; padding: 20px; margin: 5px;">=======</div> -->
 			
 			<bounding-box draggable="slide.boundingBox.draggable" id="{{slide.component.name}}" resizable="slide.boundingBox.resizable" ng-mousedown="toggleCtrlBB($event)" class="{{slide.selectedTheme}}" watcher="{'slide.component.styles[\'&.{{slide.selectedTheme}}\'].display': 'updateResizable', 'slide.component.styles[\'&.{{slide.selectedTheme}}\'].position': 'updateDraggable', 'slide.selectedTheme': 'checkDisableResizable'}">
