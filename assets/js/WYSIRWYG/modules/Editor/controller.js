@@ -46,14 +46,16 @@ angular.module('WYSIRWYG.modules.Editor', [
 		console.log('carry on from here. position esta errado, porque $element ainda nao existe no DOM (acho q é isso). foo draggable ipdated', scope.slide.boundingBox.draggable.disabled, $element, css, scope.slide.component.styles['&.theme-default'].position);
 	};
 
-	$scope.rulers = {
-		updateMousePosition: function(event) {
-			$scope.mousePosition = [event.offsetX, event.offsetY];
-		},
+	$scope.getOffsetPosition = function(event) {
+		var $element = $(event.delegateTarget),
+			offset = $element.offset(),
+			x = event.pageX - offset.left,
+			y = event.pageY - offset.top;
 
-		updateRulerFloatingMarker: function(scope, $element) {
-			console.log('updateRulerFloatingMarker continuar daqui. verificar quantas vezes esta rodando esta funcao para a quantidade de rulers que tem na pagina', scope, $element);
-		}
+		return {
+			x: x,
+			y: y
+		};
 	}
 
 	/**

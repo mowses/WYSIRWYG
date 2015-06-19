@@ -33,21 +33,9 @@ angular.module('WYSIRWYG.Ruler', [])
 			$scope.range = range($scope.from, $scope.to, $scope.step);
 
 			$scope.floatingMarker = {
-				top: 0,
-				left: 0
+				x: 0,
+				y: 0
 			};
-
-			$scope.$watch('floatingMarker', function(new_value) {
-				switch($scope.orientation) {
-					case 'vertical':
-						new_value.left = 0;
-					break;
-					case 'horizontal':
-						new_value.top = 0;
-					break;
-					default:
-				}
-			}, true);
 		}],
 
 		compile: function($element, $attrs) {
@@ -62,6 +50,6 @@ angular.module('WYSIRWYG.Ruler', [])
 			};
 		},
 
-		template: '<div class="floating-marker" style="top: {{floatingMarker.top}}px; left: {{floatingMarker.left}}px;"></div><div class="step" ng-repeat="n in range">{{n}}</div>'
+		template: '<div class="floating-marker" style="top: {{floatingMarker.y}}px; left: {{floatingMarker.x}}px;"></div><div class="step" ng-repeat="n in range">{{n}}</div>'
 	};
 }]);

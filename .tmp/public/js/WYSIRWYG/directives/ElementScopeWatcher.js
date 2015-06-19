@@ -13,7 +13,9 @@ angular.module('WYSIRWYG.ElementScopeWatcher', [])
 		transclude: false,
 		
 		controller: ['$scope', '$element', '$attrs', function($scope, $element, attrs) {
-			var watchers = [];
+			var watchers = [],
+				element_scope = $element.isolateScope(),
+				scope = element_scope || $scope;
             
             attrs.$observe('watcher', function(watcher) {
                 var new_watchers = $parse(attrs.watcher)();
@@ -29,9 +31,12 @@ angular.module('WYSIRWYG.ElementScopeWatcher', [])
                 	callbacks = $.makeArray(callbacks);
                 	
                     angular.forEach(callbacks, function(callback, i) {
-                    	var callback = $scope.$eval(callback);
-	                    watchers.push($scope.$watch(k, function() {
-	                    	return callback($scope, $element);
+                    	watchers.push($scope.$watch(k, function() {
+                    		var callback_return = scope.$eval(callback);
+
+	                    	if (angular.isFunction(callback_return)) return callback_return(scope, $element);
+	                    	
+	                    	return callback_return;
 	                    }));
                     });
                 });
