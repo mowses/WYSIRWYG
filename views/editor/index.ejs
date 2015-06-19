@@ -9,19 +9,20 @@
 		</ol>
 	</div>
 
-	<div ng-if="slide.component" ng-show="slide.selected" ng-repeat="(i, slide) in data.slides" ng-init="mousePos = {x:0, y:0}">
-		<label>
-			Theme:
-			<select ng-options="theme as theme for theme in slide.themes" ng-model="slide.selectedTheme">
-				<option value="">--no theme--</option>
-			</select>
-		</label>
+	<label ng-repeat="(i, slide) in data.slides" ng-show="slide.selected">
+		Theme:
+		<select ng-options="theme as theme for theme in slide.themes" ng-model="slide.selectedTheme">
+			<option value="">--no theme--</option>
+		</select>
+	</label>
 
-		<div class="stage" editable-area ng-mousedown="deselectCtrlBB($event)" ng-mousemove="mousePos = getOffsetPosition($event);">
-			
-			<ruler orientation="horizontal" from="0" to="1500" step="50" watcher="{'mousePos': 'floatingMarker.x = $parent.mousePos.x'}"></ruler>
-			
-			<ruler orientation="vertical" from="0" to="1500" step="50" watcher="{'mousePos': 'floatingMarker.y = $parent.mousePos.y'}"></ruler>
+	<div class="stage" ng-init="mousePos = {x:0, y:0}" ng-mousemove="mousePos = getOffsetPosition($event);">
+
+		<ruler orientation="horizontal" from="0" to="1500" step="50" watcher="{'mousePos': 'floatingMarker.x = $parent.mousePos.x'}"></ruler>
+
+		<ruler orientation="vertical" from="0" to="1500" step="50" watcher="{'mousePos': 'floatingMarker.y = $parent.mousePos.y'}"></ruler>
+
+		<div ng-show="slide.selected" ng-repeat="(i, slide) in data.slides" class="editable-area" editable-area ng-mousedown="deselectCtrlBB($event)">
 
 			<!-- <div style="background:pink; height: 100px; width: 100px; padding: 20px; margin: 5px;">=======</div> -->
 			
@@ -36,7 +37,6 @@
 			<div style="background:yellow; height: 100px; padding: 20px; margin: 5px; float: left;">3</div>
 			<div style="background:blue; height: 100px; padding: 20px; margin: 5px; float: left;">4</div>
 			<hr /> -->
-		
 		</div>
 	</div>
 </div>

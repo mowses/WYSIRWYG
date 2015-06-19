@@ -10,3 +10,8 @@
 .editor .stage component {
 	display: block;
 }
+
+.editor .stage .editable-area {
+	width: 100%;
+	height: 100%;
+}
