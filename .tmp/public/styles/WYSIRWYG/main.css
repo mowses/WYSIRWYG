@@ -14,6 +14,10 @@
 	z-index: -1;
 }
 
+.ui-selected.ui-draggable-disabled:before {
+	border: 2px solid #1A1A1A;
+}
+
 .ui-resizable-handle {
 	display: none;
 	width: 10px;

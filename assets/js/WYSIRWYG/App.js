@@ -65,7 +65,7 @@ angular.module('WYSIRWYG', [
           "&.theme-default": {
             "background": "yellow",
             "position": "absolute",
-            "top": "10px",
+            "top": "0px",
             "right": "100px",
             "bottom": "10px",
             "left": "100px",
