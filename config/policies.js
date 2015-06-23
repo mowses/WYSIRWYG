@@ -48,7 +48,11 @@ module.exports.policies = {
     // before letting any users feed our rabbits
     // feed : ['isNiceToAnimals', 'hasRabbitFood']
     // }
+    EditorController: {
+        '*': ['inDevEnv']
+    },
+
     ComponentsController: {
-        index: ['inDevEnv']
+        'index': ['inDevEnv']
     }
 };

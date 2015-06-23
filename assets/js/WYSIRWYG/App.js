@@ -1,33 +1,48 @@
 'use strict';
 
 angular.module('WYSIRWYG', [
-	'WYSIRWYG.modules.Editor',
-	'WYSIRWYG.modules.RawEditor'
+    'WYSIRWYG.modules.Editor',
+    'WYSIRWYG.modules.Editor.Raw'
 ])
 
-/*.factory('getComponents', function() {
+.factory('getComponents', function() {
 
-	return function(callback) {
-		var socket = io.socket;
+    return function(components, callback) {
+        components = $.makeArray(components);
 
-		socket.on('connect', function() {
-			socket.get('/components', function(data) {
-				var components = WYSIRWYG.Component.getData();
+        $.get('/components/get', {
+            components: components
+        }, function(data) {
+            callback ? callback(data) : null;
+        });
+    }
+})
 
-				$.each(data, function(i, component) {
-					components[component.name] = component;
-				});
+.factory('mergeReferences', function() {
+    function mergeReferences(components, references) {
+        $.each(components || [], function(i, component) {
+            var k = component.name;
 
-				callback ? callback(data) : null;
-			});
-		});
-	}
-})*/
+            mergeReferences(component.components, references);
+            if (component.reference) {
+                var reference = $.grep(references, function(ref) {
+                    return (ref.name === component.reference);
+                })[0];
+
+                components[i] = $.extend(true, {}, reference, component);
+            }
+        });
+    }
+
+    return function(components) {
+        return mergeReferences(components, components);
+    }
+})
 
 /**
  * só um wrapper para agilizar o processo do desenvolvimento - remover getComponents abaixo e descomentar o de cima
  */
-.factory('getComponents', function() {
+/*.factory('getComponents', function() {
 
 	return function(callback) {
 		//setTimeout(function() {
@@ -252,50 +267,72 @@ angular.module('WYSIRWYG', [
 
 		//}, 2000);
 	}
-})
+})*/
 
 .factory('getParentLanguage', function() {
-	function getParentLanguage(scope) {
-		if (scope.language) return scope.language;
-		if (!scope.$parent) return;
+    function getParentLanguage(scope) {
+        if (scope.language) return scope.language;
+        if (!scope.$parent) return;
 
-		return getParentLanguage(scope.$parent);
-	}
+        return getParentLanguage(scope.$parent);
+    }
 
-	return function(scope) {
-		return getParentLanguage(scope);
-	}
+    return function(scope) {
+        return getParentLanguage(scope);
+    }
 })
 
 .factory('generateCSS', function() {
-	return function(id, jss) {
-		var css = JSS.toCSS(ObserverCore.utils.object(['#' + id], jss)),
-			head = $('head'),
-			style = (css ? $('<style id="style-' + id + '">' + css + '</style>') : $(null));
+    return function(id, jss) {
+        var css = JSS.toCSS(ObserverCore.utils.object(['#' + id], jss)),
+            head = $('head'),
+            style = (css ? $('<style id="style-' + id + '">' + css + '</style>') : $(null));
 
-		head
-			.find('#style-' + id)
-			.remove()
-			.end()
-			.append(style);
-	}
+            console.log('generate css', id);
+        head
+            .find('#style-' + id)
+            .remove()
+            .end()
+            .append(style);
+    }
 })
 
-.factory('mergeReferences', function() {
-	function mergeReferences(components, path) {
-		$.each(components || [], function(k, component) {
-			var _path = !path ? k : path + '.components.' + k;
-			mergeReferences(component.components, _path);
-			if (component.reference) {
-				$.extend(true, component, WYSIRWYG.Component.getData(component.reference), WYSIRWYG.Component.getData(_path));
-			}
-		});
-	}
+/**
+ * get component available themes
+ * return theme names
+ */
+.factory('getThemes', function() {
 
-	return function(components, path) {
-		return mergeReferences(components, path);
-	}
+    return function getThemes(component) {
+        var themes = [];
+
+        $.each(component.styles, function(k) {
+            if (k.substr(0, 2) != '&.') return;
+
+            var theme_name = k.substr(2);
+
+            themes.push(theme_name);
+        });
+
+        return themes;
+    }
 })
+
+/*.factory('mergeReferences', function() {
+    function mergeReferences(components, path) {
+        $.each(components || [], function(k, component) {
+            var _path = !path ? k : path + '.components.' + k;
+            mergeReferences(component.components, _path);
+            if (component.reference) {
+                $.extend(true, component, WYSIRWYG.Component.getData(component.reference), WYSIRWYG.Component.getData(_path));
+            }
+        });
+    }
+
+    return function(components, path) {
+        return mergeReferences(components, path);
+    }
+})*/
 
 /**
  * get attributes in @attrs that its property name prefixes @prefix
@@ -334,21 +371,21 @@ angular.module('WYSIRWYG', [
 
 .controller('AppController', ['$scope', 'getComponents', 'getScopes', 'mergeReferences', function($scope, getComponents, getScopes, mergeReferences) {
 
-	$scope.Component = WYSIRWYG.Component;
-	$scope.data = {
-		components: null
-	};
+    $scope.Component = WYSIRWYG.Component;
+    $scope.data = {
+        components: null
+    };
 
-	$scope.Component.watch(null, function(data) {
-		$scope.data.components = $.extend(true, $scope.data.components || {}, data.diff);
-		mergeReferences($scope.data.components);
-		$scope.$apply();
-	});
+    $scope.Component.watch(null, function(data) {
+        $scope.data.components = $.extend(true, $scope.data.components || {}, data.diff);
+        mergeReferences($scope.data.components);
+        $scope.$apply();
+    });
 
-	getComponents();
+    getComponents();
 
-	console.log('para acessar $scope use a variavel global $scope, getScopes');
-	window.$scope = $scope;
-	window.getScopes = getScopes;
+    console.log('para acessar $scope use a variavel global $scope, getScopes');
+    window.$scope = $scope;
+    window.getScopes = getScopes;
 
 }]);

@@ -46,14 +46,12 @@
 
           "&.theme-algo": {
             "background": "blue",
-            "position": "absolute",
-            "left": "20px",
-            "top": "20px",
+            "position": "relative",
             "width": "200px",
-            "color": "white",
+            "color": "black",
             
             ".id-12345": {
-              "background": "white",
+              "background": "green",
               "color": "black"
             }
           }
@@ -82,7 +80,7 @@
         "components": {
           "Foolish": {
             "name": "Foolish",
-            "template": "<i18n id=\"currentLanguage\"></i18n> - <i18n id=\"searchFor\"></i18n> <input type=\"text\" name=\"foolish\" ng-click=\"controller.setTodayBirthDate()\" ng-blur=\"controller.setOldBirthDate()\" ng-keyup=\"controller.logInputText()\" ng-model=\"data.components.ResultBox.data.query\" /> {{data.data.birthday | date : 'dd/MM/yyyy'}} <component id=\"ResultBox\" data=\"data.components.ResultBox\"></component>",
+            "template": "<i18n id=\"currentLanguage\"></i18n> - <i18n id=\"searchFor\"></i18n> <input type=\"text\" name=\"foolish\" ng-click=\"controller.setTodayBirthDate()\" ng-blur=\"controller.setOldBirthDate()\" ng-keyup=\"controller.logInputText()\" ng-model=\"data.components.ResultBox.data.query\" /> {{data.data.birthday | date : 'dd/MM/yyyy'}} <component id=\"ResultBox\" class=\"theme-algo\" data=\"data.components.ResultBox\"></component>",
             "data": {
               "birthday": "1986-01-13"
             },

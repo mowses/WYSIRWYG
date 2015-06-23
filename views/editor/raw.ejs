@@ -1,0 +1,35 @@
+<div ng-controller="RawEditorController" class="components-index">
+
+	<div ng-if="data.components" ng-cloak>
+		
+		<div class="panel panel-default" ng-repeat="component in data.components">
+			<div class="panel-heading">
+				<h3 class="panel-title" ng-bind="component.name"></h3>
+				<label class="preview-theme">
+					Theme:
+					<select ng-options="theme as theme for theme in component.themes" ng-model="selectedTheme">
+						<option value="">--no theme--</option>
+					</select>
+				</label>
+			</div>
+			<div class="panel-body">
+				<div class="preview" ng-init="selectedTheme = 'theme-default';">
+					<component id="{{component.name}}" ng-class="selectedTheme" language="" data="component"></component>
+				</div>
+
+				<textarea name="template" ng-model="component.template"></textarea>
+				
+				<textarea name="data" ng-model="component.dataStringified" ng-model-setter="component.data = stringToData($value);"></textarea>
+				
+				<textarea name="i18n" ng-model="component.i18nStringified" ng-model-setter="component.i18n = stringToData($value);"></textarea>
+
+				<textarea name="styles" ng-model="component.stylesStringified" ng-model-setter="component.styles = stringToData($value); generateCSS('{{component.name}}', component.styles);"></textarea>
+
+				<textarea name="components" ng-model="component.componentsStringified" ng-model-setter="component.components = stringToData($value);"></textarea>
+
+				<a href="#" class="btn btn-primary">Submit</a>
+			</div>
+		</div>
+		
+	</div>
+</div>

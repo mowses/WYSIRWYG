@@ -36,19 +36,24 @@ module.exports.routes = {
         view: 'app'
     },
 
-    '/components': {
-        controller: 'Components',
-        action: 'list'
-    },
-
-    '/components/index': {
-        controller: 'Components',
-        action: 'index'
-    },
-
     '/editor': {
         controller: 'Editor',
         action: 'index'
+    },
+
+    '/editor/raw': {
+        controller: 'Editor',
+        action: 'raw'
+    },
+
+    '/components': {
+        controller: 'Components',
+        action: 'index'
+    },
+
+    '/components/get': {
+        controller: 'Components',
+        action: 'get'
     }
 
     /***************************************************************************

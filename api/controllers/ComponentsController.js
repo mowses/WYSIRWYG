@@ -1,7 +1,7 @@
 /**
- * ComponentsController
+ * EditorController
  *
- * @description :: Server-side logic for managing components
+ * @description :: Server-side logic for managing editor
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
@@ -12,28 +12,22 @@ module.exports = {
 		Components.find()
 			.exec(function(err, data) {
 				if (err || !data) return res.badRequest(err);
-				
-				return res.view({
-					'components': data
-				});
-			});
-	},
 
-	list: function(req, res, next) {
-		Components.find()
-			.exec(function(err, data) {
-				if (err || !data) return res.badRequest(err);
 				return res.json(data);
 			});
 	},
 
-	create: function(req, res, next) {
-		var data = req.param('data');
+	get: function(req, res, next) {
+		var $ = sails.config.globals.jQuery,
+			components = req.param('components');
 
-		Components.create(data)
+		Components.find({
+				name: components
+			})
 			.exec(function(err, data) {
 				if (err || !data) return res.badRequest(err);
-				return res.ok();
+
+				return res.json(data);
 			});
-	},
+	}
 };

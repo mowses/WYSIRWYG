@@ -22,8 +22,8 @@ var cssFilesToInject = [
   'js/libraries/jQuery.ui/jquery-ui.theme.min.css',
   'styles/WYSIRWYG/main.css',
 
-  'styles/components/*.css',
   'styles/editor/*.css',
+  'styles/editor/**/*.css',
   'styles/WYSIRWYG/*.css',
   'styles/WYSIRWYG/directives/*.css'
 ];
@@ -37,11 +37,12 @@ var jsFilesToInject = [
   //'js/dependencies/sails.io.js',
 
   // Dependencies like jQuery, or Angular are brought in here
-  'js/dependencies/**/*.js',
+  //'js/dependencies/**/*.js',
 
   'js/libraries/jQuery/jquery-2.1.1.js',
   'js/libraries/jQuery.ui/jquery-ui.js',
   'js/libraries/angular/angular.js',
+  'js/libraries/ui-bootstrap/ui-bootstrap-0.13.0.min.js',
   'js/libraries/Events/Events.js',
   'js/libraries/ObjDiff/ObjDiff.js',
   'js/libraries/ObserverCore/ObserverCore.js',
@@ -60,8 +61,8 @@ var jsFilesToInject = [
   'js/WYSIRWYG/filters/trustAsHtml.js',
 
   // controller files
-  'js/WYSIRWYG/modules/Editor/controller.js',
-  'js/WYSIRWYG/modules/RawEditor/controller.js',
+  'js/WYSIRWYG/modules/Editor/EditorController.js',
+  'js/WYSIRWYG/modules/Editor/RawController.js',
 
   // components files
   'js/WYSIRWYG/components/Foolish/controller.js',
