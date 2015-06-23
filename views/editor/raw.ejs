@@ -17,15 +17,15 @@
 					<component id="{{component.name}}" ng-class="selectedTheme" language="" data="component"></component>
 				</div>
 
-				<textarea name="template" ng-model="component.template"></textarea>
+				<div ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'html', onLoad: 'aceLoaded'}" ng-model="component.template"></div>
 				
-				<textarea name="data" ng-model="component.dataStringified" ng-model-setter="component.data = stringToData($value);"></textarea>
-				
-				<textarea name="i18n" ng-model="component.i18nStringified" ng-model-setter="component.i18n = stringToData($value);"></textarea>
+				<div ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'json', onLoad: 'aceLoaded'}" ng-model="component.dataStringified" ng-model-setter="component.data = stringToData($value);"></div>
 
-				<textarea name="styles" ng-model="component.stylesStringified" ng-model-setter="component.styles = stringToData($value); generateCSS('{{component.name}}', component.styles);"></textarea>
+				<div ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'json', onLoad: 'aceLoaded'}" ng-model="component.i18nStringified" ng-model-setter="component.i18n = stringToData($value);"></div>
 
-				<textarea name="components" ng-model="component.componentsStringified" ng-model-setter="component.components = stringToData($value);"></textarea>
+				<div ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'json', onLoad: 'aceLoaded'}" ng-model="component.stylesStringified" ng-model-setter="component.styles = stringToData($value); generateCSS('{{component.name}}', component.styles);"></div>
+
+				<div ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'json', onLoad: 'aceLoaded'}" ng-model="component.componentsStringified" ng-model-setter="component.components = stringToData($value);"></div>
 
 				<a href="#" class="btn btn-primary">Submit</a>
 			</div>

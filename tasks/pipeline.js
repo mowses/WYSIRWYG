@@ -20,6 +20,7 @@ var cssFilesToInject = [
   'styles/bootstrap/bootstrap-theme.min.css',
   'js/libraries/jQuery.ui/jquery-ui.structure.min.css',
   'js/libraries/jQuery.ui/jquery-ui.theme.min.css',
+
   'styles/WYSIRWYG/main.css',
 
   'styles/editor/*.css',
@@ -50,6 +51,16 @@ var jsFilesToInject = [
   'js/ngModelUtils.js',
   'js/libraries/JSS/jss.js',
   'js/libraries/jquery-ui.ruler-master/jqueryui-ruler/js/jquery.ui.ruler.js',
+
+  // ace code editor
+  'js/libraries/ace-code-editor/ace.js',
+  //'js/libraries/ace-code-editor/ext-beautify.js',
+  //'js/libraries/ace-code-editor/mode-html.js',
+  //'js/libraries/ace-code-editor/mode-javascript.js',
+  //'js/libraries/ace-code-editor/mode-json.js',
+  //'js/libraries/ace-code-editor/mode-html.js',
+  // angular ace code editor directive
+  'js/libraries/ui-ace-0.2.3/ui-ace.js',
 
   'js/libraries/WYSIRWYG/WYSIRWYG.js',
   'js/libraries/WYSIRWYG/Component.js',

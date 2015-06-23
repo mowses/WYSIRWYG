@@ -288,7 +288,6 @@ angular.module('WYSIRWYG', [
             head = $('head'),
             style = (css ? $('<style id="style-' + id + '">' + css + '</style>') : $(null));
 
-            console.log('generate css', id);
         head
             .find('#style-' + id)
             .remove()
