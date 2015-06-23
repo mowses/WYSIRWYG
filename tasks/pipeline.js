@@ -54,7 +54,6 @@ var jsFilesToInject = [
 
   // ace code editor
   'js/libraries/ace-code-editor/ace.js',
-  //'js/libraries/ace-code-editor/ext-beautify.js',
   //'js/libraries/ace-code-editor/mode-html.js',
   //'js/libraries/ace-code-editor/mode-javascript.js',
   //'js/libraries/ace-code-editor/mode-json.js',
@@ -64,7 +63,6 @@ var jsFilesToInject = [
 
   'js/libraries/WYSIRWYG/WYSIRWYG.js',
   'js/libraries/WYSIRWYG/Component.js',
-
 
   // filter files
   'js/WYSIRWYG/filters/debug.js',

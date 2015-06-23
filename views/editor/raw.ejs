@@ -17,15 +17,27 @@
 					<component id="{{component.name}}" ng-class="selectedTheme" language="" data="component"></component>
 				</div>
 
-				<div ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'html', onLoad: 'aceLoaded'}" ng-model="component.template"></div>
-				
-				<div ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'json', onLoad: 'aceLoaded'}" ng-model="component.dataStringified" ng-model-setter="component.data = stringToData($value);"></div>
+				<tabset>
+					<tab heading="HTML">
+						<div ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'html'}" ng-model="component.template"></div>
+					</tab>
 
-				<div ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'json', onLoad: 'aceLoaded'}" ng-model="component.i18nStringified" ng-model-setter="component.i18n = stringToData($value);"></div>
+					<tab heading="Data">
+						<div ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'json'}" ng-model="component.dataStringified" ng-model-setter="component.data = stringToData($value);"></div>
+					</tab>
 
-				<div ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'json', onLoad: 'aceLoaded'}" ng-model="component.stylesStringified" ng-model-setter="component.styles = stringToData($value); generateCSS('{{component.name}}', component.styles);"></div>
+					<tab heading="i18n">
+						<div ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'json'}" ng-model="component.i18nStringified" ng-model-setter="component.i18n = stringToData($value);"></div>
+					</tab>
 
-				<div ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'json', onLoad: 'aceLoaded'}" ng-model="component.componentsStringified" ng-model-setter="component.components = stringToData($value);"></div>
+					<tab heading="Styles">
+						<div ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'json'}" ng-model="component.stylesStringified" ng-model-setter="component.styles = stringToData($value); generateCSS('{{component.name}}', component.styles);"></div>
+					</tab>
+
+					<tab heading="Components">
+						<div ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'json'}" ng-model="component.componentsStringified" ng-model-setter="component.components = stringToData($value);"></div>
+					</tab>
+				</tabset>
 
 				<a href="#" class="btn btn-primary">Submit</a>
 			</div>

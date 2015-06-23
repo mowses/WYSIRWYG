@@ -5,6 +5,7 @@
 
 angular.module('WYSIRWYG.modules.Editor.Raw', [
 	'WYSIRWYG.Components.Controllers',
+	'ui.bootstrap',
 	'ui.ace',
 	'ngModelUtils',
 	'Debug'
@@ -23,10 +24,6 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 
 	$scope.generateCSS = function(id, style) {
 		return generateCSS(id, style);
-	};
-
-	$scope.aceLoaded = function(_editor) {
-		console.log('-----------------------fooo ace loaded', _editor);
 	};
 
 	$scope.data = {
@@ -50,10 +47,10 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 		mergeReferences($scope.data.components);
 
 		$.each($scope.data.components, function(i, component) {
-			component.dataStringified = stringify(component.data) || '{}';
-			component.i18nStringified = stringify(component.i18n) || '{}';
-			component.stylesStringified = stringify(component.styles) || '{}';
-			component.componentsStringified = stringify(component.components) || '{}';
+			component.dataStringified = stringify(component.data, null, '\t') || '{}';
+			component.i18nStringified = stringify(component.i18n, null, '\t') || '{}';
+			component.stylesStringified = stringify(component.styles, null, '\t') || '{}';
+			component.componentsStringified = stringify(component.components, null, '\t') || '{}';
 			component.themes = getThemes(component);
 		});
 
