@@ -1,6 +1,49 @@
 <div ng-controller="RawEditorController" class="components-index">
 
-	<div ng-if="data.components" ng-cloak>
+	<ion-view view-title="ComponentsList">
+		
+		<div class="bar bar-header bar-positive">
+			<h1 class="title">Components</h1>
+		</div>
+
+		<ion-content class="has-header">
+			<ion-list ng-if="data.components" ng-cloak>
+				<ion-item ng-repeat="component in data.components" class="item-icon-right">
+					{{component.name}}
+					<i class="icon ion-chevron-right icon-accessory"></i>
+					<ion-option-button class="button-energized" ng-click="openEdition(component);">Edit</ion-option-button>
+				</ion-item>
+			</ion-list>
+		</ion-content>
+	</ion-view>
+
+
+
+  
+  	<ion-view view-title="ComponentsEdition" ng-show="editingComponent" ng-cloak>
+	    <div class="bar bar-header bar-energized">
+	        <ion-button class="button icon-left ion-chevron-left button-clear" ng-click="acceptChanges(false);">Cancel</ion-button>
+	  		<h1 class="title">Editing Component</h1>
+		</div>
+	    
+	    <ion-content class="has-header">
+			<form name="form" ng-model="form">
+				<ion-list>
+					  <li class="item item-input item-stacked-label">
+					  	<label class="input-label">Name</label>
+					    <input type="text" placeholder="Component Name" name="name" ng-model="editingComponent.name" required />					
+					  </li>
+					  
+					<ion-button class="button button-block button-positive" ng-click="acceptChanges(true);">Edit</ion-button>
+				</ion-list>
+			</form>
+	    </ion-content>
+	</ion-view>
+	
+	<!--<div>
+
+
+
 		
 		<div class="panel panel-default" ng-repeat="component in data.components">
 			<div class="panel-heading">
@@ -43,5 +86,5 @@
 			</div>
 		</div>
 		
-	</div>
+	</div>-->
 </div>

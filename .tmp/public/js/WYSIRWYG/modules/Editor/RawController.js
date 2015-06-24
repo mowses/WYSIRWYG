@@ -5,7 +5,7 @@
 
 angular.module('WYSIRWYG.modules.Editor.Raw', [
 	'WYSIRWYG.Components.Controllers',
-	'ui.bootstrap',
+	'ionic',
 	'ui.ace',
 	'ngModelUtils',
 	'Debug'
@@ -29,6 +29,23 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 	$scope.data = {
 		components: null
 	};
+
+	// component edition
+	$scope.editingComponent = null;
+	$scope.editingComponentOriginal = null;
+	$scope.openEdition = function(component) {
+		$scope.editingComponent = $.extend(true, {}, component);
+		$scope.editingComponentOriginal = component;
+	};
+
+	$scope.acceptChanges = function(accept) {
+		if (accept) {
+			$.extend($scope.editingComponentOriginal, $scope.editingComponent);
+		}
+
+		$scope.editingComponent = null;
+		$scope.editingComponentOriginal = null;
+	}
 
 	/*$scope.Component.watch(null, function(data) {
 			

@@ -16,10 +16,10 @@
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
   'styles/reset.css',
-  'styles/bootstrap/bootstrap.min.css',
-  'styles/bootstrap/bootstrap-theme.min.css',
   'js/libraries/jQuery.ui/jquery-ui.structure.min.css',
   'js/libraries/jQuery.ui/jquery-ui.theme.min.css',
+
+  'js/libraries/ionic/css/ionic.css',
 
   'styles/WYSIRWYG/main.css',
 
@@ -42,12 +42,11 @@ var jsFilesToInject = [
 
   'js/libraries/jQuery/jquery-2.1.1.js',
   'js/libraries/jQuery.ui/jquery-ui.js',
-  'js/libraries/angular/angular.js',
-  'js/libraries/ui-bootstrap/ui-bootstrap-0.13.0.min.js',
+  //'js/libraries/angular/angular.js',
+  'js/libraries/ionic/js/ionic.bundle.min.js',
   'js/libraries/Events/Events.js',
   'js/libraries/ObjDiff/ObjDiff.js',
   'js/libraries/ObserverCore/ObserverCore.js',
-  'js/libraries/bootstrap/bootstrap.min.js',
   'js/ngModelUtils.js',
   'js/libraries/JSS/jss.js',
   'js/libraries/jquery-ui.ruler-master/jqueryui-ruler/js/jquery.ui.ruler.js',

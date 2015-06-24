@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('WYSIRWYG.modules.Editor', [
-	'ui.bootstrap',
 	'WYSIRWYG.Grid',
 	'WYSIRWYG.Ruler',
 	'WYSIRWYG.EditableArea',
