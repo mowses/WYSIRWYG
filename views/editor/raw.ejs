@@ -40,15 +40,26 @@
 	    <ion-content class="has-header">
 			<form name="form" ng-model="form">
 				<ion-list>
-					  <li class="item item-input item-stacked-label">
-					  	<span class="input-label">Name</span>
-					    <input type="text" placeholder="Component Name" name="name" ng-model="editingComponent.name" required />					
-					  </li>
-					  
-					<ion-button class="button button-block button-positive" ng-click="acceptChanges(true);">Edit</ion-button>
+					<li class="item item-input item-stacked-label">
+						<span class="input-label">Name</span>
+						<input type="text" placeholder="Component Name" name="name" ng-model="editingComponent.name" required />					
+					</li>
 				</ion-list>
+
+				<div class="button-bar bar-calm">
+					<a class="button">HTML</a>
+					<a class="button">Data</a>
+					<a class="button">i18n</a>
+					<a class="button">Styles</a>
+					<a class="button">Components</a>
+				</div>
+
 			</form>
+
 	    </ion-content>
+		<div class="bar bar-footer bar-energized">
+			<ion-button class="button button-clear pull-right button-positive" ng-click="acceptChanges(true);">Edit</ion-button>
+		</div>
 	</ion-view>
 	
 	<!--<div>
