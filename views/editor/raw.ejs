@@ -7,12 +7,23 @@
 		</div>
 
 		<ion-content class="has-header">
-			<ion-list ng-if="data.components" ng-cloak>
-				<ion-item ng-repeat="component in data.components" class="item-icon-right">
-					{{component.name}}
-					<i class="icon ion-chevron-right icon-accessory"></i>
-					<ion-option-button class="button-energized" ng-click="openEdition(component);">Edit</ion-option-button>
+			<ion-list ng-if="data.components" ng-repeat="component in data.components" ng-init="component.selectedTheme = component.themes[0];" ng-cloak>
+				
+				<ion-item class="item-stable item-button-right" ng-click="toggleGroup(component)" ng-class="{active: isGroupShown(component)}">
+					<i class="icon" ng-class="isGroupShown(component) ? 'ion-minus' : 'ion-plus'"></i>
+					&nbsp;{{component.name}}
+					<button class="button button-energized" ng-click="openEdition(component);$event.stopPropagation();">Edit</button>
 				</ion-item>
+				<ion-item class="item-accordion" ng-show="isGroupShown(component)">
+
+					<div class="button-bar bar-calm">
+						<a class="button" ng-repeat="theme in component.themes" ng-bind="theme" ng-click="(component.selectedTheme === theme ? component.selectedTheme = null : component.selectedTheme = theme)" ng-class="{active: component.selectedTheme == theme}"></a>
+					</div>
+
+					<component data="component" id="{{component.name}}" ng-class="component.selectedTheme"></component>
+					
+				</ion-item>
+
 			</ion-list>
 		</ion-content>
 	</ion-view>
@@ -30,7 +41,7 @@
 			<form name="form" ng-model="form">
 				<ion-list>
 					  <li class="item item-input item-stacked-label">
-					  	<label class="input-label">Name</label>
+					  	<span class="input-label">Name</span>
 					    <input type="text" placeholder="Component Name" name="name" ng-model="editingComponent.name" required />					
 					  </li>
 					  

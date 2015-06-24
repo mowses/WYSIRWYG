@@ -1,25 +1,8 @@
-.components-index .panel-heading {
-	position: relative;
-}
+/*.components-index .item-accordion {
+	padding-top: 0px;
+}*/
 
-.components-index .preview {
-	float: right;
-	border: 2px solid grey;
-	width: 30%;
-	height: 200px;
-	overflow: auto;
-	position: relative;
-}
-
-.components-index .preview-theme {
-	top: 7px;
-	right: 30px;
-	position: absolute;
-}
-
-.components-index .ace_editor {
-	height: 200px;
-	width: 200px;
-	border: 1px solid #000000;
-	float: left;
+.components-index .item-accordion component {
+	display: block;
+	margin-top: 10px;
 }
