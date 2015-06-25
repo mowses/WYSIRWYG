@@ -1,4 +1,4 @@
-<div ng-controller="RawEditorController" class="components-index">
+<div ng-controller="RawEditorController" class="raw-editor">
 
 	<ion-view view-title="ComponentsList">
 		
@@ -31,13 +31,13 @@
 
 
   
-  	<ion-view view-title="ComponentsEdition" ng-show="editingComponent" ng-cloak>
+  	<ion-view class="component-edition" view-title="ComponentsEdition" ng-if="editingComponent" ng-show="editingComponent" ng-cloak>
 	    <div class="bar bar-header bar-energized">
 	        <ion-button class="button icon-left ion-chevron-left button-clear" ng-click="acceptChanges(false);">Cancel</ion-button>
 	  		<h1 class="title">Editing Component</h1>
 		</div>
 	    
-	    <ion-content class="has-header">
+	    <ion-content class="has-header" ng-init="section = 'preview';">
 			<form name="form" ng-model="form">
 				<ion-list>
 					<li class="item item-input item-stacked-label">
@@ -46,20 +46,49 @@
 					</li>
 				</ion-list>
 
-				<div class="button-bar bar-calm">
-					<a class="button">HTML</a>
-					<a class="button">Data</a>
-					<a class="button">i18n</a>
-					<a class="button">Styles</a>
-					<a class="button">Components</a>
+				<div class="sections button-bar bar-calm">
+					<a class="button" ng-class="{active: section === 'html'}" ng-click="section = 'html';">HTML</a>
+					<a class="button" ng-class="{active: section === 'data'}" ng-click="section = 'data';">Data</a>
+					<a class="button" ng-class="{active: section === 'i18n'}" ng-click="section = 'i18n';">i18n</a>
+					<a class="button" ng-class="{active: section === 'styles'}" ng-click="section = 'styles';">Styles</a>
+					<a class="button" ng-class="{active: section === 'components'}" ng-click="section = 'components';">Components</a>
+					<a class="button" ng-class="{active: section === 'preview'}" ng-click="section = 'preview';">Preview</a>
+				</div>
+
+				<div ng-show="section === 'html'">
+					<!-- <div class="editor" ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'html'}" ng-model="editingComponent.template"></div> -->
+				</div>
+
+				<div ng-show="section === 'data'">
+					data
+				</div>
+
+				<div ng-show="section === 'i18n'">
+					i18n
+				</div>
+
+				<div ng-show="section === 'styles'">
+					styles
+				</div>
+
+				<div ng-show="section === 'components'">
+					components
+				</div>
+
+				<div class="preview" ng-show="section === 'preview'">
+					<component id="{{editingComponent.name}}" ng-class="selectedTheme" language="" data="editingComponent"></component>
 				</div>
 
 			</form>
 
 	    </ion-content>
-		<div class="bar bar-footer bar-energized">
-			<ion-button class="button button-clear pull-right button-positive" ng-click="acceptChanges(true);">Edit</ion-button>
-		</div>
+
+		<ion-footer-bar class="bar-energized">
+			<div class="buttons pull-right">
+				<ion-button class="button button-positive" ng-click="acceptChanges(true);">OK</ion-button>
+			</div>
+		</ion-footer-bar>
+
 	</ion-view>
 	
 	<!--<div>

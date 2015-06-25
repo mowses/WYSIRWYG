@@ -2,7 +2,19 @@
 	padding-top: 0px;
 }*/
 
-.components-index .item-accordion component {
+.raw-editor .item-accordion component {
 	display: block;
 	margin-top: 10px;
+}
+
+.raw-editor .component-edition .editor {
+	width: 100%;
+	height: 300px;
+}
+
+.raw-editor .component-edition .sections > .button:first-child,
+.raw-editor .component-edition .sections > .button:last-child {
+	border-radius: 0px;
+	border-left: 0px;
+	border-right: 0px;
 }
