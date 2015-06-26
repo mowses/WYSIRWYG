@@ -7,25 +7,17 @@
 	margin-top: 10px;
 }
 
-.raw-editor .component-edition .preview-only .editor {
-	display: none;
-}
-
-.raw-editor .component-edition .preview-only .preview {
-	width: 100%;
-}
-
-.raw-editor .component-edition .editor,
-.raw-editor .component-edition .preview {
-	display: block;
-	float: left;
-	width: 50%;
-	height: 300px;
-}
-
-.raw-editor .component-edition .sections > .button:first-child,
-.raw-editor .component-edition .sections > .button:last-child {
+.raw-editor .component-edition .sections > .button:first-child {
 	border-radius: 0px;
 	border-left: 0px;
+}
+
+.raw-editor .component-edition .sections > .button:last-child {
+	border-radius: 0px;
 	border-right: 0px;
+}
+
+.raw-editor .component-edition .editor {
+	border: 1px solid #CCCCCC;
+	padding: 0px;
 }

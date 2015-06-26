@@ -55,12 +55,18 @@
 					<a class="button" ng-class="{active: section === 'preview'}" ng-click="section = 'preview';">Preview</a>
 				</div>
 
-				<div ng-class="{'preview-only': (section === 'preview')}">
-					<div class="editor" ng-mousedown="$event.stopPropagation();" ng-show="section !== 'preview'" ui-ace="{useWrapMode: false, showGutter: true, theme: 'monokai', mode: (section == 'template' ? 'html' : 'json')}" ng-model="editingComponent[section === 'template' ? 'template': section + 'Stringified']"></div>
+				<div class="row has-footer">
+					
+					<div class="col col-67 editor" ng-mousedown="$event.stopPropagation();" ng-show="section !== 'preview'" ui-ace="{useWrapMode: false, showGutter: true, theme: 'light', mode: (section == 'template' ? 'html' : 'json')}" ng-model="editingComponent[section === 'template' ? 'template': section + 'Stringified']" ng-model-setter="(section !== 'template' && section !== 'preview' ? editingComponent[section] = stringToData($value) : null)"></div>
 
-					<div class="preview">
-						<component id="{{editingComponent.name}}" ng-class="selectedTheme" language="" data="editingComponent"></component>
+					<div class="col">
+						<div class="button-bar bar-calm">
+							<a class="button" ng-repeat="theme in editingComponent.themes" ng-bind="theme" ng-click="(editingComponent.selectedTheme === theme ? editingComponent.selectedTheme = null : editingComponent.selectedTheme = theme)" ng-class="{active: editingComponent.selectedTheme == theme}"></a>
+						</div>
+
+						<component id="{{editingComponent.name}}" language="" data="editingComponent" ng-class="editingComponent.selectedTheme"></component>
 					</div>
+
 				</div>
 
 			</form>

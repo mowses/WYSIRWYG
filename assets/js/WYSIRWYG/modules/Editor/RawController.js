@@ -79,10 +79,10 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 		mergeReferences($scope.data.components);
 
 		$.each($scope.data.components, function(i, component) {
-			component.dataStringified = stringify(component.data, null, '\t') || '{}';
-			component.i18nStringified = stringify(component.i18n, null, '\t') || '{}';
-			component.stylesStringified = stringify(component.styles, null, '\t') || '{}';
-			component.componentsStringified = stringify(component.components, null, '\t') || '{}';
+			component.dataStringified = stringify(component.data, null, '\t') || '{\r\t\r}';
+			component.i18nStringified = stringify(component.i18n, null, '\t') || '{\r\t\r}';
+			component.stylesStringified = stringify(component.styles, null, '\t') || '{\r\t\r}';
+			component.componentsStringified = stringify(component.components, null, '\t') || '{\r\t\r}';
 			component.themes = getThemes(component);
 		});
 
