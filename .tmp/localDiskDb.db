@@ -3,7 +3,7 @@
     "components": [
       {
         "name": "ResultBox",
-        "template": "<div><i18n id=\"query\"></i18n></div> <hr /> <!--{{data.data.searchData}} <hr/> --> <table border=\"1\" style=\"float:left; margin-right: 10px;\" ng-repeat=\"(kind, type) in data.data.searchData\"><caption class=\"id-12345\">{{kind}}</caption><tr><th>Name</th><th>Type</th></tr><tr ng-repeat=\"(i, item) in type | filter:data.data.query \"><td>{{item.name}}</td><td>{{item.type}}</td></tr><tr><td colspan=\"2\"><i18n id=\"result\"></i18n></td></tr></table><br clear=\"all\" />",
+        "template": "<div>\r\t<i18n id=\"query\"></i18n>\r</div>\r<hr />\r<!--{{data.data.searchData}} <hr/> -->\r<table border=\"1\" style=\"float:left; margin-right: 10px;\" \r\tng-repeat=\"(kind, type) in data.data.searchData\">\r\t<caption class=\"id-12345\">{{kind}}</caption>\r\t<tr>\r\t\t<th>Name</th>\r\t\t<th>Type</th>\r\t</tr>\r\t<tr ng-repeat=\"(i, item) in type | filter:data.data.query \">\r\t\t<td>{{item.name}}</td>\r\t\t<td>{{item.type}}</td>\r\t</tr>\r\t<tr>\r\t\t<td colspan=\"2\">\r\t\t\t<i18n id=\"result\"></i18n>\r\t\t</td>\r\t</tr>\r</table>\r<br clear=\"all\" />",
         "data": {
           "query": "",
           "searchData": {
@@ -61,7 +61,7 @@
       },
       {
         "name": "Searcher",
-        "template": "<h1><i18n id=\"salutation\" language=\"pt-BR\"></h1> <h2><i18n id=\"introduction\" language=\"en-US\"></i18n></h2> <p><i18n id=\"description\"></i18n></p> <component id=\"Foolish\" data=\"data.components.Foolish\"></component>",
+        "template": "<h1><i18n id=\"salutation\" language=\"pt-BR\"></h1>\r<h2><i18n id=\"introduction\" language=\"en-US\"></i18n></h2>\r<p>\r\t<i18n id=\"description\"></i18n>\r</p>\r<component id=\"Foolish\" data=\"data.components.Foolish\"></component>",
         "data": {
           "name": "Moisés mosele"
         },

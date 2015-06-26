@@ -47,7 +47,7 @@
 				</ion-list>
 
 				<div class="sections button-bar bar-calm">
-					<a class="button" ng-class="{active: section === 'html'}" ng-click="section = 'html';">HTML</a>
+					<a class="button" ng-class="{active: section === 'template'}" ng-click="section = 'template';">HTML</a>
 					<a class="button" ng-class="{active: section === 'data'}" ng-click="section = 'data';">Data</a>
 					<a class="button" ng-class="{active: section === 'i18n'}" ng-click="section = 'i18n';">i18n</a>
 					<a class="button" ng-class="{active: section === 'styles'}" ng-click="section = 'styles';">Styles</a>
@@ -55,8 +55,10 @@
 					<a class="button" ng-class="{active: section === 'preview'}" ng-click="section = 'preview';">Preview</a>
 				</div>
 
-				<div ng-show="section === 'html'">
-					<!-- <div class="editor" ui-ace="{useWrapMode: false, showGutter: true, theme: 'twilight', mode: 'html'}" ng-model="editingComponent.template"></div> -->
+				<div ng-mousedown="$event.stopPropagation();" ng-show="section != 'preview'" class="editor" ui-ace="{useWrapMode: false, showGutter: true, theme: 'monokai', mode: (section == 'template' ? 'html' : 'json')}" ng-model="editingComponent[section === 'template' ? 'template': section + 'Stringified']"></div>
+
+				<div ng-show="section === 'template'">
+					
 				</div>
 
 				<div ng-show="section === 'data'">
