@@ -55,30 +55,12 @@
 					<a class="button" ng-class="{active: section === 'preview'}" ng-click="section = 'preview';">Preview</a>
 				</div>
 
-				<div ng-mousedown="$event.stopPropagation();" ng-show="section != 'preview'" class="editor" ui-ace="{useWrapMode: false, showGutter: true, theme: 'monokai', mode: (section == 'template' ? 'html' : 'json')}" ng-model="editingComponent[section === 'template' ? 'template': section + 'Stringified']"></div>
+				<div ng-class="{'preview-only': (section === 'preview')}">
+					<div class="editor" ng-mousedown="$event.stopPropagation();" ng-show="section !== 'preview'" ui-ace="{useWrapMode: false, showGutter: true, theme: 'monokai', mode: (section == 'template' ? 'html' : 'json')}" ng-model="editingComponent[section === 'template' ? 'template': section + 'Stringified']"></div>
 
-				<div ng-show="section === 'template'">
-					
-				</div>
-
-				<div ng-show="section === 'data'">
-					data
-				</div>
-
-				<div ng-show="section === 'i18n'">
-					i18n
-				</div>
-
-				<div ng-show="section === 'styles'">
-					styles
-				</div>
-
-				<div ng-show="section === 'components'">
-					components
-				</div>
-
-				<div class="preview" ng-show="section === 'preview'">
-					<component id="{{editingComponent.name}}" ng-class="selectedTheme" language="" data="editingComponent"></component>
+					<div class="preview">
+						<component id="{{editingComponent.name}}" ng-class="selectedTheme" language="" data="editingComponent"></component>
+					</div>
 				</div>
 
 			</form>

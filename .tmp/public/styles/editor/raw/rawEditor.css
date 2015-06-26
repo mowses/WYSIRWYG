@@ -7,8 +7,19 @@
 	margin-top: 10px;
 }
 
-.raw-editor .component-edition .editor {
+.raw-editor .component-edition .preview-only .editor {
+	display: none;
+}
+
+.raw-editor .component-edition .preview-only .preview {
 	width: 100%;
+}
+
+.raw-editor .component-edition .editor,
+.raw-editor .component-edition .preview {
+	display: block;
+	float: left;
+	width: 50%;
 	height: 300px;
 }
 
