@@ -1,0 +1,83 @@
+<div ng-controller="RawEditorController" class="raw-editor">
+
+	<ion-view class="components-list" view-title="ComponentsList">
+		
+		<div class="bar bar-header bar-positive">
+			<!-- <ion-button class="button icon ion-navicon button-calm" ng-click=""></ion-button> -->
+			<h1 class="title">Components</h1>
+			<ion-button class="button button-calm" ng-click="newComponent();">New</ion-button>
+		</div>
+
+		<ion-content class="has-header">
+			<ion-list ng-if="data.components" ng-repeat="component in data.components" ng-init="component.selectedTheme = component.themes[0];" ng-cloak>
+				
+				<ion-item class="item-stable item-button-right" ng-click="toggleGroup(component);" on-hold="openActionSheet(component);" ng-class="{active: isGroupShown(component)}">
+					<i class="icon" ng-class="isGroupShown(component) ? 'ion-minus' : 'ion-plus'"></i>
+					&nbsp;{{component.name}}
+					<button class="button button-energized" ng-click="openEdition(component);$event.stopPropagation();">Edit</button>
+				</ion-item>
+				<ion-item class="item-accordion" ng-show="isGroupShown(component)">
+
+					<div class="button-bar">
+						<a class="button button-calm" ng-repeat="theme in component.themes" ng-bind="theme" ng-click="(component.selectedTheme === theme ? component.selectedTheme = null : component.selectedTheme = theme)" ng-class="{active: component.selectedTheme == theme}"></a>
+					</div>
+
+					<component data="component" id="{{component.name}}" ng-class="component.selectedTheme" style="position: relative; top: auto; left: auto; right: auto; bottom: auto;"></component>
+					
+				</ion-item>
+
+			</ion-list>
+		</ion-content>
+	</ion-view>
+
+
+
+  
+  	<ion-view class="component-edition" view-title="ComponentsEdition" ng-if="editingComponent" ng-cloak>
+	    <div class="bar bar-header bar-energized">
+	        <ion-button class="button icon-left ion-chevron-left button-clear" ng-click="acceptChanges(false);">Cancel</ion-button>
+	  		<h1 class="title" ng-bind="::(editingComponent.new ? 'New Component' : 'Editing Component ' + editingComponent.name)"></h1>
+		</div>
+	    
+	    <ion-content class="has-header" ng-init="section = (editingComponent.new ? 'template' : 'preview');">
+			<form name="form" ng-model="form">
+				<ion-list>
+					<li class="item item-input item-stacked-label">
+						<span class="input-label">Name</span>
+						<input type="text" placeholder="Component Name" name="name" ng-model="editingComponent.name" required />					
+					</li>
+				</ion-list>
+
+				<div class="sections button-bar">
+					<a class="button button-calm" ng-class="{active: section === 'template'}" ng-click="section = 'template';">HTML</a>
+					<a class="button button-calm" ng-class="{active: section === 'data'}" ng-click="section = 'data';">Data</a>
+					<a class="button button-calm" ng-class="{active: section === 'i18n'}" ng-click="section = 'i18n';">i18n</a>
+					<a class="button button-calm" ng-class="{active: section === 'styles'}" ng-click="section = 'styles';">Styles</a>
+					<a class="button button-calm" ng-class="{active: section === 'components'}" ng-click="section = 'components';">Components</a>
+					<a class="button button-calm" ng-class="{active: section === 'preview'}" ng-click="section = 'preview';">Preview</a>
+				</div>
+
+				<div class="row has-footer">
+					
+					<div class="col col-67 editor" ng-mousedown="$event.stopPropagation();" ng-show="section !== 'preview'" ui-ace="{useWrapMode: false, showGutter: true, mode: (section == 'template' ? 'html' : 'json')}" ng-model="editingComponent[section === 'template' ? 'template': section + 'Stringified']" ng-model-setter="(section !== 'template' && section !== 'preview' ? editingComponent[section] = stringToData($value) : null)"></div>
+
+					<div class="col">
+						<div class="button-bar bar-calm">
+							<a class="button" ng-repeat="theme in editingComponent.themes" ng-bind="theme" ng-click="(editingComponent.selectedTheme === theme ? editingComponent.selectedTheme = null : editingComponent.selectedTheme = theme)" ng-class="{active: editingComponent.selectedTheme == theme}"></a>
+						</div>
+
+						<component id="{{editingComponent.name}}" language="" data="editingComponent" ng-class="editingComponent.selectedTheme" style="position: relative; top: auto; left: auto; right: auto; bottom: auto;"></component>
+					</div>
+				</div>
+			</form>
+
+	    </ion-content>
+
+		<ion-footer-bar class="bar-energized">
+			<div class="buttons pull-right">
+				<ion-button class="button button-positive" ng-click="acceptChanges(true);">OK</ion-button>
+			</div>
+		</ion-footer-bar>
+	</ion-view>
+	
+</div>

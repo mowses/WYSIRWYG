@@ -32,28 +32,38 @@ module.exports.routes = {
      *                                                                          *
      ***************************************************************************/
 
-    '/': {
+    'GET /': {
         view: 'app'
     },
 
-    '/editor': {
+    'GET /editor': {
         controller: 'Editor',
         action: 'index'
     },
 
-    '/editor/raw': {
-        controller: 'Editor',
-        action: 'raw'
+    'GET /editor/raw': {
+        controller: 'RawEditor',
+        action: 'index'
     },
 
-    '/components': {
+    'GET /components': {
         controller: 'Components',
         action: 'index'
     },
 
-    '/components/get': {
+    'DELETE /components': {
+        controller: 'Components',
+        action: 'delete'
+    },
+
+    'GET /components/get': {
         controller: 'Components',
         action: 'get'
+    },
+
+    'POST /components': {
+        controller: 'Components',
+        action: 'create'
     }
 
     /***************************************************************************

@@ -29,5 +29,29 @@ module.exports = {
 
 				return res.json(data);
 			});
+	},
+
+	create: function(req, res, next) {
+		Components.create(
+			req.param('component')
+		).exec(function(err, component) {
+
+			if (err) return res.badRequest(err);
+
+			res.ok(component);
+		});
+	},
+
+	delete: function(req, res, next) {
+		var components = req.param('components');
+
+		Components.destroy({
+			name: components
+		}).exec(function(err, component) {
+
+			if (err) return res.badRequest(err);
+
+			res.ok();
+		});
 	}
 };

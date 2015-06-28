@@ -10,9 +10,60 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 	'ngModelUtils',
 	'Debug'
 ])
-.controller('RawEditorController', ['$scope', 'getComponents', 'generateCSS', 'mergeReferences', 'getThemes', function($scope, getComponents, generateCSS, mergeReferences, getThemes) {
+.controller('RawEditorController', ['$scope', 'getComponents', 'generateCSS', 'mergeReferences', 'getThemes', '$http', '$ionicActionSheet', function($scope, getComponents, generateCSS, mergeReferences, getThemes, $http, $ionicActionSheet) {
 	var stringify = JSON.stringify,
 		deleteProperties = delete_properties;
+
+	$scope.newComponent = function() {
+		$scope.openEdition({
+			new: true,
+			name: null,
+			template: 'your HTML here',
+			data: {},
+			i18n: {},
+			styles: {},
+			components: {},
+			dataStringified: '{\r\t\r}',
+			i18nStringified: '{\r\t\r}',
+			stylesStringified: '{\r\t\r}',
+			componentsStringified: '{\r\t\r}'
+		});
+	};
+
+	$scope.openActionSheet = function(component) {
+		$ionicActionSheet.show({
+			titleText: 'Actions for ' + component.name,
+			buttons: [
+				//{ text: '<i class="icon ion-arrow-move"></i> Move' },
+			],
+			destructiveText: 'Delete',
+			cancelText: 'Cancel',
+			cancel: function() {
+				console.log('CANCELLED');
+			},
+			/*buttonClicked: function(index) {
+				console.log('BUTTON CLICKED', index);
+				return true;
+			},*/
+			destructiveButtonClicked: function() {
+				$http({
+					method: 'DELETE',
+					url: '/components',
+					data: {
+						components: component.name
+					}
+				})
+				.success(function() {
+					
+				})
+				.error(function() {
+
+				});
+
+				return true;
+			}
+		});
+	};
 
 	$scope.stringToData = function(str) {
 		if ($.type(str) != 'string') return {};
@@ -32,10 +83,8 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 
 	// component edition
 	$scope.editingComponent = null;
-	$scope.editingComponentOriginal = null;
 	$scope.openEdition = function(component) {
 		$scope.editingComponent = $.extend(true, {}, component);
-		$scope.editingComponentOriginal = component;
 	};
 
 	/*
@@ -47,6 +96,9 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 			$scope.shownGroup = null;
 		} else {
 			$scope.shownGroup = group;
+
+			// generate css for selected group
+			generateCSS(group.name, group.styles);
 		}
 	};
 	$scope.isGroupShown = function(group) {
@@ -54,12 +106,24 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 	};
 
 	$scope.acceptChanges = function(accept) {
-		if (accept) {
-			$.extend($scope.editingComponentOriginal, $scope.editingComponent);
+		if (!accept) {
+			$scope.editingComponent = null;
+			return;
 		}
 
-		$scope.editingComponent = null;
-		$scope.editingComponentOriginal = null;
+		$http({
+			method: ($scope.editingComponent.new ? 'POST' : 'PUT'),
+			url: '/components',
+			data: {
+				component: $scope.editingComponent
+			}
+		})
+		.success(function() {
+			$scope.editingComponent = null;
+		})
+		.error(function() {
+
+		});
 	}
 
 	/*$scope.Component.watch(null, function(data) {
@@ -74,7 +138,7 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 			});
 		});*/
 
-	getComponents(['ResultBox', 'Searcher'], function(data) {
+	getComponents(function(data) {
 		$scope.data.components = data;
 		mergeReferences($scope.data.components);
 

@@ -2,7 +2,7 @@
 	padding-top: 0px;
 }*/
 
-.raw-editor .item-accordion component {
+.raw-editor component {
 	display: block;
 	margin-top: 10px;
 }
@@ -20,4 +20,13 @@
 .raw-editor .component-edition .editor {
 	border: 1px solid #CCCCCC;
 	padding: 0px;
+}
+
+.raw-editor .component-edition .row {
+	min-height: 250px;
+}
+
+.raw-editor .components-list .preview {
+	overflow: visible;
+	position: relative;
 }

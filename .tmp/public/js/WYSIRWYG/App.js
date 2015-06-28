@@ -5,7 +5,7 @@ angular.module('WYSIRWYG', [
     'WYSIRWYG.modules.Editor.Raw'
 ])
 
-.factory('getComponents', function() {
+.factory('findComponents', function() {
 
     return function(components, callback) {
         components = $.makeArray(components);
@@ -13,6 +13,15 @@ angular.module('WYSIRWYG', [
         $.get('/components/get', {
             components: components
         }, function(data) {
+            callback ? callback(data) : null;
+        });
+    }
+})
+
+.factory('getComponents', function() {
+
+    return function(callback) {
+        $.get('/components', function(data) {
             callback ? callback(data) : null;
         });
     }
@@ -305,7 +314,7 @@ angular.module('WYSIRWYG', [
     return function getThemes(component) {
         var themes = [];
 
-        $.each(component.styles, function(k) {
+        $.each(component.styles || [], function(k) {
             if (k.substr(0, 2) != '&.') return;
 
             var theme_name = k.substr(2);

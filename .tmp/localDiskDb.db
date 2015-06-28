@@ -37,19 +37,16 @@
             "right": "100px",
             "bottom": "10px",
             "left": "100px",
-
             ".id-12345": {
               "background": "red",
               "color": "green"
             }
           },
-
           "&.theme-algo": {
             "background": "blue",
             "position": "relative",
             "width": "200px",
             "color": "black",
-            
             ".id-12345": {
               "background": "green",
               "color": "black"
@@ -189,15 +186,12 @@
         "styles": {
           "&.theme-default": {
             "position": "absolute",
-
             "input": {
               "background": "crimson"
             }
           },
-
           "&.theme-1": {
             "background": "yellow",
-
             "input": {
               "background": "pink",
               "border": "3px dashed grey",
