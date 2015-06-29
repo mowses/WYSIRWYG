@@ -45,10 +45,10 @@
 	    <ion-content class="has-header" ng-init="section = (editingComponent.new ? 'template' : 'preview');">
 			<form name="form" ng-model="form">
 				<ion-list>
-					<li class="item item-input item-stacked-label">
+					<label class="item item-input item-stacked-label">
 						<span class="input-label">Name</span>
-						<input type="text" placeholder="Component Name" name="name" ng-model="editingComponent.name" required />					
-					</li>
+						<input type="text" placeholder="Component Name" name="name" ng-model="editingComponent.name" required />
+					</label>
 				</ion-list>
 
 				<div class="sections button-bar">

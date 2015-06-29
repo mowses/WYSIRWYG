@@ -28,6 +28,11 @@ module.exports = {
 			required: false
 		},
 
+		styles: {
+			type: 'json',
+			required: false
+		},
+
 		i18n: {
 			type: 'json',
 			required: true

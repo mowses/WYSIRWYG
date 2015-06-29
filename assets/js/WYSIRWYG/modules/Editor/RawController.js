@@ -46,7 +46,7 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 					method: 'DELETE',
 					url: '/components',
 					data: {
-						components: component.name
+						ids: [component.id]
 					}
 				})
 				.success(function() {
@@ -110,6 +110,7 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 		var component = $scope.editingComponent;
 		if (!component || !styles) return;
 
+		component.themes = getThemes(component);
 		$scope.generateCSS('editing-component', styles);
 	}, true);
 
@@ -147,8 +148,8 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 		.success(function() {
 			$scope.editingComponent = null;
 		})
-		.error(function() {
-
+		.error(function(data) {
+			console.log('foo errorr', data);
 		});
 	}
 

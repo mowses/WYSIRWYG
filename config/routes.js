@@ -46,25 +46,30 @@ module.exports.routes = {
         action: 'index'
     },
 
+    'GET /components/get': {
+        controller: 'Components',
+        action: 'get'
+    },
+
     'GET /components': {
         controller: 'Components',
         action: 'index'
+    },
+
+    'POST /components': {
+        controller: 'Components',
+        action: 'create'
+    },
+
+    'PUT /components': {
+        controller: 'Components',
+        action: 'update'
     },
 
     'DELETE /components': {
         controller: 'Components',
         action: 'delete'
     },
-
-    'GET /components/get': {
-        controller: 'Components',
-        action: 'get'
-    },
-
-    'POST /components': {
-        controller: 'Components',
-        action: 'create'
-    }
 
     /***************************************************************************
      *                                                                          *

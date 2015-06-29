@@ -42,13 +42,32 @@ module.exports = {
 		});
 	},
 
+	update: function(req, res, next) {
+		var component = req.param('component');
+
+		Components.update({
+			id: component.id
+		}, component
+		).exec(function(err, component) {
+			if (err) return res.badRequest(err);
+
+			res.ok(component);
+		});
+	},
+
 	delete: function(req, res, next) {
-		var components = req.param('components');
+		var $ = sails.config.globals.jQuery,
+			ids = [];
 
-		Components.destroy({
-			name: components
-		}).exec(function(err, component) {
+		$.each(req.param('ids'), function(i, id) {
+			ids.push({
+				id: id
+			});
+		});
+		
+		if (!ids.length) return res.badRequest();
 
+		Components.destroy(ids).exec(function(err, component) {
 			if (err) return res.badRequest(err);
 
 			res.ok();
