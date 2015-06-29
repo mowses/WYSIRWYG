@@ -10,7 +10,7 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 	'ngModelUtils',
 	'Debug'
 ])
-.controller('RawEditorController', ['$scope', 'getComponents', 'generateCSS', 'mergeReferences', 'getThemes', '$http', '$ionicActionSheet', function($scope, getComponents, generateCSS, mergeReferences, getThemes, $http, $ionicActionSheet) {
+.controller('RawEditorController', ['$scope', 'getComponents', 'generateCSS', 'mergeReferences', 'getThemes', '$http', '$ionicActionSheet', '$ionicPopup', function($scope, getComponents, generateCSS, mergeReferences, getThemes, $http, $ionicActionSheet, $ionicPopup) {
 	var stringify = JSON.stringify,
 		deleteProperties = delete_properties;
 
@@ -30,22 +30,18 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 		});
 	};
 
-	$scope.openActionSheet = function(component) {
-		$ionicActionSheet.show({
-			titleText: 'Actions for ' + component.name,
-			buttons: [
-				//{ text: '<i class="icon ion-arrow-move"></i> Move' },
-			],
-			destructiveText: 'Delete',
-			cancelText: 'Cancel',
-			cancel: function() {
-				console.log('CANCELLED');
-			},
-			/*buttonClicked: function(index) {
-				console.log('BUTTON CLICKED', index);
-				return true;
-			},*/
-			destructiveButtonClicked: function() {
+	/**
+	 * show delete confirmation
+	 */
+	$scope.showDeleteConfirmation = function(component) {
+		var confirmPopup = $ionicPopup.confirm({
+			title: 'Delete confirmation',
+			template: 'Are you sure you want to delete <strong>' + component.name + '</strong>?',
+			okType: 'button-assertive',
+		});
+	
+		confirmPopup.then(function(res) {
+			if(res) {
 				$http({
 					method: 'DELETE',
 					url: '/components',
@@ -59,7 +55,29 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 				.error(function() {
 
 				});
+			} else {
+				
+			}
+		});
+	};
 
+	$scope.openActionSheet = function(component) {
+		$ionicActionSheet.show({
+			titleText: 'Actions for ' + component.name,
+			buttons: [
+				//{ text: '<i class="icon ion-arrow-move"></i> Move' },
+			],
+			destructiveText: 'Delete',
+			cancelText: 'Cancel',
+			cancel: function() {
+				//console.log('CANCELLED');
+			},
+			/*buttonClicked: function(index) {
+				console.log('BUTTON CLICKED', index);
+				return true;
+			},*/
+			destructiveButtonClicked: function() {
+				$scope.showDeleteConfirmation(component);
 				return true;
 			}
 		});
@@ -86,6 +104,14 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 	$scope.openEdition = function(component) {
 		$scope.editingComponent = $.extend(true, {}, component);
 	};
+
+	// keep editingComponent styles always updated
+	$scope.$watch('editingComponent.styles', function(styles) {
+		var component = $scope.editingComponent;
+		if (!component || !styles) return;
+
+		$scope.generateCSS('editing-component', styles);
+	}, true);
 
 	/*
 	 * if given group is the selected group, deselect it
