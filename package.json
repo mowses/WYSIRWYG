@@ -22,11 +22,14 @@
     "rc": "~0.5.0",
     "sails": "~0.11.0",
     "sails-disk": "~0.10.0",
-    "sails-mongo": "^0.11.2"
+    "sails-postgresql": "^0.10.15"
   },
   "scripts": {
-    "start": "node app.js",
-    "debug": "node debug app.js"
+    "start": "sails lift",
+    "start-verbose": "sails lift --verbose",
+    "install-postgres": "sudo apt-get update && sudo apt-get install postgresql postgresql-contrib",
+    "config-postgres": "sudo adduser wysirwyg && createuser --interactive && createdb wysirwyg",
+    "install-pgadmin": "sudo apt-get install pgadmin3"
   },
   "main": "app.js",
   "repository": {

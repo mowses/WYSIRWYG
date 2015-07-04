@@ -17,7 +17,7 @@ module.exports.models = {
      * connections (see `config/connections.js`)                                *
      *                                                                          *
      ***************************************************************************/
-    connection: 'myMongodbServer',
+    connection: 'postgres',
     /**
      * A flag to toggle schemaless or schema mode in databases that support
      * schemaless data structures. If turned off, this will allow you to store

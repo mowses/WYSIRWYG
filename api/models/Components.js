@@ -6,14 +6,11 @@
  */
 
 module.exports = {
-	autoPK: false,
+	autoPK: true,
 	attributes: {
 		name: {
 			type: 'string',
 			required: true,
-			unique: true,
-			primaryKey: true,
-			alphanumeric: true,
 			minLength: 5,
 			maxLength: 255
 		},
