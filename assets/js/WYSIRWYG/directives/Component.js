@@ -3,6 +3,17 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 .directive('component', ['$compile', '$interpolate', 'getParentLanguage', function($compile, $interpolate, getParentLanguage) {
 	'use strict';
 
+	/**
+	 * get available language based on attrs.language and scope.data.i18n
+	 * do not update/change attrs.language, otherwise it may trigger getAvailableLanguage twice
+	 */
+	function getAvailableLanguage(scope, attrs) {
+		var language = attrs.language || getParentLanguage(scope.$parent);
+		language = scope.data.i18n[language] ? language : Object.keys(scope.data.i18n)[0];
+
+		return language;
+	}
+
 	return {
 		restrict: 'E',
 		transclude: false,
@@ -11,13 +22,24 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 			var controller_name = attrs.controllerName || ($scope.data.name + 'Controller'),
 				controller_name = $interpolate(controller_name)($scope);
 
-			return $controller(controller_name, {
+			$scope.language = getAvailableLanguage($scope, attrs);
+			attrs.$observe('language', function() {
+				$scope.language = getAvailableLanguage($scope, attrs);
+				$scope.$broadcast('parentChangedLanguage');
+			});
+
+			$scope.$on('parentChangedLanguage', function() {
+				$scope.language = getAvailableLanguage($scope, attrs);
+			});
+
+
+			/*return $controller(controller_name, {
 				$scope: {
 					id: $scope.id,
 					language: $scope.language,
 					data: $scope.data
 				}
-			});
+			});*/
 		}],
 		controllerAs: 'controller',
 		name: 'controllerName',
@@ -31,8 +53,7 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 		compile: function($element, attrs) {
 			return {
 				pre: function(scope, $element, attrs) {
-					attrs.language = attrs.language || getParentLanguage(scope.$parent);
-					attrs.language = scope.data.i18n[attrs.language] ? attrs.language : Object.keys(scope.data.i18n)[0];
+					
 				},
 
 				post: function(scope, $element, attrs) {

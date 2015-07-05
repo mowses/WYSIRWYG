@@ -10,23 +10,26 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 	'ngModelUtils',
 	'Debug'
 ])
-.controller('RawEditorController', ['$scope', 'getComponents', 'generateCSS', 'mergeReferences', 'getThemes', '$http', '$ionicActionSheet', '$ionicPopup', function($scope, getComponents, generateCSS, mergeReferences, getThemes, $http, $ionicActionSheet, $ionicPopup) {
+.controller('RawEditorController', ['$scope', '$timeout', 'getComponents', 'generateCSS', 'mergeReferences', 'getThemes', 'getLanguages', '$http', '$ionicActionSheet', '$ionicPopup', function($scope, $timeout, getComponents, generateCSS, mergeReferences, getThemes, getLanguages, $http, $ionicActionSheet, $ionicPopup) {
 	var stringify = JSON.stringify,
 		deleteProperties = delete_properties;
 
 	$scope.newComponent = function() {
 		$scope.openEdition({
-			new: true,
+			id: null,
 			name: null,
 			template: 'your HTML here',
 			data: {},
 			i18n: {},
 			styles: {},
 			components: {},
-			dataStringified: '{\r\t\r}',
-			i18nStringified: '{\r\t\r}',
-			stylesStringified: '{\r\t\r}',
-			componentsStringified: '{\r\t\r}'
+			stringified: {
+				template: 'your HTML here',
+				data: '{\r\t\r}',
+				i18n: '{\r\t\r}',
+				styles: '{\r\t\r}',
+				components: '{\r\t\r}'
+			}
 		});
 	};
 
@@ -102,7 +105,15 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 	// component edition
 	$scope.editingComponent = null;
 	$scope.openEdition = function(component) {
-		$scope.editingComponent = $.extend(true, {}, component);
+		$scope.editingComponent = $.extend(true, {
+			stringified: {
+				template: component.template,
+				data: stringify(component.data, null, '\t') || '{\r\t\r}',
+				i18n: stringify(component.i18n, null, '\t') || '{\r\t\r}',
+				styles: stringify(component.styles, null, '\t') || '{\r\t\r}',
+				components: stringify(component.components, null, '\t') || '{\r\t\r}'
+			}
+		}, component);
 	};
 
 	// keep editingComponent styles always updated
@@ -114,6 +125,14 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 		$scope.generateCSS('editing-component', styles);
 	}, true);
 
+	// keep editingComponent styles always updated
+	$scope.$watch('editingComponent.i18n', function(i18n) {
+		var component = $scope.editingComponent;
+		if (!component || !i18n) return;
+
+		component.languages = getLanguages(component);
+	}, true);
+
 	/*
 	 * if given group is the selected group, deselect it
 	 * else, select the given group
@@ -123,9 +142,6 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 			$scope.shownGroup = null;
 		} else {
 			$scope.shownGroup = group;
-
-			// generate css for selected group
-			generateCSS(group.name, group.styles);
 		}
 	};
 	$scope.isGroupShown = function(group) {
@@ -138,11 +154,21 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 			return;
 		}
 
+		var component = $scope.editingComponent;
+
 		$http({
-			method: ($scope.editingComponent.new ? 'POST' : 'PUT'),
+			method: ($scope.editingComponent.id === null ? 'POST' : 'PUT'),
 			url: '/components',
 			data: {
-				component: $scope.editingComponent
+				component: {
+					id: component.id,
+					name: component.name,
+					template: component.template,
+					data: component.data,
+					i18n: component.i18n,
+					styles: component.styles,
+					components: component.components
+				}
 			}
 		})
 		.success(function() {
@@ -151,30 +177,46 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 		.error(function(data) {
 			console.log('foo errorr', data);
 		});
-	}
+	};
 
-	/*$scope.Component.watch(null, function(data) {
-			
-		})
-		.watch(null, function(data) {
-			$.each(data.deleted || [], function(k) {
-				generateCSS(k, null);
-			});
-			$.each(data.new || [], function(k, data) {
-				generateCSS(k, data.styles);
-			});
-		});*/
+	/**
+	 * apply changes to editing component based on section
+	 * called from views/raweditor/index.ejs
+	 */
+	$scope.applyChanges = (function() {
+		var last_timeout;
+
+		return function($value, section, delay) {
+			$timeout.cancel(last_timeout);
+
+			last_timeout = $timeout(function() {
+				switch(section) {
+					case 'preview':
+						return;
+
+					case 'template':
+						$scope.editingComponent.template = $value;
+						return;
+
+					default:
+						$scope.editingComponent[section] = $scope.stringToData($value);
+				}
+			}, delay);
+		}
+	})();
 
 	getComponents(function(data) {
 		$scope.data.components = data;
 		mergeReferences($scope.data.components);
 
 		$.each($scope.data.components, function(i, component) {
-			component.dataStringified = stringify(component.data, null, '\t') || '{\r\t\r}';
-			component.i18nStringified = stringify(component.i18n, null, '\t') || '{\r\t\r}';
-			component.stylesStringified = stringify(component.styles, null, '\t') || '{\r\t\r}';
-			component.componentsStringified = stringify(component.components, null, '\t') || '{\r\t\r}';
 			component.themes = getThemes(component);
+			component.languages = getLanguages(component);
+
+			// generate css for all components
+			// should generate all CSSs at once because a component can use subcomponents
+			// which uses his own theme, and it should be already generated
+			generateCSS('component-' + component.id, component.styles);
 		});
 
 		$scope.$apply();

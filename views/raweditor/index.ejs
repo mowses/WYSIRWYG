@@ -9,7 +9,7 @@
 		</div>
 
 		<ion-content class="has-header">
-			<ion-list ng-if="data.components" ng-repeat="component in data.components" ng-init="component.selectedTheme = component.themes[0];" ng-cloak>
+			<ion-list ng-if="data.components" ng-repeat="component in data.components" ng-init="component.selectedTheme = component.themes[0]; component.selectedLanguage = component.languages[0];" ng-cloak>
 				
 				<ion-item class="item-stable item-button-right" ng-click="toggleGroup(component);" on-hold="openActionSheet(component);" ng-class="{active: isGroupShown(component)}">
 					<i class="icon icon-small" ng-class="isGroupShown(component) ? 'ion-minus' : 'ion-plus'"></i>
@@ -25,7 +25,13 @@
 						</select>
 					</label>
 
-					<component data="component" id="{{component.name}}" ng-class="component.selectedTheme" style="position: relative; top: auto; left: auto; right: auto; bottom: auto;"></component>
+					<label class="item item-input item-select item-stable">
+						<div class="input-label">Language</div>
+						<select ng-options="language as language for language in component.languages" ng-model="component.selectedLanguage">
+						</select>
+					</label>
+
+					<component data="component" language="{{component.selectedLanguage}}" id="component-{{component.id}}" controller-name="nullController" ng-class="component.selectedTheme" style="position: relative; top: auto; left: auto; right: auto; bottom: auto;"></component>
 					
 				</ion-item>
 
@@ -39,10 +45,10 @@
   	<ion-view class="component-edition" view-title="ComponentsEdition" ng-if="editingComponent" ng-cloak>
 	    <div class="bar bar-header bar-energized">
 	        <ion-button class="button icon-left ion-chevron-left" ng-click="acceptChanges(false);">&nbsp;Cancel</ion-button>
-	  		<h1 class="title" ng-bind="::(editingComponent.new ? 'New Component' : 'Editing Component ' + editingComponent.name)"></h1>
+	  		<h1 class="title" ng-bind="::(editingComponent.id === null ? 'New Component' : 'Editing Component ' + editingComponent.name)"></h1>
 		</div>
 	    
-	    <ion-content class="has-header" ng-init="section = (editingComponent.new ? 'template' : 'preview');">
+	    <ion-content class="has-header" ng-init="section = (editingComponent.id === null ? 'template' : 'preview');">
 			<form name="form" ng-model="form">
 				<ion-list>
 					<label class="item item-input item-stacked-label">
@@ -62,7 +68,7 @@
 
 				<div class="row has-footer">
 					
-					<div class="col col-67 editor" ng-mousedown="$event.stopPropagation();" ng-show="section !== 'preview'" ui-ace="{useWrapMode: false, showGutter: true, mode: (section == 'template' ? 'html' : 'json')}" ng-model="editingComponent[section === 'template' ? 'template': section + 'Stringified']" ng-model-setter="(section !== 'template' && section !== 'preview' ? editingComponent[section] = stringToData($value) : null)"></div>
+					<div class="col col-67 editor" ng-mousedown="$event.stopPropagation();" ng-show="section !== 'preview'" ui-ace="{useWrapMode: false, showGutter: true, mode: (section == 'template' ? 'html' : 'json')}" ng-model="editingComponent.stringified[section]" ng-model-setter="applyChanges($value, section, 300);"></div>
 
 					<div class="col">
 						<label class="item item-input item-select item-stable">
@@ -71,11 +77,17 @@
 								<option value="">--no theme--</option>
 							</select>
 						</label>
+
+						<label class="item item-input item-select item-stable">
+							<div class="input-label">Language</div>
+							<select ng-options="language as language for language in editingComponent.languages" ng-model="editingComponent.selectedLanguage">
+							</select>
+						</label>
 						<!-- <div class="button-bar bar-calm">
 							<a class="button" ng-repeat="theme in editingComponent.themes" ng-bind="theme" ng-click="(editingComponent.selectedTheme === theme ? editingComponent.selectedTheme = null : editingComponent.selectedTheme = theme)" ng-class="{active: editingComponent.selectedTheme == theme}"></a>
 						</div> -->
 
-						<component id="editing-component" language="" data="editingComponent" ng-class="editingComponent.selectedTheme" style="position: relative; top: auto; left: auto; right: auto; bottom: auto;"></component>
+						<component id="editing-component" language="{{editingComponent.selectedLanguage}}" data="editingComponent" controller-name="nullController" ng-class="editingComponent.selectedTheme" style="position: relative; top: auto; left: auto; right: auto; bottom: auto;"></component>
 					</div>
 				</div>
 			</form>
