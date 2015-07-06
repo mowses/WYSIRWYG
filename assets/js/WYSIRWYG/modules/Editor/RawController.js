@@ -16,7 +16,7 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 
 	$scope.newComponent = function() {
 		$scope.openEdition({
-			id: null,
+			id: undefined,
 			name: null,
 			template: 'your HTML here',
 			data: {},
@@ -157,7 +157,7 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 		var component = $scope.editingComponent;
 
 		$http({
-			method: ($scope.editingComponent.id === null ? 'POST' : 'PUT'),
+			method: ($scope.editingComponent.id === undefined ? 'POST' : 'PUT'),
 			url: '/components',
 			data: {
 				component: {

@@ -29,7 +29,8 @@
     "start-verbose": "sails lift --verbose",
     "install-postgres": "sudo apt-get update && sudo apt-get install postgresql postgresql-contrib",
     "config-postgres": "sudo adduser wysirwyg && createuser --interactive && createdb wysirwyg",
-    "install-pgadmin": "sudo apt-get install pgadmin3"
+    "install-pgadmin": "sudo apt-get install pgadmin3",
+    "backup-data": "pg_dump wysirwyg --data-only --section=data --inserts > .tmp/postgres-initial-components.backup"
   },
   "main": "app.js",
   "repository": {
