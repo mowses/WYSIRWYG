@@ -7,26 +7,30 @@
 
 module.exports = {
 	autoPK: false,
-	
+
 	attributes: {
 		id: {
 			type: 'integer',
 			primaryKey: true,
-    		unique: true,
-    		autoIncrement: true
+			unique: true,
+			foreignKey: true,
+			autoIncrement: true
 		},
 
 		name: {
 			type: 'string',
 			required: true,
-			unique: true,
 			minLength: 5,
 			maxLength: 255
 		},
 
+		extendsFrom: {
+			model: 'components'
+		},
+
 		template: {
 			type: 'text',
-			required: true
+			required: false
 		},
 
 		data: {
@@ -41,12 +45,18 @@ module.exports = {
 
 		i18n: {
 			type: 'json',
-			required: true
+			required: false
 		},
 
-		components: {
-			type: 'json',
-			required: false
+		component: {
+			collection: 'components',
+			via: 'subcomponents'
+		},
+
+		subcomponents: {
+			collection: 'components',
+			via: 'component',
+			dominant: true
 		}
 	}
 };
