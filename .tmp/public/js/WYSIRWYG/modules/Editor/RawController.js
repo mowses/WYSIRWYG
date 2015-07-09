@@ -10,7 +10,7 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 	'ngModelUtils',
 	'Debug'
 ])
-.controller('RawEditorController', ['$scope', '$timeout', 'getComponents', 'generateCSS', 'mergeReferences', 'getThemes', 'getLanguages', '$http', '$ionicActionSheet', '$ionicPopup', function($scope, $timeout, getComponents, generateCSS, mergeReferences, getThemes, getLanguages, $http, $ionicActionSheet, $ionicPopup) {
+.controller('RawEditorController', ['$scope', '$timeout', 'getComponents', 'generateCSS', 'getThemes', 'getLanguages', '$http', '$ionicActionSheet', '$ionicPopup', function($scope, $timeout, getComponents, generateCSS, getThemes, getLanguages, $http, $ionicActionSheet, $ionicPopup) {
 	var stringify = JSON.stringify,
 		deleteProperties = delete_properties;
 
@@ -205,9 +205,8 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 		}
 	})();
 
-	getComponents(function(data) {
-		$scope.data.components = data;
-		mergeReferences($scope.data.components);
+	getComponents(function(components) {
+		$scope.data.components = components;
 
 		$.each($scope.data.components, function(i, component) {
 			component.themes = getThemes(component);

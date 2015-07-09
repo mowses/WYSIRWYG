@@ -21,6 +21,12 @@ module.exports = {
 		var $ = sails.config.globals.jQuery,
 			components = req.param('components');
 
+
+		Components.findOne(1).exec(function(err, component) {
+			component.subcomponents.add(2);
+			component.save();
+		});
+
 		Components.find({
 				name: components
 			})

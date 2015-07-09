@@ -55,8 +55,7 @@ module.exports = {
 
 		subcomponents: {
 			collection: 'components',
-			via: 'component',
-			dominant: true
+			via: 'component'
 		}
 	}
 };

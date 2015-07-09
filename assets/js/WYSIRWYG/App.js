@@ -18,16 +18,41 @@ angular.module('WYSIRWYG', [
     }
 })
 
-.factory('getComponents', function() {
+.factory('getComponents', ['prototypeComponents', function(prototypeComponents) {
 
     return function(callback) {
         $.get('/components', function(data) {
-            callback ? callback(data) : null;
+            var prototyped_data = prototypeComponents(data);
+            callback ? callback(prototyped_data) : null;
         });
+    }
+}])
+
+.factory('prototypeComponents', function() {
+    function prototypeComponents(data) {
+        var components = {};
+
+        $.each(data || [], function(i, data) {
+            components[data.id] = data;
+        });
+
+        $.each(components, function(k, component) {
+            var extends_from = component.extendsFrom;
+
+            if (!extends_from) return;
+
+            component.__proto__ = components[extends_from];
+        });
+
+        return components;
+    }
+
+    return function(data) {
+        return prototypeComponents(data);
     }
 })
 
-.factory('mergeReferences', function() {
+/*.factory('mergeReferences', function() {
     function mergeReferences(components, references) {
         $.each(components || [], function(i, component) {
             var k = component.id;
@@ -48,7 +73,7 @@ angular.module('WYSIRWYG', [
     return function(components) {
         return mergeReferences(components, components);
     }
-})
+})*/
 
 .factory('getParentLanguage', function() {
     function getParentLanguage(scope) {
