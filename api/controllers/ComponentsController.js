@@ -9,7 +9,7 @@ module.exports = {
 	index: function(req, res, next) {
 		var $ = sails.config.globals.jQuery;
 
-		Components.find()
+		Components.findOne(1)
 			.exec(function(err, data) {
 				if (err || !data) return res.badRequest(err);
 
@@ -21,11 +21,6 @@ module.exports = {
 		var $ = sails.config.globals.jQuery,
 			components = req.param('components');
 
-
-		Components.findOne(1).exec(function(err, component) {
-			component.subcomponents.add(2);
-			component.save();
-		});
 
 		Components.find({
 				name: components

@@ -22,8 +22,8 @@ angular.module('WYSIRWYG', [
 
     return function(callback) {
         $.get('/components', function(data) {
-            var prototyped_data = prototypeComponents(data);
-            callback ? callback(prototyped_data) : null;
+            var prototyped_data = prototypeComponents($.makeArray(data));
+            callback(prototyped_data);
         });
     }
 }])
