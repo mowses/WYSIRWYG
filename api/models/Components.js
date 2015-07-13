@@ -24,7 +24,7 @@ module.exports = {
 			maxLength: 255
 		},
 
-		extendsFrom: {
+		prototypeFrom: {
 			model: 'components'
 		},
 

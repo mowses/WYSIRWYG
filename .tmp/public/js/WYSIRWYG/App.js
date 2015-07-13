@@ -37,11 +37,18 @@ angular.module('WYSIRWYG', [
         });
 
         $.each(components, function(k, component) {
-            var extends_from = component.extendsFrom;
+            var extends_from = component.prototypeFrom;
 
             if (!extends_from) return;
 
             component.__proto__ = components[extends_from];
+
+            // remove null values from current component
+            $.each(component, function(k, val) {
+                if (val !== null) return;
+
+                delete component[k];
+            });
         });
 
         return components;

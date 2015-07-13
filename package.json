@@ -26,9 +26,11 @@
   },
   "scripts": {
     "start": "sails lift",
+    "console": "sails console",
     "start-verbose": "sails lift --verbose",
     "install-postgres": "sudo apt-get update && sudo apt-get install postgresql postgresql-contrib",
     "config-postgres": "sudo passwd postgres && su postgres && psql -c \"ALTER USER postgres WITH PASSWORD '123456'\" -d wysirwyg && sudo adduser wysirwyg && createuser --interactive && createdb wysirwyg",
+    "prepare-postgres": "su postgres && psql -d wysirwyg -f ./tmp/prepare-postgres.sql -a",
     "install-pgadmin": "sudo apt-get install pgadmin3",
     "backup-data": "pg_dump wysirwyg --data-only --section=data --inserts > .tmp/postgres-initial-components.backup"
   },
