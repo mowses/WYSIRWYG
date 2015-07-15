@@ -27,8 +27,7 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 				template: 'your HTML here',
 				data: '{\r\t\r}',
 				i18n: '{\r\t\r}',
-				styles: '{\r\t\r}',
-				components: '{\r\t\r}'
+				styles: '{\r\t\r}'
 			}
 		});
 	};
@@ -110,8 +109,7 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 				template: component.template,
 				data: stringify(component.data, null, '\t') || '{\r\t\r}',
 				i18n: stringify(component.i18n, null, '\t') || '{\r\t\r}',
-				styles: stringify(component.styles, null, '\t') || '{\r\t\r}',
-				components: stringify(component.components, null, '\t') || '{\r\t\r}'
+				styles: stringify(component.styles, null, '\t') || '{\r\t\r}'
 			}
 		}, component);
 	};
@@ -166,8 +164,7 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 					template: component.template,
 					data: component.data,
 					i18n: component.i18n,
-					styles: component.styles,
-					components: component.components
+					styles: component.styles
 				}
 			}
 		})
