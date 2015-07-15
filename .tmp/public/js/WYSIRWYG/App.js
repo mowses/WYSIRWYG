@@ -23,6 +23,18 @@ angular.module('WYSIRWYG', [
     return function(callback) {
         $.get('/components', function(data) {
             var prototyped_data = prototypeComponents($.makeArray(data));
+
+            // fill subcomponents property
+            $.each(prototyped_data, function(i, data) {
+                var subcomponents = {};
+
+                $.each(data.subcomponents || [], function(j, subcomponent_id) {
+                    subcomponents[subcomponent_id] = prototyped_data[subcomponent_id];
+                });
+
+                data.subcomponents = subcomponents;
+            });
+            
             callback(prototyped_data);
         });
     }

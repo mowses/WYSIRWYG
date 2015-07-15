@@ -1,26 +1,27 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'run', 'prepare-postgres' ]
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'run', 'start' ]
 2 info using npm@1.4.28
 3 info using node@v0.10.37
 4 verbose node symlink /usr/bin/node
-5 verbose run-script [ 'prepare-postgres' ]
-6 info prepare-postgres WYSIRWYG@0.0.0
-7 verbose unsafe-perm in lifecycle true
-8 info WYSIRWYG@0.0.0 Failed to exec prepare-postgres script
-9 error WYSIRWYG@0.0.0 prepare-postgres: `su postgres && psql -c "DEALLOCATE PREPARE getComponents;PREPARE getComponents(int) AS (with recursive _subcomponents(id) AS(SELECT * ,ARRAY[id] AS found_components FROM components WHERE id IN( WITH RECURSIVE _subcomponents(id) AS(SELECT subcomponents.*,ARRAY[subcomponents.components_component] AS found_components FROM components_subcomponents__components_component AS subcomponents WHERE components_subcomponents IN ($1) UNION ALL SELECT subcomponents.*, found_components || subcomponents.components_component FROM components_subcomponents__components_component AS subcomponents INNER JOIN _subcomponents ON _subcomponents.components_component = subcomponents.components_subcomponents WHERE NOT subcomponents.components_component = ANY(found_components) ) SELECT DISTINCT(components_component) from _subcomponents ) UNION ALL SELECT components.*, found_components || components.id FROM components INNER JOIN _subcomponents ON _subcomponents."extendsFrom" = components.id WHERE NOT components.id = ANY(found_components)) SELECT DISTINCT ON(id) * FROM (SELECT * FROM _subcomponents UNION ALL SELECT *, NULL FROM components WHERE id IN ($1)) AS components_w_subcomponents);"`
-9 error Exit status 1
-10 error Failed at the WYSIRWYG@0.0.0 prepare-postgres script.
-10 error This is most likely a problem with the WYSIRWYG package,
-10 error not with npm itself.
-10 error Tell the author that this fails on your system:
-10 error     su postgres && psql -c "DEALLOCATE PREPARE getComponents;PREPARE getComponents(int) AS (with recursive _subcomponents(id) AS(SELECT * ,ARRAY[id] AS found_components FROM components WHERE id IN( WITH RECURSIVE _subcomponents(id) AS(SELECT subcomponents.*,ARRAY[subcomponents.components_component] AS found_components FROM components_subcomponents__components_component AS subcomponents WHERE components_subcomponents IN ($1) UNION ALL SELECT subcomponents.*, found_components || subcomponents.components_component FROM components_subcomponents__components_component AS subcomponents INNER JOIN _subcomponents ON _subcomponents.components_component = subcomponents.components_subcomponents WHERE NOT subcomponents.components_component = ANY(found_components) ) SELECT DISTINCT(components_component) from _subcomponents ) UNION ALL SELECT components.*, found_components || components.id FROM components INNER JOIN _subcomponents ON _subcomponents."extendsFrom" = components.id WHERE NOT components.id = ANY(found_components)) SELECT DISTINCT ON(id) * FROM (SELECT * FROM _subcomponents UNION ALL SELECT *, NULL FROM components WHERE id IN ($1)) AS components_w_subcomponents);"
-10 error You can get their info via:
-10 error     npm owner ls WYSIRWYG
-10 error There is likely additional logging output above.
-11 error System Linux 3.16.0-41-generic
-12 error command "/usr/bin/node" "/usr/bin/npm" "run" "prepare-postgres"
-13 error cwd /home/moises/Documents/Projects/WYSIRWYG
-14 error node -v v0.10.37
-15 error npm -v 1.4.28
-16 error code ELIFECYCLE
-17 verbose exit [ 1, true ]
+5 verbose run-script [ 'prestart', 'start', 'poststart' ]
+6 info prestart WYSIRWYG@0.0.0
+7 info start WYSIRWYG@0.0.0
+8 verbose unsafe-perm in lifecycle true
+9 info WYSIRWYG@0.0.0 Failed to exec start script
+10 error WYSIRWYG@0.0.0 start: `sails lift`
+10 error Exit status 1
+11 error Failed at the WYSIRWYG@0.0.0 start script.
+11 error This is most likely a problem with the WYSIRWYG package,
+11 error not with npm itself.
+11 error Tell the author that this fails on your system:
+11 error     sails lift
+11 error You can get their info via:
+11 error     npm owner ls WYSIRWYG
+11 error There is likely additional logging output above.
+12 error System Linux 3.16.0-41-generic
+13 error command "/usr/bin/node" "/usr/bin/npm" "run" "start"
+14 error cwd /home/moises/Documents/Projects/WYSIRWYG
+15 error node -v v0.10.37
+16 error npm -v 1.4.28
+17 error code ELIFECYCLE
+18 verbose exit [ 1, true ]

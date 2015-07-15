@@ -22,11 +22,13 @@ module.exports = {
 				'DISTINCT(components_component) FROM _subcomponents) UNION ALL SELECT components.*, ' +
 				'found_components || components.id FROM components INNER JOIN _subcomponents ON ' +
 				'_subcomponents."prototypeFrom" = components.id WHERE NOT components.id = ANY(found_components)) ' +
-				'SELECT DISTINCT ON(id) * FROM ( SELECT * FROM _subcomponents UNION ALL SELECT *, NULL FROM ' +
+				'SELECT DISTINCT ON(id) *, ' +
+					'(SELECT array_agg(DISTINCT(components_component)) FROM components_subcomponents__components_component ' +
+					'subcomponents WHERE components_subcomponents = components_w_subcomponents.id) AS subcomponents ' +
+				'FROM ( SELECT * FROM _subcomponents UNION ALL SELECT *, NULL FROM ' +
 					'components) AS components_w_subcomponents', function(err, data) {
 
 			if (err || !data) return res.badRequest(err);
-			data.rows.splice(1,1);
 			return res.json(data.rows);
 		});
 	},
@@ -47,7 +49,10 @@ module.exports = {
 				'DISTINCT(components_component) FROM _subcomponents) UNION ALL SELECT components.*, ' +
 				'found_components || components.id FROM components INNER JOIN _subcomponents ON ' +
 				'_subcomponents."prototypeFrom" = components.id WHERE NOT components.id = ANY(found_components)) ' +
-				'SELECT DISTINCT ON(id) * FROM ( SELECT * FROM _subcomponents UNION ALL SELECT *, NULL FROM ' +
+				'SELECT DISTINCT ON(id), ' +
+					'(SELECT array_agg(DISTINCT(components_component)) FROM components_subcomponents__components_component ' +
+					'subcomponents WHERE components_subcomponents = components_w_subcomponents.id) AS subcomponents ' +
+				'* FROM ( SELECT * FROM _subcomponents UNION ALL SELECT *, NULL FROM ' +
 					'components WHERE id IN (' + components + ')) AS components_w_subcomponents', function(err, data) {
 
 			if (err || !data) return res.badRequest(err);
