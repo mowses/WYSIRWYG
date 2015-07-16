@@ -50,11 +50,11 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 					method: 'DELETE',
 					url: '/components',
 					data: {
-						ids: [component.id]
+						components: [component.id]
 					}
 				})
 				.success(function() {
-					
+					delete $scope.data.components[component.id];
 				})
 				.error(function() {
 

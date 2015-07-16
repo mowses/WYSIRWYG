@@ -85,13 +85,7 @@ module.exports = {
 
 	delete: function(req, res, next) {
 		var $ = sails.config.globals.jQuery,
-			ids = [];
-
-		$.each(req.param('ids'), function(i, id) {
-			ids.push({
-				id: id
-			});
-		});
+			ids = req.param('components');
 
 		if (!ids.length) return res.badRequest();
 
