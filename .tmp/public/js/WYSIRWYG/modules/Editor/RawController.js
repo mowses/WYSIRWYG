@@ -14,20 +14,22 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 	var stringify = JSON.stringify,
 		deleteProperties = delete_properties;
 
+	function refresh(component) {
+		component.themes = getThemes(component);
+		component.languages = getLanguages(component);
+
+		// generate css for all components
+		// should generate all CSSs at once because a component can use subcomponents
+		// which uses his own theme, and it should be already generated
+		generateCSS('component-' + component.id, component.styles);
+	}
+
 	$scope.newComponent = function() {
 		$scope.openEdition({
 			id: undefined,
-			name: null,
 			template: 'your HTML here',
-			data: {},
-			i18n: {},
-			styles: {},
-			components: {},
 			stringified: {
-				template: 'your HTML here',
-				data: '{\r\t\r}',
-				i18n: '{\r\t\r}',
-				styles: '{\r\t\r}'
+				template: 'your HTML here'
 			}
 		});
 	};
@@ -86,6 +88,7 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 	};
 
 	$scope.stringToData = function(str) {
+		if (str === null || str === '') return null;
 		if ($.type(str) != 'string') return {};
 
 		var data = JSON.parse(str);
@@ -104,14 +107,17 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 	// component edition
 	$scope.editingComponent = null;
 	$scope.openEdition = function(component) {
-		$scope.editingComponent = $.extend(true, {
+		$scope.editingComponent = $.extend(true, {},
+			component, {
 			stringified: {
 				template: component.template,
-				data: stringify(component.data, null, '\t') || '{\r\t\r}',
-				i18n: stringify(component.i18n, null, '\t') || '{\r\t\r}',
-				styles: stringify(component.styles, null, '\t') || '{\r\t\r}'
+				data: component.data ? stringify(component.data, null, '\t') : null,
+				i18n: component.i18n ? stringify(component.i18n, null, '\t') : null,
+				styles: component.styles ? stringify(component.styles, null, '\t') : null
 			}
-		}, component);
+		});
+
+		$scope.editingComponent.$original = component;  // nao colocar $original junto do $extend
 	};
 
 	// keep editingComponent styles always updated
@@ -152,23 +158,27 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 			return;
 		}
 
-		var component = $scope.editingComponent;
+		var editing = $scope.editingComponent,
+			component_data = {
+				id: editing.id,
+				name: editing.name,
+				template: editing.template,
+				data: editing.data,
+				i18n: editing.i18n,
+				styles: editing.styles
+			};
 
 		$http({
-			method: ($scope.editingComponent.id === undefined ? 'POST' : 'PUT'),
+			method: (editing.id === undefined ? 'POST' : 'PUT'),
 			url: '/components',
 			data: {
-				component: {
-					id: component.id,
-					name: component.name,
-					template: component.template,
-					data: component.data,
-					i18n: component.i18n,
-					styles: component.styles
-				}
+				component: component_data
 			}
 		})
 		.success(function() {
+			$.extend(editing.$original, component_data);
+			refresh(editing.$original);
+
 			$scope.editingComponent = null;
 		})
 		.error(function(data) {
@@ -206,13 +216,7 @@ angular.module('WYSIRWYG.modules.Editor.Raw', [
 		$scope.data.components = components;
 
 		$.each($scope.data.components, function(i, component) {
-			component.themes = getThemes(component);
-			component.languages = getLanguages(component);
-
-			// generate css for all components
-			// should generate all CSSs at once because a component can use subcomponents
-			// which uses his own theme, and it should be already generated
-			generateCSS('component-' + component.id, component.styles);
+			refresh(component);
 		});
 
 		$scope.$apply();

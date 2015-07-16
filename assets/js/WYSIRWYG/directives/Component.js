@@ -8,8 +8,11 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 	 * do not update/change attrs.language, otherwise it may trigger getAvailableLanguage twice
 	 */
 	function getAvailableLanguage(scope, attrs) {
-		var language = attrs.language || getParentLanguage(scope.$parent);
-		language = scope.data.i18n[language] ? language : Object.keys(scope.data.i18n)[0];
+		var language = attrs.language || getParentLanguage(scope.$parent),
+			data = scope.data,
+			i18n = data && data.i18n ? data.i18n : {};
+
+		language = i18n[language] ? language : Object.keys(i18n)[0];
 
 		return language;
 	}

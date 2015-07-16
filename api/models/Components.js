@@ -25,7 +25,8 @@ module.exports = {
 		},
 
 		prototypeFrom: {
-			model: 'components'
+			model: 'components',
+			required: false
 		},
 
 		template: {
