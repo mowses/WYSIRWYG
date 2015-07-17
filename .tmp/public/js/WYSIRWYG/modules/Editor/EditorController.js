@@ -15,7 +15,7 @@ angular.module('WYSIRWYG.modules.Editor', [
 	'ngModelUtils',
 	'Debug'
 ])
-.controller('EditorController', ['$scope', 'getComponents', 'generateCSS', 'mergeReferences', 'getThemes', function($scope, getComponents, generateCSS, mergeReferences, getThemes) {
+.controller('EditorController', ['$scope', 'getComponents', 'generateCSS', 'getThemes', 'getLanguages', function($scope, getComponents, generateCSS, getThemes, getLanguages) {
 
 	// set directive watcher in the view, so every time updated theme should update bb
 	$scope.updateResizable = function(scope, $element) {
@@ -36,6 +36,10 @@ angular.module('WYSIRWYG.modules.Editor', [
 	};
 
 	// set directive watcher in the view, so every time updated theme should update bb
+	// @TODO: fix quando troca entre estilos com position relative > absolute (ja com elemento selecionado)
+	// seleciona o componente, muda estilo pra que tenha position absolute.
+	// deveria deixar drag só que nao...
+	// e quando estiver em no theme nao pode deixar mover tbm...
 	$scope.updateDraggable = function(scope, $element) {
 		var css = $element.css(['position']);
 
@@ -43,7 +47,7 @@ angular.module('WYSIRWYG.modules.Editor', [
 			disabled: ($.inArray(css['position'], ['absolute', 'fixed']) == -1)
 		});
 
-		console.log('carry on from here. position esta errado, porque $element ainda nao existe no DOM (acho q é isso). foo draggable ipdated', scope.slide.boundingBox.draggable.disabled, $element, css, scope.slide.component.styles['&.theme-default'].position);
+		//console.log('carry on from here. position esta errado, porque $element ainda nao existe no DOM (acho q é isso). foo draggable ipdated', scope.slide.boundingBox.draggable.disabled, $element, css, scope.slide.component.styles['&.theme-default'].position);
 	};
 
 	$scope.getOffsetPosition = function(event) {
@@ -64,8 +68,33 @@ angular.module('WYSIRWYG.modules.Editor', [
 			name: null,
 			selected: true,
 			component: null
-		}*/}
+		}*/},
+		components: {}
 	};
+
+	$scope.$watchCollection('data.components', function(data) {
+		$.each(data, function(k, component) {
+			var themes = getThemes(component),
+				selected_theme = $scope.data.slides[k] && $scope.data.slides[k].selectedTheme || null;
+
+			$scope.data.slides[k] = {
+				name: component.name,
+				selected: false,
+				component: component,
+				themes: themes,
+				selectedTheme: selected_theme,
+				boundingBox: {
+					draggable: $.extend(true, {}, $scope.editableArea.draggable),
+					resizable: $.extend(true, {}, $scope.editableArea.resizable)
+				}
+			};
+
+			// generate css for all components
+			// should generate all CSSs at once because a component can use subcomponents
+			// which uses his own theme, and it should be already generated
+			generateCSS('component-' + component.id, component.styles);
+		});
+	});
 
 	$scope.grid = {
 		grid: [50, 50]
@@ -83,16 +112,17 @@ angular.module('WYSIRWYG.modules.Editor', [
 			stop: function(event, ui) {
 				var element = ui.helper,
 					scope = element.scope(),
+					component = scope.slide.component,
 					selected_theme = scope.slide.selectedTheme,
 					current_theme = '&.' + selected_theme,
-					extend_to = scope.slide.component.name + '.styles["' + current_theme + '"]',
 					styles = $.extend(true, {}, ui.position);
 
 				if (selected_theme) {
-					WYSIRWYG.Component.extendData(extend_to, styles).apply(); // do apply otherwise the element will be flickering
+					$.extend(true, component.styles[current_theme], styles);
 				}
-				element.attr('style', '');  // prevent having `style` attribute
 
+				element.attr('style', '');  // prevent having `style` attribute
+				generateCSS('component-' + component.id, component.styles);
 			}
 		},
 		resizable: {
@@ -105,15 +135,17 @@ angular.module('WYSIRWYG.modules.Editor', [
 				// nao sei qual usar: ui.element ou ui.originalElement ????
 				var element = ui.originalElement,
 					scope = element.scope(),
+					component = scope.slide.component,
 					selected_theme = scope.slide.selectedTheme,
 					current_theme = '&.' + selected_theme,
-					extend_to = scope.slide.component.name + '.styles["' + current_theme + '"]',
 					styles = $.extend(true, {}, ui.position, ui.size);
-				
+
 				if (selected_theme) {
-					WYSIRWYG.Component.extendData(extend_to, styles).apply(); // do apply otherwise the element will be flickering
+					$.extend(true, component.styles[current_theme], styles);
 				}
+
 				element.attr('style', '');  // prevent having `style` attribute
+				generateCSS('component-' + component.id, component.styles);
 
 			}/*,
 			start: function(event, ui) {
@@ -172,76 +204,10 @@ angular.module('WYSIRWYG.modules.Editor', [
 		}
 	};
 
-	WYSIRWYG.Component.watch(null, function(data) {
-		$.each(data.deleted || [], function(k) {
-			generateCSS(k, null);
-			$scope.data.slides = delete_properties($scope.data.slides, data.deleted || {});
-		});
-
-		$.each(data.new, function(k, _new) {
-			var new_data = $.extend(true, {}, _new),
-				slide = $scope.data.slides[k],
-				diff = data.diff ? data.diff[k] : undefined,
-				deleted = data.deleted ? data.deleted[k] : undefined,
-				themes,
-				selected_theme;
-			
-			mergeReferences([new_data]);
-
-			if (!slide) {  // slide doesnt exist
-
-				themes = getThemes(new_data);
-				selected_theme = themes[0];
-
-				slide = $scope.data.slides[k] = {
-					name: new_data.name,
-					selected: false,
-					component: new_data,
-					themes: themes,
-					selectedTheme: selected_theme
-				};
-			} else {
-				selected_theme = slide.selectedTheme;
-
-				if ((diff && diff.styles) || deleted && deleted.styles) {
-					// changed styles
-					themes = getThemes(new_data);
-
-					// re-set selected theme once its no more exists
-					if ($.inArray(selected_theme, themes) == -1) {
-						selected_theme = themes[0];
-					}
-				}
-
-				$.extend(slide, {
-					name: new_data.name,
-					component: new_data,
-					themes: themes,
-					selectedTheme: selected_theme
-				});
-			}
-
-			if (diff || deleted) {
-				generateCSS(k, new_data.styles);
-
-				// every time a component's css changes, we should recalculate some of its properties
-				if (!slide.boundingBox) {
-					slide.boundingBox = {
-						draggable: $.extend(true, {}, $scope.editableArea.draggable),
-						resizable: $.extend(true, {}, $scope.editableArea.resizable)
-					};
-				}
-			}
-
-		});
-
-
+	getComponents(function(data) {
+		$scope.data.components = data;
 		$scope.$apply();
 	});
-
-	getComponents();
-
-	$scope.slides.selectedSlides = $scope.slides.getSelectedSlides();
 
 	console.log('para acessar $scope use a variavel global $scope');
 	window.$scope = $scope;

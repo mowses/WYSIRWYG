@@ -71,29 +71,6 @@ angular.module('WYSIRWYG', [
     }
 })
 
-/*.factory('mergeReferences', function() {
-    function mergeReferences(components, references) {
-        $.each(components || [], function(i, component) {
-            var k = component.id;
-
-            mergeReferences(component.components, references);
-            if (component.reference) {
-                var reference = $.grep(references, function(ref) {
-                    // dont use "===" as comparator
-                    // because 2 is not === "2"
-                    return (ref.id == component.reference);
-                })[0];
-
-                components[i] = $.extend(true, {}, reference, component);
-            }
-        });
-    }
-
-    return function(components) {
-        return mergeReferences(components, components);
-    }
-})*/
-
 .factory('getParentLanguage', function() {
     function getParentLanguage(scope) {
         if (scope.language) return scope.language;
