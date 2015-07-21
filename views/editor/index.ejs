@@ -26,10 +26,8 @@
 
 			<!-- <div style="background:pink; height: 100px; width: 100px; padding: 20px; margin: 5px;">=======</div> -->
 			
-			<bounding-box draggable="slide.boundingBox.draggable" ng-attr-id="component-{{slide.component.id}}" ng-class="slide.selectedTheme" resizable="slide.boundingBox.resizable" ng-mousedown="toggleCtrlBB($event)" class="{{slide.selectedTheme}}" watcher="{'slide.component.styles[\'&.{{slide.selectedTheme}}\'].display': 'updateResizable', 'slide.component.styles[\'&.{{slide.selectedTheme}}\'].position': 'updateDraggable', 'slide.selectedTheme': 'checkDisableResizable'}">
-				<component data="slide.component" controller-name="{{data.name}}Controller"></component>
-			</bounding-box>
-
+			<component ng-attr-id="component-{{slide.component.id}}" ng-class="slide.selectedTheme" data="slide.component" controller-name="{{data.name}}Controller"></component>
+			
 			
 
 			<!-- <div style="background:red; height: 100px; padding: 20px; margin: 5px; float: left;">1</div>

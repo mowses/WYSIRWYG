@@ -22,6 +22,7 @@ angular.module('WYSIRWYG.EditableArea', [])
 			}
 
 			$scope.toggleCtrlBB = function(event) {
+				console.log(event);
 				// prevent mousedown propagation
 				event.stopPropagation();
 
