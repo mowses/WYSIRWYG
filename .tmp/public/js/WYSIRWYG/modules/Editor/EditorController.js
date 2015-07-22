@@ -25,16 +25,20 @@ angular.module('WYSIRWYG.modules.Editor', [
 				controller_index = directive.controller.length - 1,
 				controller_fn = directive.controller[controller_index];
 
-			/*directive.controller[controller_index] = function($scope) {
+			directive.controller[controller_index] = function($scope) {
 				var controller_result = controller_fn.apply(this, arguments);
 
-				$scope.toggleCtrlBB = function() {
-					console.log('xxx', $scope);
-					//$scope.foo();
+				$scope.toggleCtrlBB = function(event) {
+					var bb = $(event.delegateTarget),
+						editable_area = bb.parents('[editable-area]');
+					
+					if (!editable_area.length) return;
+
+					return editable_area.scope().toggleCtrlBB.apply(this, arguments);
 				}
 
 				return controller_result;
-			};*/
+			};
 
 			directive.compile = function($element, attrs) {
 				var link = compile.apply(this, arguments),
@@ -46,16 +50,22 @@ angular.module('WYSIRWYG.modules.Editor', [
 				link.post = function(scope, $element, attrs) {
 					var post = post_original.apply(this, arguments),
 						compiled = $compile('<bounding-box '+
-							'ng-attr-id="' + $element.attr('ng-attr-id') + '" ' +
-							'ng-class="' + $element.attr('ng-class') + '" ' +
+							'ng-attr-id="' + ($element.attr('ng-attr-id') || '') + '" ' +
+							'ng-class="' + ($element.attr('ng-class') || '') + '" ' +
+							'id="' + ($element.attr('id') || '') + '" ' +
+							'class="' + ($element.attr('class') || '') + '" ' +
 							'draggable="slide.boundingBox.draggable" ' +
 							'resizable="slide.boundingBox.resizable" ' +
 							'ng-mousedown="toggleCtrlBB($event);" ' +
 							//'watcher="{'slide.component.styles[\'&.{{slide.selectedTheme}}\'].display': 'updateResizable', 'slide.component.styles[\'&.{{slide.selectedTheme}}\'].position': 'updateDraggable', 'slide.selectedTheme': 'checkDisableResizable'}"
 							'></bounding-box')(scope.$parent);
 
-console.log(scope.$parent.slide, compiled);
-					$element.before(compiled);
+					$element
+						.removeAttr('id')
+						.removeAttr('class')
+						.removeAttr('ng-attr-id')
+						.removeAttr('ng-class')
+						.before(compiled);
 					compiled.append($element);
 					
 					//console.log($element, scope.id, attrs.id, attrs.class, scope, compiled);
@@ -80,10 +90,6 @@ console.log(scope.$parent.slide, compiled);
 				disabled: ($.inArray(css['display'], ['inline']) >= 0)
 			});
 		};
-
-		$scope.foo = function() {
-			console.log('llll');
-		}
 
 		$scope.checkDisableResizable = function(scope, $element) {
 
