@@ -1,0 +1,9 @@
+<bounding-box draggable="draggable" resizable="resizable" ng-mousedown="toggleCtrlBB($event);">
+    <label>
+        Theme:
+        <select ng-options="theme as theme for theme in [0,1]" ng-model="slide.selectedTheme">
+            <option value="">--no theme--</option>
+        </select>
+    </label>
+    original_template
+</bounding-box>

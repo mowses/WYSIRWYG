@@ -103,7 +103,47 @@ angular.module('WYSIRWYG.EditableArea', ['WYSIRWYG.Component'])
 				return controller_result;
 			};
 
-			directive.templateUrl = '/templates/Directives/EditableArea.html';
+			directive.templateUrl = '/templates/EditableArea.html';
+
+			directive.compile = function($element, attrs) {
+				var link = compile.apply(this, arguments),
+					post_original = link.post;
+
+				delete attrs.id;
+				delete attrs.ngClass;
+
+				/*link.post = function(scope, $element, attrs) {
+
+					var bb_scope = scope.$new(),
+						post = post_original.apply(this, arguments),
+						compiled = $compile('<bounding-box ' +
+							'ng-attr-id="' + ($element.attr('ng-attr-id') || '') + '" ' +
+							'ng-class="' + ($element.attr('ng-class') || '') + '" ' +
+							'id="' + ($element.attr('id') || '') + '" ' +
+							'class="' + ($element.attr('class') || '') + '" ' +
+							'draggable="draggable" ' +
+							'resizable="resizable" ' +
+							'ng-mousedown="toggleCtrlBB($event);" ' +
+							//'watcher="{'slide.component.styles[\'&.{{slide.selectedTheme}}\'].display': 'updateResizable', 'slide.component.styles[\'&.{{slide.selectedTheme}}\'].position': 'updateDraggable', 'slide.selectedTheme': 'checkDisableResizable'}"
+							'></bounding-box')(bb_scope);
+
+					
+
+					$element
+						.removeAttr('id')
+						.removeAttr('class')
+						.removeAttr('ng-attr-id')
+						.removeAttr('ng-class')
+						.before(compiled);
+
+					compiled.append($element);
+
+					//console.log($element, scope.id, attrs.id, attrs.class, scope, compiled);
+					return post;
+				};*/
+
+				return link;
+			};
 
 			return $delegate;
 		}]);

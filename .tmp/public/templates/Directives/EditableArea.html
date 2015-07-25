@@ -1,0 +1,13 @@
+<bounding-box draggable="draggable" resizable="resizable" ng-mousedown="toggleCtrlBB($event);">
+	
+	<div class="theme-switcher">
+	    <label>
+	        Theme:
+	        <select ng-options="theme as theme for theme in data.themes" ng-model="attrs.ngClass">
+	            <option value="">--no theme--</option>
+	        </select>
+	    </label>
+	</div>
+
+    <div ng-include="'/templates/Directives/Component.html'" onload="parseTemplate();"></div>
+</bounding-box>

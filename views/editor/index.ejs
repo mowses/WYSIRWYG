@@ -9,13 +9,6 @@
 		</ol>
 	</div>
 
-	<label ng-repeat="(i, slide) in data.slides" ng-show="slide.selected" ng-cloak>
-		Theme:
-		<select ng-options="theme as theme for theme in slide.themes" ng-model="slide.selectedTheme">
-			<option value="">--no theme--</option>
-		</select>
-	</label>
-
 	<div class="stage" ng-init="mousePos = {x:0, y:0}" ng-mousemove="mousePos = getOffsetPosition($event);">
 
 		<ruler orientation="horizontal" from="0" to="1500" step="50" watcher="{'mousePos': 'floatingMarker.x = $parent.mousePos.x'}"></ruler>

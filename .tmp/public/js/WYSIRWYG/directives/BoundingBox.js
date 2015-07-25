@@ -5,7 +5,8 @@ angular.module('WYSIRWYG.BoundingBox', [])
 
 	return {
 		restrict: 'AE',
-		transclude: false,
+		transclude: true,
+		template: '<div ng-transclude></div>',
 		
 		controller: ['$scope', function($scope) {
 			

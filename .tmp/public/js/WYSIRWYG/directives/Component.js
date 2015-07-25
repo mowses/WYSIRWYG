@@ -52,6 +52,7 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 			language: '@',
 			data: '='
 		},
+		templateUrl: '/templates/Directives/Component.html',
 
 		compile: function($element, attrs) {
 			return {
@@ -65,14 +66,24 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 					// preventing memory leaks
 					scope.childScope = scope.$new();
 
-					scope.$watch('data.template', function(new_template) {
+					// parseTemplate could be called from a partial onload
+					scope.parseTemplate = function() {
+						var template_placeholder = $element.find('.template'),
+							template = scope.data.template;
+
 						// destroy previous child scope
 						scope.childScope.$destroy();
 						// create a new child scope for sub-components
 						scope.childScope = scope.$new();
 
-						var compiled = $compile('<div>' + new_template + '</div>')(scope.childScope);
-						$element.empty().append(compiled.contents());
+						// respect that order: first insert html inside element then compile
+						// this way require would work for ^editableArea
+						template_placeholder.empty().html(template);
+						$compile(template_placeholder.contents())(scope.childScope);
+					}
+
+					scope.$watch('data.template', function() {
+						scope.parseTemplate();
 					});
 
 					/*scope.$watch('data.styles', function(new_styles) {

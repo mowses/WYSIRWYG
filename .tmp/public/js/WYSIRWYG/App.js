@@ -18,7 +18,7 @@ angular.module('WYSIRWYG', [
     }
 })
 
-.factory('getComponents', ['prototypeComponents', function(prototypeComponents) {
+.factory('getComponents', ['prototypeComponents', 'getThemes', function(prototypeComponents, getThemes) {
 
     return function(callback) {
         $.get('/components', function(data) {
@@ -33,6 +33,7 @@ angular.module('WYSIRWYG', [
                 });
 
                 data.subcomponents = subcomponents;
+                data.themes = getThemes(data);
             });
             
             callback(prototyped_data);
