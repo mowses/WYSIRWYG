@@ -20,7 +20,7 @@ INSERT INTO components VALUES (3, 'Foolish', NULL, '<i18n id="currentLanguage"><
 <component id="component-4" class="theme-algo" data="data.subcomponents[4]"></component>', '{"birthday": "1986-01-13"}', NULL, '{"en-US": {"currentLanguage": "Current Language is: {{language}}","searchFor": "Search:"},"pt-BR": {"currentLanguage": "Idioma corrente é: {{language}}","searchFor": "Localizar:"}}', NULL, NULL);
 INSERT INTO components VALUES (1, 'ResultBox', NULL, '<div>
     <i18n id="query"></i18n>
-</div>
+</div>xXXXx
 <hr />
 <!--{{data.data.searchData}} <hr/> -->
 <table border="1" style="float:left; margin-right: 10px;" ng-repeat="(kind, type) in data.data.searchData">
@@ -39,7 +39,7 @@ INSERT INTO components VALUES (1, 'ResultBox', NULL, '<div>
         </td>
     </tr>
 </table>
-<br clear="all" />', '{"query": "","searchData": {"music": [{"name": "Gammaray","type": "Metal"},{"name": "Sabaton","type": "Metal"},{"name": "Angra","type": "Metal"}]}}', '{"&.theme-default": {"background": "yellow","position": "absolute","top": "10px","right": "100px","bottom": "10px","left": "100px",".id-12345": {"background": "red","color": "green"}},"&.theme-algo": {"background": "blue","position": "relative","width": "200px","color": "black",".id-12345": {"background": "green","color": "black"}}}', '{"pt-BR": {"query": "Sua pesquisa por <data id=\"query\"></data>","result": "Retornou <b>{{(type | filter:data.data.query).length}}</b> resultados."}}', NULL, NULL);
+<br clear="all" />', '{"query":"","searchData":{"music":[{"name":"Gammaaaaaaaaaaaaaaaaray","type":"Metal"},{"name":"Sabaton","type":"Metal"},{"name":"Angra","type":"Metal"}]}}', '{"&.theme-default":{"background":"purple","position":"absolute","top":"10px","right":"100px","bottom":"10px","left":"100px",".id-12345":{"background":"red","color":"green"}},"&.theme-algo":{"background":"blue","position":"relative","width":"200px","color":"black",".id-12345":{"background":"green","color":"black"}}}', '{"pt-BR":{"query":"Sua pesquisXXXXa por <data id=\"query\"></data>","result":"Retornou <b>{{(type | filter:data.data.query).length}}</b> resultados."}}', NULL, '2015-07-14 21:34:01-03');
 INSERT INTO components VALUES (2, 'Searcher', NULL, '<h1><i18n id="salutation" language="pt-BR"></h1>
 <h2><i18n id="introduction" language="en-US"></i18n></h2>
 <p>
@@ -47,13 +47,17 @@ INSERT INTO components VALUES (2, 'Searcher', NULL, '<h1><i18n id="salutation" l
 </p>
 <component id="component-3" data="data.subcomponents[3]"></component>', '{"name": "Moisés mosele"}', '{"&.theme-default": {"position": "absolute","input": {"background": "crimson"}},"&.theme-1": {"background": "yellow","input": {"background": "pink","border": "3px dashed grey","border-bottom": "5px solid black"}}}', '{"pt-BR": {"salutation": "Olá <data id=\"name\"></data>","introduction": "Esse é nosso primeiro exemplo.","description": "Essa é a descrição. Note que não foi informado o idioma para este texto no template. Está exibindo o texto do idioma padrão do componente."},"en-US": {"salutation": "Hello <data id=\"name\"></data>","introduction": "This is our components example.","description": "This is the description. Note that was not passed the language attribute to this text in the template. It''s showing the text from the default language of the component."}}', NULL, NULL);
 INSERT INTO components VALUES (4, 'ResultBox prototyped from 1', 1, NULL, '{"searchData": {"series": [{"name": "Two and a Half Men","type": "Comedy"},{"name": "Walking Dead","type": "Zombie"},{"name": "Game of Thrones","type": "Drama"},{"name": "Bible","type": "Religious"},{"name": "Breaking Bad","type": "Drama"},{"name": "Generals at War","type": "Documentary"},{"name": "History of Humanity","type": "Documentary"},{"name": "The Prime Fields","type": "Documentary"},{"name": "The Adventures of Robin Hood","type": "Cartoon"},{"name": "Adventures of Sonic The Hedgehog","type": "Cartoon"},{"name": "The Adventures of Jimmy Neutron: Boy Genius","type": "Cartoon"},{"name": "The Adventures of Rin Tin Tin","type": "Cartoon"},{"name": "The Adventures of Super Mario Bros. 3","type": "Cartoon"},{"name": "Afro Samurai","type": "Cartoon"},{"name": "Adventures of Superman","type": "TV Show"},{"name": "ALF","type": "TV Show"}],"movies": [{"name": "Saving Private Ryan","type": "World War II"},{"name": "Shrek","type": "Animation"}]}}', NULL, '{"pt-BR": {"query": "SUA PEXQUISA POR:::: <data id=\"query\"></data>", "result": "Retornou <b>{{(type | filter:data.data.query).length}}</b> resultados."}}', NULL, NULL);
+INSERT INTO components VALUES (5, 'Ruler', NULL, '<div class="ruler" ng-class="data.data.orientation">
+    <div class="floating-marker" style="top: {{data.data.floatingMarker.y}}px; left: {{data.data.floatingMarker.x}}px;"></div>
+    <div class="step" ng-repeat="n in scope.range">{{n}}</div>
+</div>', '{"from":0,"to":0,"step":0,"orientation":"horizontal","floatingMarker":{"x":0,"y":0}}', '{"&.theme-default":{".ruler":{"display":"block","position":"absolute","font-size":"10px","overflow":"hidden","z-index":"1100","background":"#E0E0E0","white-space":"nowrap",".floating-marker":{"position":"absolute","background":"red"},"&.horizontal":{"border-bottom":"1px solid #000000","top":"0px","right":"0px","left":"0px","height":"17px","cursor":"row-resize",".floating-marker":{"height":"inherit","width":"10px"},".step":{"display":"inline-block","width":"50px"}},"&.vertical":{"border-right":"1px solid #000000","top":"0px","left":"0px","bottom":"0px","width":"17px","cursor":"col-resize",".floating-marker":{"height":"10px","width":"inherit"},".step":{"height":"50px"}}}}}', '{"pt-BR":{}}', NULL, '2015-07-17 21:40:10-03');
 
 
 --
 -- Name: components_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('components_id_seq', 1, false);
+SELECT pg_catalog.setval('components_id_seq', 7, true);
 
 
 --
