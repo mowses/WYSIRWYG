@@ -49,14 +49,9 @@ module.exports = {
 			required: false
 		},
 
-		component: {
-			collection: 'components',
-			via: 'subcomponents'
-		},
-
 		subcomponents: {
-			collection: 'components',
-			via: 'component'
+			collection: 'components_subcomponents',
+			via: 'subcomponent'
 		}
 	}
 };
