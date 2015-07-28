@@ -13,7 +13,7 @@ angular.module('WYSIRWYG.modules.documentation', [
 
 	getComponents([1], function(data) {
 		$scope.data.components = data;
-		$scope.$apply();
+		//$scope.$apply();
 	});
 
 	console.log('para acessar $scope use a variavel global $scope, getScopes');

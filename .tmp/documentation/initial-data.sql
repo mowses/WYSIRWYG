@@ -7,7 +7,7 @@ INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n,
 		<p ng-bind="i18n.desc"></p>
 		<p ng-bind="i18n.youhave"></p>
 		<hr />
-		{{data.apples}} + {{data.applesEatten}} = <b>{{data.apples - data.applesEatten}}</b>
+		{{data.apples}} - {{data.applesEatten}} = <b>{{data.apples - data.applesEatten}}</b>
 	</div>',
 	'{
 		"apples": 5,
@@ -26,7 +26,7 @@ INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n,
 	'{
 		"pt-br": {
 			"title": "Titulo",
-			"desc": "Lorem ipsum dolor sit amet.",
+			"desc": "Essa é a decrição. Você está usando este componente no idioma: <b>{{language}}</b>.",
 			"youhave": "Você tem {{data.apples}} maças, comeu {{data.applesEatten}}. Quantas restam?"
 		}
 	}',

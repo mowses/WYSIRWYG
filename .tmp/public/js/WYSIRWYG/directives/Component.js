@@ -1,7 +1,5 @@
 angular.module('WYSIRWYG.directives.component', [
-	'WYSIRWYG.services.getParentLanguage',
-	'WYSIRWYG.directives.i18n',
-	'WYSIRWYG.directives.data'
+	'WYSIRWYG.services.getParentLanguage'
 ])
 
 .directive('component', ['$compile', '$interpolate', 'getParentLanguage', function($compile, $interpolate, getParentLanguage) {
@@ -30,6 +28,7 @@ angular.module('WYSIRWYG.directives.component', [
 				controller_name = $interpolate(controller_name)($scope);
 
 			$scope.language = getAvailableLanguage($scope, attrs);
+			
 			attrs.$observe('language', function() {
 				$scope.language = getAvailableLanguage($scope, attrs);
 				$scope.$broadcast('parentChangedLanguage');
@@ -38,7 +37,6 @@ angular.module('WYSIRWYG.directives.component', [
 			$scope.$on('parentChangedLanguage', function() {
 				$scope.language = getAvailableLanguage($scope, attrs);
 			});
-
 
 			/*return $controller(controller_name, {
 				$scope: {
@@ -79,6 +77,9 @@ angular.module('WYSIRWYG.directives.component', [
 						scope.childScope.$destroy();
 						// create a new child scope for sub-components
 						scope.childScope = scope.$new();
+						$.extend(scope.childScope, scope.data, {
+							i18n: scope.data.i18n[scope.language]
+						});
 
 						// respect that order: first insert html inside element then compile
 						// this way require would work for ^editableArea
