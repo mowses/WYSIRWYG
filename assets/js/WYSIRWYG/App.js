@@ -6,19 +6,6 @@ angular.module('WYSIRWYG', [
     'WYSIRWYG.modules.Editor.Raw'
 ])
 
-.factory('getParentLanguage', function() {
-    function getParentLanguage(scope) {
-        if (scope.language) return scope.language;
-        if (!scope.$parent) return;
-
-        return getParentLanguage(scope.$parent);
-    }
-
-    return function(scope) {
-        return getParentLanguage(scope);
-    }
-})
-
 .factory('generateCSS', function() {
     return function(id, jss) {
         var css = JSS.toCSS(ObserverCore.utils.object(['#' + id], jss)),

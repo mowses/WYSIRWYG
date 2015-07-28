@@ -8,16 +8,20 @@
     <link rel="stylesheet" href="/styles/reset.css">
   </head>
 
-  <body ng-app="WYSIRWYG.modules.Documentation">
+  <body ng-app="WYSIRWYG.modules.documentation">
     <%- body %>
 
     <script src="/js/libraries/jQuery/jquery-2.1.1.js"></script>
     <script src="/js/libraries/angular/angular.js"></script>
     <script src="/js/WYSIRWYG/modules/Documentation/DocumentationController.js"></script>
+
     <script src="/js/WYSIRWYG/services/debug.js"></script>
     <script src="/js/WYSIRWYG/services/getComponents.js"></script>
+    <script src="/js/WYSIRWYG/services/getParentLanguage.js"></script>
     <script src="/js/WYSIRWYG/services/getThemes.js"></script>
 
     <script src="/js/WYSIRWYG/directives/Component.js"></script>
+    <script src="/js/WYSIRWYG/directives/i18n.js"></script>
+    <script src="/js/WYSIRWYG/directives/Data.js"></script>
   </body>
 </html>

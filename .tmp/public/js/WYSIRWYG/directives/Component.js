@@ -1,4 +1,5 @@
 angular.module('WYSIRWYG.directives.component', [
+	'WYSIRWYG.services.getParentLanguage',
 	'WYSIRWYG.directives.i18n',
 	'WYSIRWYG.directives.data'
 ])
