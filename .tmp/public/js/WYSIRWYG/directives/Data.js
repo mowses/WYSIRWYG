@@ -1,4 +1,6 @@
-angular.module('WYSIRWYG.data', [])
+angular.module('WYSIRWYG.directives.data', [
+
+])
 
 .directive('data', ['$compile', '$interpolate', function($compile, $interpolate) {
 	'use strict';
@@ -36,7 +38,7 @@ angular.module('WYSIRWYG.data', [])
 						if (filter) {
 							data = $interpolate('{{"' + prepareData(data) + '" | ' + scope.filter + '}}');
 						}
-						
+
 						$element.empty().append(data);
 					});
 				}

@@ -1,4 +1,6 @@
-angular.module('WYSIRWYG.i18n', [])
+angular.module('WYSIRWYG.directives.i18n', [
+
+])
 
 .directive('i18n', ['$compile', 'getParentLanguage', function($compile, getParentLanguage) {
 	'use strict';
@@ -24,7 +26,7 @@ angular.module('WYSIRWYG.i18n', [])
 		},
 
 		controller: ['$scope', '$attrs', function($scope, attrs) {
-			
+
 			$scope.$on('parentChangedLanguage', function() {
 				$scope.language = getAvailableLanguage($scope, attrs);
 			});

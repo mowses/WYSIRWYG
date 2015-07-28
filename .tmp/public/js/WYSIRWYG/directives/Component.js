@@ -1,4 +1,7 @@
-angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
+angular.module('WYSIRWYG.directives.component', [
+	'WYSIRWYG.directives.i18n',
+	'WYSIRWYG.directives.data'
+])
 
 .directive('component', ['$compile', '$interpolate', 'getParentLanguage', function($compile, $interpolate, getParentLanguage) {
 	'use strict';
@@ -21,7 +24,7 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 		restrict: 'E',
 		transclude: false,
 		// controller config
-		controller : ['$scope', '$attrs', '$controller', function($scope, attrs, $controller) {
+		controller: ['$scope', '$attrs', '$controller', function($scope, attrs, $controller) {
 			var controller_name = attrs.controllerName || ($scope.data.name + 'Controller'),
 				controller_name = $interpolate(controller_name)($scope);
 
@@ -57,7 +60,7 @@ angular.module('WYSIRWYG.Component', ['WYSIRWYG.i18n', 'WYSIRWYG.data'])
 		compile: function($element, attrs) {
 			return {
 				pre: function(scope, $element, attrs) {
-					
+
 				},
 
 				post: function(scope, $element, attrs) {

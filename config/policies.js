@@ -53,8 +53,7 @@ module.exports.policies = {
     },
 
     ComponentsController: {
-        'index': ['inDevEnv'],
-        'get': ['componentsArray'],
+        'index': ['optionalComponentsArray'],
         'delete': ['componentsArray']
     }
 };

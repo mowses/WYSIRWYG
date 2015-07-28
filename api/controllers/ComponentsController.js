@@ -8,12 +8,14 @@
 
 module.exports = {
 	index: function(req, res, next) {
-		var $ = sails.config.globals.jQuery;
+		var $ = sails.config.globals.jQuery,
+			components = req.param('components');
 
 		Components.query('WITH recursive _subcomponents(id) AS ( SELECT * , array[id] AS found_components ' + 
 			'FROM components WHERE id IN(WITH RECURSIVE _subcomponents(id) AS ( SELECT subcomponents.*, ' + 
 				'array[subcomponents.component] AS found_components ' +
 				'FROM components_subcomponents AS subcomponents ' +
+				(components ? 'WHERE subcomponent IN (' + components + ') ' : '') +
 				'UNION ALL SELECT subcomponents.*, ' +
 				'found_components || subcomponents.component ' +
 				'FROM components_subcomponents AS subcomponents INNER JOIN ' +
@@ -25,35 +27,9 @@ module.exports = {
 				'SELECT DISTINCT ON(id) *, ' +
 					'(SELECT array_agg(DISTINCT(component)) FROM components_subcomponents ' +
 					'subcomponents WHERE subcomponent = components_w_subcomponents.id) AS subcomponents ' +
-				'FROM ( SELECT * FROM _subcomponents UNION ALL SELECT *, NULL FROM ' +
-					'components) AS components_w_subcomponents', function(err, data) {
-
-			if (err || !data) return res.badRequest(err);
-			return res.json(data.rows);
-		});
-	},
-
-	get: function(req, res, next) {
-		var $ = sails.config.globals.jQuery,
-			components = req.param('components');
-
-		Components.query('WITH recursive _subcomponents(id) AS ( SELECT * , array[id] AS found_components ' + 
-			'FROM components WHERE id IN(WITH RECURSIVE _subcomponents(id) AS ( SELECT subcomponents.*, ' + 
-				'array[subcomponents.component] AS found_components ' +
-				'FROM components_subcomponents AS subcomponents ' +
-				'WHERE subcomponent IN (' + components + ') UNION ALL SELECT subcomponents.*, ' +
-				'found_components || subcomponents.component ' +
-				'FROM components_subcomponents AS subcomponents INNER JOIN ' +
-				'_subcomponents ON _subcomponents.component = subcomponents.subcomponent ' +
-				'WHERE NOT subcomponents.component = ANY(found_components)) SELECT ' +
-				'DISTINCT(component) FROM _subcomponents) UNION ALL SELECT components.*, ' +
-				'found_components || components.id FROM components INNER JOIN _subcomponents ON ' +
-				'_subcomponents."prototypeFrom" = components.id WHERE NOT components.id = ANY(found_components)) ' +
-				'SELECT DISTINCT ON(id), ' +
-					'(SELECT array_agg(DISTINCT(component)) FROM components_subcomponents ' +
-					'subcomponents WHERE subcomponent = components_w_subcomponents.id) AS subcomponents ' +
-				'* FROM ( SELECT * FROM _subcomponents UNION ALL SELECT *, NULL FROM ' +
-					'components WHERE id IN (' + components + ')) AS components_w_subcomponents', function(err, data) {
+				'FROM ( SELECT * FROM _subcomponents UNION ALL SELECT *, NULL FROM components ' +
+					(components ? 'WHERE id IN (' + components + ')' : '' ) +
+					') AS components_w_subcomponents', function(err, data) {
 
 			if (err || !data) return res.badRequest(err);
 			return res.json(data.rows);

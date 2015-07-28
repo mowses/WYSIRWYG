@@ -36,6 +36,11 @@ module.exports.routes = {
         view: 'app'
     },
 
+    'GET /documentation': {
+        controller: 'Documentation',
+        action: 'index'
+    },
+
     'GET /editor': {
         controller: 'Editor',
         action: 'index'
@@ -44,11 +49,6 @@ module.exports.routes = {
     'GET /editor/raw': {
         controller: 'RawEditor',
         action: 'index'
-    },
-
-    'GET /components/get': {
-        controller: 'Components',
-        action: 'get'
     },
 
     'GET /components': {

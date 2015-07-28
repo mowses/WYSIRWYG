@@ -1,8 +1,11 @@
 'use strict';
 
-angular.module('Debug', [])
+angular.module('WYSIRWYG.services.debug', [
+
+])
 
 .factory('getScopes', function() {
+
 	function getScopes(root) {
 		var scopes = [],
 			scope_ids = [];
