@@ -1,5 +1,5 @@
 angular.module('WYSIRWYG.directives.i18n', [
-
+	'WYSIRWYG.services.getParentLanguage'
 ])
 
 .directive('i18n', ['$compile', 'getParentLanguage', function($compile, getParentLanguage) {
@@ -10,8 +10,8 @@ angular.module('WYSIRWYG.directives.i18n', [
 	 * do not update/change attrs.language, otherwise it may trigger getAvailableLanguage twice
 	 */
 	function getAvailableLanguage(scope, attrs) {
-		var language = attrs.language || getParentLanguage(scope.$parent);
-		language = scope.data[language] ? language : Object.keys(scope.data)[0];
+		var language = attrs.language || getParentLanguage(scope);
+		language = scope.data.i18n[language] ? language : Object.keys(scope.data.i18n)[0];
 
 		return language;
 	}
@@ -21,46 +21,26 @@ angular.module('WYSIRWYG.directives.i18n', [
 		transclude: false,
 		scope: {
 			id: '@',
-			language: '@',
-			data: '='
+			language: '@'
 		},
 
 		controller: ['$scope', '$attrs', function($scope, attrs) {
-
-			$scope.$on('parentChangedLanguage', function() {
-				$scope.language = getAvailableLanguage($scope, attrs);
-			});
-
-			/*attrs.$observe('language', function() {
-				$scope.language = getAvailableLanguage($scope, attrs);
-			});*/
-
-			$scope.language = getAvailableLanguage($scope, attrs);
+			
 		}],
 
 		compile: function($element, attrs) {
-			attrs.data = attrs.data || 'data.i18n';
-
 			return {
 				pre: function(scope, $element, attrs) {
 
 				},
 				post: function(scope, $element, attrs) {
-					// hold child scope - used by the compiled sub-components
-					// and destroyed on data change
-					// preventing memory leaks
-					scope.childScope = scope.$parent.$new();
-
 					scope.$watch(function() {
-						return scope.data[scope.language][scope.id];
+						scope.language = getAvailableLanguage(scope.$parent.$parent, attrs);
+						return scope.$parent.$parent.data.i18n[scope.language][scope.id];
 					}, function(string) {
-						// destroy previous child scope
-						scope.childScope.$destroy();
-						// create a new child scope for sub-components
-						scope.childScope = scope.$parent.$new();
-						//console.log('i18n changed:', attrs.id, scope, scope.$parent, scope.childScope);
-						var compiled = $compile('<div>' + string + '</div>')(scope.childScope);
-						$element.empty().append(compiled.contents());
+						// respect that order: first insert html inside element then compile
+						$element.empty().html(string);
+						$compile($element.contents())(scope);
 					});
 				}
 			}

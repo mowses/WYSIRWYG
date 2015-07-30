@@ -66,6 +66,7 @@ angular.module('WYSIRWYG.directives.component', [
 					// hold child scope - used by the compiled sub-components
 					// and destroyed on data change
 					// preventing memory leaks
+					// for example: without childscope creation, would trigger i18n watchers many times
 					scope.childScope = scope.$new();
 
 					// parseTemplate could be called from a partial onload
@@ -77,10 +78,18 @@ angular.module('WYSIRWYG.directives.component', [
 						scope.childScope.$destroy();
 						// create a new child scope for sub-components
 						scope.childScope = scope.$new();
-						$.extend(scope.childScope, scope.data, {
-							i18n: scope.data.i18n[scope.language]
+
+						$.extend(scope.childScope, {
+							i18n: scope.data.i18n[scope.language],
+							data: scope.data.data
+						});
+						// compile i18n for data variables
+						$.each(scope.childScope.i18n, function(i, item) {
+							scope.childScope.i18n[i] = $interpolate(item)(scope.childScope);
 						});
 
+						console.log(scope.childScope);
+						
 						// respect that order: first insert html inside element then compile
 						// this way require would work for ^editableArea
 						template_placeholder.empty().html(template);

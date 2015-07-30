@@ -3,9 +3,9 @@ INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n,
 	'A normal component',
 	NULL,
 	'<div>
-		<h1 ng-bind="i18n.title"></h1>
-		<p ng-bind="i18n.desc"></p>
-		<p ng-bind="i18n.youhave"></p>
+		<h1><i18n id="title"></i18n></h1><br>
+		<p><i18n id="desc" language="pt-br"></i18n></p>
+		<p><i18n id="youhave"></i18n></p>
 		<hr />
 		{{data.apples}} - {{data.applesEatten}} = <b>{{data.apples - data.applesEatten}}</b>
 	</div>',
@@ -24,9 +24,15 @@ INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n,
 	}',
 
 	'{
+		"en-us": {
+			"title": "<u>Title {{1}}</u>",
+			"desc": "You are using this component in: <b>{{$parent.language}}</b>, but i18n is: <b>{{language}}</b>.",
+			"youhave": "You had {{data.apples}} apples, you ate {{data.applesEatten}}. How many apples left?"
+		},
+
 		"pt-br": {
-			"title": "Titulo",
-			"desc": "Essa é a decrição. Você está usando este componente no idioma: <b>{{language}}</b>.",
+			"title": "<u>Titulo {{1}}</u>",
+			"desc": "Você está usando este componente no idioma: <b>{{$parent.language}}</b>, mas o i18n está em: <b>{{language}}</b>.",
 			"youhave": "Você tem {{data.apples}} maças, comeu {{data.applesEatten}}. Quantas restam?"
 		}
 	}',
