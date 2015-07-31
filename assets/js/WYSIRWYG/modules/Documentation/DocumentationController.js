@@ -4,7 +4,8 @@ angular.module('WYSIRWYG.modules.documentation', [
     'WYSIRWYG.services.debug',
     'WYSIRWYG.services.getComponents',
     'WYSIRWYG.directives.component',
-    'WYSIRWYG.directives.i18n'
+    'WYSIRWYG.directives.i18n',
+    'WYSIRWYG.filters.jsonFormatter'
 ])
 
 .controller('DocumentationController', ['$scope', 'getComponents', 'getScopes', function($scope, getComponents, getScopes) {

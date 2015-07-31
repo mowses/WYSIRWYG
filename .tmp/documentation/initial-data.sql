@@ -4,7 +4,7 @@ INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n,
 	NULL,
 	'<div>
 		<h1><i18n id="title"></i18n></h1><br>
-		<p><i18n id="desc" language="pt-br"></i18n></p>
+		<p><i18n id="desc"></i18n></p>
 		<p><i18n id="youhave"></i18n></p>
 		<hr />
 		{{data.apples}} - {{data.applesEatten}} = <b>{{data.apples - data.applesEatten}}</b>

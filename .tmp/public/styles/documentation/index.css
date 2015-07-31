@@ -1,0 +1,12 @@
+body {
+	padding: 20px;
+	line-height: 20px;
+}
+
+component, pre {
+	border: 1px solid darkgray;
+	padding: 10px;
+	margin: 10px;
+	display: block;
+	background: #EFEFEF;
+}

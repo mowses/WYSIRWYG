@@ -21,23 +21,6 @@ angular.module('WYSIRWYG', [
 })
 
 /**
- * get component available languages
- * return languages names
- */
-.factory('getLanguages', function() {
-
-    return function getLanguages(component) {
-        var languages = [];
-
-        $.each(component.i18n || {}, function(k) {
-            languages.push(k);
-        });
-
-        return languages;
-    }
-})
-
-/**
  * get attributes in @attrs that its property name prefixes @prefix
  */
 /*.factory('getAttributes', function() {

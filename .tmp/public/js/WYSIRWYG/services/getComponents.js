@@ -4,7 +4,7 @@ angular.module('WYSIRWYG.services.getComponents', [
 	'WYSIRWYG.services.getThemes'
 ])
 
-.factory('getComponents', ['prototypeComponents', 'getThemes', function(prototypeComponents, getThemes) {
+.factory('getComponents', ['prototypeComponents', 'getThemes', 'getLanguages', function(prototypeComponents, getThemes, getLanguages) {
 
 	return function(ids, callback) {
 		ids = $.makeArray(ids);
@@ -24,6 +24,7 @@ angular.module('WYSIRWYG.services.getComponents', [
 
 				data.subcomponents = subcomponents;
 				data.themes = getThemes(data);
+				data.languages = getLanguages(data);
 			});
 
 			callback(prototyped_data);

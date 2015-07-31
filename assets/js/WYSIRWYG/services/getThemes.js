@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('WYSIRWYG.services.getThemes', [
-	'WYSIRWYG.services.getThemes'
+	
 ])
 
 /**
@@ -23,4 +23,21 @@ angular.module('WYSIRWYG.services.getThemes', [
 
 		return themes;
 	}
+})
+
+/**
+ * get component available languages
+ * return languages names
+ */
+.factory('getLanguages', function() {
+
+    return function getLanguages(component) {
+        var languages = [];
+
+        $.each(component.i18n || {}, function(k) {
+            languages.push(k);
+        });
+
+        return languages;
+    }
 });

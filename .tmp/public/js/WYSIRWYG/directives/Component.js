@@ -79,17 +79,16 @@ angular.module('WYSIRWYG.directives.component', [
 						// create a new child scope for sub-components
 						scope.childScope = scope.$new();
 
-						$.extend(scope.childScope, {
+						$.extend(true, scope.childScope, {  // use true as first param
 							i18n: scope.data.i18n[scope.language],
 							data: scope.data.data
 						});
+						console.log('carry on from above');
 						// compile i18n for data variables
 						$.each(scope.childScope.i18n, function(i, item) {
 							scope.childScope.i18n[i] = $interpolate(item)(scope.childScope);
 						});
 
-						console.log(scope.childScope);
-						
 						// respect that order: first insert html inside element then compile
 						// this way require would work for ^editableArea
 						template_placeholder.empty().html(template);
