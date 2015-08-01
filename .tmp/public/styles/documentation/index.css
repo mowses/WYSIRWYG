@@ -10,3 +10,8 @@ component, pre {
 	display: block;
 	background: #EFEFEF;
 }
+
+.console {
+	width: 100%;
+	padding: 10px;
+}

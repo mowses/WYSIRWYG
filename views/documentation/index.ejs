@@ -1,8 +1,11 @@
 <div ng-controller="DocumentationController">
 
-	<div ng-repeat="(k, component) in data.components" ng-init="tab='preview'; selectedLanguage">
+	<div ng-repeat="(k, component) in data.components" ng-init="tab='preview'; selectedLanguage; selectedTheme;">
 		<h1>{{k + ' - ' + data.components[k].name}}</h1>
+		
 		<select ng-options="language as language for language in component.languages" ng-model="selectedLanguage"></select>
+		<select ng-options="theme as theme for theme in component.themes" ng-model="selectedTheme"></select>
+
 		<div class="tab">
 			<a href="#" ng-click="tab='preview';">Preview</a>
 			<a href="#" ng-click="tab='html';">HTML</a>
@@ -11,7 +14,7 @@
 			<a href="#" ng-click="tab='i18n';">i18n</a>
 			<a href="#" ng-click="tab='scope';">Scope</a>
 
-			<component data="component" ng-show="tab=='preview'" language="{{selectedLanguage}}"></component>
+			<component id="component-{{component.id}}" data="component" ng-show="tab=='preview'" language="{{selectedLanguage}}" ng-class="selectedTheme"></component>
 			<pre ng-show="tab==='html'">{{component.template}}</pre>
 			<pre ng-show="tab==='data'">{{component.data | jsonFormatter}}</pre>
 			<pre ng-show="tab==='styles'">{{component.styles | jsonFormatter}}</pre>

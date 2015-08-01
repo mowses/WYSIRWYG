@@ -18,25 +18,24 @@ angular.module('WYSIRWYG.directives.i18n', [
 
 	return {
 		restrict: 'E',
+		require: '^component',
 		transclude: false,
-		scope: {
-			id: '@',
-			language: '@'
-		},
-
+		
 		controller: ['$scope', '$attrs', function($scope, attrs) {
-			
+
 		}],
 
 		compile: function($element, attrs) {
 			return {
 				pre: function(scope, $element, attrs) {
-
+					
 				},
+				
 				post: function(scope, $element, attrs) {
+
 					scope.$watch(function() {
-						scope.language = getAvailableLanguage(scope.$parent.$parent, attrs);
-						return scope.$parent.$parent.data.i18n[scope.language][scope.id];
+						var language = getAvailableLanguage(scope, attrs);
+						return scope.data.i18n[language][attrs.id];
 					}, function(string) {
 						// respect that order: first insert html inside element then compile
 						$element.empty().html(string);

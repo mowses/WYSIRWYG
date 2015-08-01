@@ -7,7 +7,7 @@ INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n,
 		<p><i18n id="desc"></i18n></p>
 		<p><i18n id="youhave"></i18n></p>
 		<hr />
-		{{data.apples}} - {{data.applesEatten}} = <b>{{data.apples - data.applesEatten}}</b>
+		{{data.data.apples}} - {{data.data.applesEatten}} = <b>{{data.data.apples - data.data.applesEatten}}</b>
 	</div>',
 	'{
 		"apples": 5,
@@ -15,11 +15,11 @@ INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n,
 	}',
 
 	'{
-		"&.some-theme": {
-
+		"&.yellow": {
+			"background": "yellow"
 		},
-		"&.another-theme": {
-
+		"&.green": {
+			"background": "green"
 		}
 	}',
 
@@ -27,7 +27,7 @@ INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n,
 		"en-us": {
 			"title": "<u>Title {{1}}</u>",
 			"desc": "You are using this component in: <b>{{$parent.language}}</b>, but i18n is: <b>{{language}}</b>.",
-			"youhave": "You had {{data.apples}} apples, you ate {{data.applesEatten}}. How many apples left?"
+			"youhave": "You have {{data.apples}} apples, you ate {{data.applesEatten}}. How many apples left?"
 		},
 
 		"pt-br": {
