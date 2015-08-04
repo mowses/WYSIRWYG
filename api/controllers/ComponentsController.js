@@ -25,14 +25,36 @@ module.exports = {
 				'found_components || components.id FROM components INNER JOIN _subcomponents ON ' +
 				'_subcomponents."prototypeFrom" = components.id WHERE NOT components.id = ANY(found_components)) ' +
 				'SELECT DISTINCT ON(id) *, ' +
-					'(SELECT array_agg(DISTINCT(component)) FROM components_subcomponents ' +
-					'subcomponents WHERE subcomponent = components_w_subcomponents.id) AS subcomponents ' +
+					'(SELECT array_agg(id) FROM components_subcomponents ' +
+					'subcomponents WHERE component = components_w_subcomponents.id) AS ids_rows_subcomponents ' +
 				'FROM ( SELECT * FROM _subcomponents UNION ALL SELECT *, NULL FROM components ' +
 					(components ? 'WHERE id IN (' + components + ')' : '' ) +
 					') AS components_w_subcomponents', function(err, data) {
 
 			if (err || !data) return res.badRequest(err);
-			return res.json(data.rows);
+
+			// store subcomponents
+			var subcomponents_rows_ids = [];
+			$.each(data.rows, function(i, row) {
+				row.ids_rows_subcomponents = row.ids_rows_subcomponents || [];
+				$.merge(subcomponents_rows_ids, row.ids_rows_subcomponents);
+			});
+
+			// search for components_subcomponents
+			Components_subcomponents.find({
+				id: subcomponents_rows_ids
+			}).exec(function(err, subcomponents) {
+				if (err) return res.badRequest(err);
+
+				// populate component.subcomponents property
+				$.each(data.rows, function(i, row) {
+					row.subcomponents = $.grep(subcomponents, function(sub) {
+						return row.ids_rows_subcomponents.indexOf(sub.id) >= 0;
+					});
+				});
+
+				return res.json(data.rows);
+			});
 		});
 	},
 

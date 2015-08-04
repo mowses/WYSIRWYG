@@ -1,18 +1,19 @@
 <div ng-controller="DocumentationController">
 
-	<div ng-repeat="(k, component) in data.components" ng-init="tab='preview'; selectedLanguage; selectedTheme;">
-		<h1>{{k + ' - ' + data.components[k].name}}</h1>
+	<div ng-repeat="(k, component) in data.components" ng-if="component.description" ng-init="tab='preview'; selectedLanguage; selectedTheme;" class="row row-{{k}}">
+		<h1><a href="#c-{{k}}" name="c-{{k}}">{{k + ' - ' + data.components[k].name}}</a></h1>
+		<p ng-bind="component.description"></p>
 		
 		<select ng-options="language as language for language in component.languages" ng-model="selectedLanguage"></select>
 		<select ng-options="theme as theme for theme in component.themes" ng-model="selectedTheme"></select>
 
 		<div class="tab">
-			<a href="#" ng-click="tab='preview';">Preview</a>
-			<a href="#" ng-click="tab='html';">HTML</a>
-			<a href="#" ng-click="tab='data';">Data</a>
-			<a href="#" ng-click="tab='styles';">Styles</a>
-			<a href="#" ng-click="tab='i18n';">i18n</a>
-			<a href="#" ng-click="tab='scope';">Scope</a>
+			<a href="#c-{{k}}" ng-click="tab='preview';">Preview</a>
+			<a href="#c-{{k}}" ng-click="tab='html';">Html</a>
+			<a href="#c-{{k}}" ng-click="tab='data';">Data</a>
+			<a href="#c-{{k}}" ng-click="tab='styles';">Styles</a>
+			<a href="#c-{{k}}" ng-click="tab='i18n';">i18n</a>
+			<a href="#c-{{k}}" ng-click="tab='scope';">Scope</a>
 
 			<component id="component-{{component.id}}" data="component" ng-show="tab=='preview'" language="{{selectedLanguage}}" ng-class="selectedTheme"></component>
 			<pre ng-show="tab==='html'">{{component.template}}</pre>
@@ -20,6 +21,12 @@
 			<pre ng-show="tab==='styles'">{{component.styles | jsonFormatter}}</pre>
 			<pre ng-show="tab==='i18n'">{{component.i18n | jsonFormatter}}</pre>
 			<pre ng-show="tab==='scope'">{{component | jsonFormatter}}</pre>
+			
+			<div class="code-runner" ng-if="component.code">
+				<pre>{{component.code}}</pre>
+				<button type="button" ng-click="evalCode(component.code)";>Run!</button>
+			</div>
+
 		</div>
 	</div>
 </div>

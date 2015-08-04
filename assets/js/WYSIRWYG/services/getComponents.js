@@ -18,9 +18,18 @@ angular.module('WYSIRWYG.services.getComponents', [
 			$.each(prototyped_data, function(i, data) {
 				var subcomponents = {};
 
-				$.each(data.subcomponents || [], function(j, subcomponent_id) {
-					subcomponents[subcomponent_id] = prototyped_data[subcomponent_id];
-				});
+				if (!data.subcomponents.length && data.prototypeFrom) {
+					subcomponents = prototyped_data[data.prototypeFrom].subcomponents;
+				} else {
+					$.each(data.subcomponents, function(j, component_subcomponent) {
+						var id = component_subcomponent.subcomponent;
+
+						subcomponents[id] = {
+							component: prototyped_data[id],
+							subcomponent: component_subcomponent
+						};
+					});
+				}
 
 				data.subcomponents = subcomponents;
 				data.themes = getThemes(data);
