@@ -3,12 +3,22 @@ body {
 	line-height: 20px;
 }
 
-component, pre {
+component {
 	border: 1px solid darkgray;
 	padding: 10px;
 	margin: 10px;
 	display: block;
 	background: #EFEFEF;
+}
+
+pre {
+	border: 1px solid darkgray;
+	padding: 10px;
+	margin: 10px;
+	display: block;
+	background: #EFEFEF;
+	overflow: auto;
+	font-size: 10px;
 }
 
 .console {

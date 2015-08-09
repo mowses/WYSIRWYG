@@ -18,6 +18,12 @@ module.exports = {
 			autoIncrement: true
 		},
 
+		name: {
+			type: 'string',
+			required: true,
+			maxLength: 255
+		},
+
 		component: {
 			model: 'components',
 			required: true

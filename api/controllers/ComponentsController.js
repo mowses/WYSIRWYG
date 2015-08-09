@@ -48,9 +48,15 @@ module.exports = {
 
 				// populate component.subcomponents property
 				$.each(data.rows, function(i, row) {
-					row.subcomponents = $.grep(subcomponents, function(sub) {
-						return row.ids_rows_subcomponents.indexOf(sub.id) >= 0;
+					var subcomponents_prop = {};
+
+					$.each(subcomponents, function(i, sub) {
+						if (row.ids_rows_subcomponents.indexOf(sub.id) < 0) return;
+
+						subcomponents_prop[sub.name] = sub;
 					});
+
+					row.subcomponents = subcomponents_prop;
 				});
 
 				return res.json(data.rows);

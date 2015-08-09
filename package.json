@@ -33,7 +33,8 @@
     "prepare-postgres": "su postgres && psql -d wysirwyg -f ./tmp/prepare-postgres.sql -a",
     "install-pgadmin": "sudo apt-get install pgadmin3",
     "backup-db": "pg_dump wysirwyg --column-inserts --data-only --section=data --inserts > .tmp/postgres-initial-components.backup",
-    "documentation-db": "psql wysirwyg < .tmp/documentation/initial-data.sql"
+    "restore-doc": "psql wysirwyg < .tmp/documentation/initial-data.sql",
+    "backup-doc": "pg_dump wysirwyg --column-inserts --data-only --section=data --inserts > .tmp/documentation/initial-data.sql"
   },
   "main": "app.js",
   "repository": {
