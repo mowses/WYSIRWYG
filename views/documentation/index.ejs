@@ -22,11 +22,6 @@
 			<pre ng-show="tab==='i18n'">{{component.i18n | jsonFormatter}}</pre>
 			<pre ng-show="tab==='scope'">{{component | jsonFormatter}}</pre>
 			
-			<div class="code-runner" ng-if="component.code">
-				<pre>{{component.code}}</pre>
-				<button type="button" ng-click="evalCode(component.code)";>Run!</button>
-			</div>
-
 		</div>
 	</div>
 </div>

@@ -9,58 +9,56 @@
 module.exports = {
 	index: function(req, res, next) {
 		var $ = sails.config.globals.jQuery,
-			components = req.param('components');
+			components = req.param('components'),
+			sql;
 
-		Components.query('WITH recursive _subcomponents(id) AS ( SELECT * , array[id] AS found_components ' + 
-			'FROM components WHERE id IN(WITH RECURSIVE _subcomponents(id) AS ( SELECT subcomponents.*, ' + 
-				'array[subcomponents.component] AS found_components ' +
-				'FROM components_subcomponents AS subcomponents ' +
-				(components ? 'WHERE subcomponent IN (' + components + ') ' : '') +
-				'UNION ALL SELECT subcomponents.*, ' +
-				'found_components || subcomponents.component ' +
-				'FROM components_subcomponents AS subcomponents INNER JOIN ' +
-				'_subcomponents ON _subcomponents.component = subcomponents.subcomponent ' +
-				'WHERE NOT subcomponents.component = ANY(found_components)) SELECT ' +
-				'DISTINCT(component) FROM _subcomponents) UNION ALL SELECT components.*, ' +
-				'found_components || components.id FROM components INNER JOIN _subcomponents ON ' +
-				'_subcomponents."prototypeFrom" = components.id WHERE NOT components.id = ANY(found_components)) ' +
-				'SELECT DISTINCT ON(id) *, ' +
-					'(SELECT array_agg(id) FROM components_subcomponents ' +
-					'subcomponents WHERE component = components_w_subcomponents.id) AS ids_rows_subcomponents ' +
-				'FROM ( SELECT * FROM _subcomponents UNION ALL SELECT *, NULL FROM components ' +
-					(components ? 'WHERE id IN (' + components + ')' : '' ) +
-					') AS components_w_subcomponents', function(err, data) {
+		Components.query(sql = 'WITH recursive _components (id) AS ( ' +
+		// search for subcomponents
+		'WITH RECURSIVE _subcomponents(id) AS ( ' +
+			// non recursive
+			'SELECT sub.* ' +
+			'FROM components_subcomponents AS sub ' +
+			(components ? 'WHERE component IN (' + components + ') ' +
+			// in cases where component dont have subcomponents, only prototypeFrom
+			'OR component IN ( ' +
+				'SELECT "prototypeFrom" FROM components WHERE id IN (' + components + ') ' +
+			') ' : '') +
+			
+			'UNION ALL ' +
+
+			// recursive
+			'SELECT sub.* ' +
+			'FROM components_subcomponents AS sub ' +
+			'INNER JOIN _subcomponents ON _subcomponents.subcomponent = sub.component ' +
+		') ' +
+
+		// run:
+		'SELECT *, array [id] AS found_components ' +
+		'FROM components ' +
+		(components ? 'WHERE id IN (' + components + ') OR id IN ( ' +
+			'SELECT subcomponent FROM _subcomponents ' +
+		') ' : '') +
+		
+		'UNION ALL ' +
+		
+		'SELECT components.*, found_components || components.id ' +
+		'FROM components ' +
+		'INNER JOIN _components ON _components."prototypeFrom" = components.id ' +
+		'WHERE NOT components.id = ANY (found_components) ' +
+	') ' +
+
+	'SELECT DISTINCT ON (id) *, ( ' +
+		// fill subcomponents
+		'SELECT array_to_json(array_agg(row_to_json(d))) FROM ( ' +
+			'SELECT * FROM components_subcomponents AS sub WHERE sub.component IN (_c.id) ' +
+		') AS d ' +
+	') AS subcomponents ' +
+	'FROM _components AS _c', function(err, data) {
 
 			if (err || !data) return res.badRequest(err);
 
-			// store subcomponents
-			var subcomponents_rows_ids = [];
-			$.each(data.rows, function(i, row) {
-				row.ids_rows_subcomponents = row.ids_rows_subcomponents || [];
-				$.merge(subcomponents_rows_ids, row.ids_rows_subcomponents);
-			});
+			return res.json(data.rows);
 
-			// search for components_subcomponents
-			Components_subcomponents.find({
-				id: subcomponents_rows_ids
-			}).exec(function(err, subcomponents) {
-				if (err) return res.badRequest(err);
-
-				// populate component.subcomponents property
-				$.each(data.rows, function(i, row) {
-					var subcomponents_prop = {};
-
-					$.each(subcomponents, function(i, sub) {
-						if (row.ids_rows_subcomponents.indexOf(sub.id) < 0) return;
-
-						subcomponents_prop[sub.name] = sub;
-					});
-
-					row.subcomponents = subcomponents_prop;
-				});
-
-				return res.json(data.rows);
-			});
 		});
 	},
 

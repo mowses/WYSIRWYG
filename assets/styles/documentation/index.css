@@ -21,30 +21,6 @@ pre {
 	font-size: 10px;
 }
 
-.console {
-	width: 100%;
-	padding: 10px;
-}
-
 .row {
 	margin-bottom: 50px;
-}
-
-.code-runner {
-	position: relative;
-}
-
-.code-runner button {
-	position: absolute;
-	bottom: 5px;
-	right: 15px;
-	width: 100px;
-	padding: 10px;
-	background: grey;
-	border: 1px solid #6F6F6F;
-}
-
-.row-CUSTOM-SHARED, .row-CUSTOM-SHARED-2 {
-	float: left;
-	width: 50%;
 }

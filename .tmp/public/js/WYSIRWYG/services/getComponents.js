@@ -17,14 +17,23 @@ angular.module('WYSIRWYG.services.getComponents', [
 			// fill subcomponents property
 			$.each(prototyped_data, function(i, data) {
 				var subcomponents = {};
-
 				if ($.isEmptyObject(data.subcomponents) && data.prototypeFrom) {
 					data.subcomponents = prototyped_data[data.prototypeFrom].subcomponents;
 				} else {
-					$.each(data.subcomponents, function(k, component_subcomponent) {
-						//component_subcomponent.component = prototyped_data[component_subcomponent.component];
-						component_subcomponent.subcomponent = prototyped_data[component_subcomponent.subcomponent];
+					$.each(data.subcomponents || [], function(j, component_subcomponent) {
+						var id = component_subcomponent.subcomponent;
+
+						subcomponents[component_subcomponent.name] = component_subcomponent;
+
+						// check for numeric, because id can be the prototyped object
+						// hardest bug to track... this happens with with docs: component id 5 prototyping from 2 then 1
+						// 5>2>1 because 2 proto from 1 that already changed its component_subcomponent.subcomponent
+						// when 5 tries to refers to 2, component_subcomponent.subcomponent (id) is a object already
+						if ($.isNumeric(id)) {
+							component_subcomponent.subcomponent = prototyped_data[id];
+						}
 					});
+					data.subcomponents = subcomponents;
 				}
 
 				data.themes = getThemes(data);
