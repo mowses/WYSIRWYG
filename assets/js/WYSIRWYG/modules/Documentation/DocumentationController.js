@@ -32,12 +32,15 @@ angular.module('WYSIRWYG.modules.documentation', [
 
 	getComponents(Object.keys($scope.data.components), function(data) {
 		// generate CSS
-		$.each(data, function(i, component) {
+		$.each(data.components, function(i, component) {
 			generateCSS('component-' + component.id, component.styles);
 		});
 
-		$.extend(true, $scope.data.components, data);
-	
+		// dont use $.extend(true, ...): too much recursion because of properties component and subcomponent (pointer to another component)
+		$.each($scope.data.components, function(k, item) {
+			$.extend(item, data.components[k]);
+		});
+		
 		$scope.$digest();
 	});
 

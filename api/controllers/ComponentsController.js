@@ -33,7 +33,7 @@ module.exports = {
 		') ' +
 
 		// run:
-		'SELECT *, array [id] AS found_components ' +
+		'SELECT *, array [id] AS _found_components ' +
 		'FROM components ' +
 		(components ? 'WHERE id IN (' + components + ') OR id IN ( ' +
 			'SELECT subcomponent FROM _subcomponents ' +
@@ -41,24 +41,37 @@ module.exports = {
 		
 		'UNION ALL ' +
 		
-		'SELECT components.*, found_components || components.id ' +
+		'SELECT components.*, _found_components || components.id ' +
 		'FROM components ' +
 		'INNER JOIN _components ON _components."prototypeFrom" = components.id ' +
-		'WHERE NOT components.id = ANY (found_components) ' +
+		'WHERE NOT components.id = ANY (_found_components) ' +
 	') ' +
 
-	'SELECT DISTINCT ON (id) *, ( ' +
-		// fill subcomponents
-		'SELECT array_to_json(array_agg(row_to_json(d))) FROM ( ' +
-			'SELECT * FROM components_subcomponents AS sub WHERE sub.component IN (_c.id) ' +
-		') AS d ' +
-	') AS subcomponents ' +
-	'FROM _components AS _c', function(err, data) {
+	'SELECT DISTINCT ON (id) * ' +
+	'FROM _components AS _c', function(err, components) {
 
-			if (err || !data) return res.badRequest(err);
+			if (err || !components) return res.badRequest(err);
 
-			return res.json(data.rows);
+			var indexed_components = {},
+				// get components_subcomponents rows
+				sub_ids = [];
 
+			$.each(components.rows, function(i, row) {
+				indexed_components[row.id] = row
+				sub_ids.push(row.id);
+			});
+
+			Components_subcomponents
+				.find({id: sub_ids})
+				.exec(function(err, components_subcomponents) {
+					
+					if (err) return res.badRequest(err);
+
+					return res.json({
+						components: indexed_components,
+						components_subcomponents: components_subcomponents
+					});
+				});
 		});
 	},
 

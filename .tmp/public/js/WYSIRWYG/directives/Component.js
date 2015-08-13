@@ -50,14 +50,20 @@ angular.module('WYSIRWYG.directives.component', [
 		scope: {
 			id: '@',
 			language: '@',
-			data: '='
+			data: '=',
+			config: '='
 		},
 		templateUrl: '/templates/Directives/Component.html',
 
 		compile: function($element, attrs) {
 			return {
 				pre: function(scope, $element, attrs) {
-
+					// watch config changes
+					scope.$watch('config', function() {
+						$.each(scope.config || {}, function(k, val) {
+							attrs.$set(k, val);
+						});
+					}, true);
 				},
 
 				post: function(scope, $element, attrs) {

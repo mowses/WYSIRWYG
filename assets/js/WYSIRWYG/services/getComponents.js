@@ -12,47 +12,44 @@ angular.module('WYSIRWYG.services.getComponents', [
 		$.get('/components', {
 			components: ids
 		}, function(data) {
-			var prototyped_data = prototypeComponents($.makeArray(data));
+			var components_subcomponents = {};
 
-			// fill subcomponents property
-			$.each(prototyped_data, function(i, data) {
-				var subcomponents = {};
-				if ($.isEmptyObject(data.subcomponents) && data.prototypeFrom) {
-					data.subcomponents = prototyped_data[data.prototypeFrom].subcomponents;
-				} else {
-					$.each(data.subcomponents || [], function(j, component_subcomponent) {
-						var id = component_subcomponent.subcomponent;
+			data.components = prototypeComponents(data.components);
 
-						subcomponents[component_subcomponent.name] = component_subcomponent;
+			// index components_subcomponents by row id
+			$.each(data.components_subcomponents, function(i, sub) {
+				components_subcomponents[sub.id] = sub;
+				sub.component = data.components[sub.component];
+				sub.subcomponent = data.components[sub.subcomponent];
+			});
+			data.components_subcomponents = components_subcomponents;
 
-						// check for numeric, because id can be the prototyped object
-						// hardest bug to track... this happens with with docs: component id 5 prototyping from 2 then 1
-						// 5>2>1 because 2 proto from 1 that already changed its component_subcomponent.subcomponent
-						// when 5 tries to refers to 2, component_subcomponent.subcomponent (id) is a object already
-						if ($.isNumeric(id)) {
-							component_subcomponent.subcomponent = prototyped_data[id];
-						}
-					});
-					data.subcomponents = subcomponents;
+			$.each(data.components, function(id, component) {
+				// fill subcomponents property
+				component.subcomponents = {};
+
+				// index subcomponents by name
+				$.each(data.components_subcomponents, function(i, sub) {
+					if (sub.component.id != id) return;
+					component.subcomponents[sub.name] = sub;
+				});
+
+				if ($.isEmptyObject(component.subcomponents) && component.prototypeFrom) {
+					component.subcomponents = data.components[component.prototypeFrom].subcomponents;
 				}
 
-				data.themes = getThemes(data);
-				data.languages = getLanguages(data);
+				// get available themes and languages
+				component.themes = getThemes(component);
+				component.languages = getLanguages(component);
 			});
 
-			callback(prototyped_data);
+			callback(data);
 		});
 	}
 }])
 
 .factory('prototypeComponents', function() {
-	function prototypeComponents(data) {
-		var components = {};
-
-		$.each(data || [], function(i, data) {
-			components[data.id] = data;
-		});
-
+	function prototypeComponents(components) {
 		$.each(components, function(k, component) {
 			var extends_from = component.prototypeFrom;
 

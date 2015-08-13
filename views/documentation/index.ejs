@@ -15,12 +15,12 @@
 			<a href="#c-{{k}}" ng-click="tab='i18n';">i18n</a>
 			<a href="#c-{{k}}" ng-click="tab='scope';">Scope</a>
 
-			<component id="component-{{component.id}}" data="component" ng-show="tab=='preview'" language="{{selectedLanguage}}" ng-class="selectedTheme"></component>
-			<pre ng-show="tab==='html'">{{component.template}}</pre>
-			<pre ng-show="tab==='data'">{{component.data | jsonFormatter}}</pre>
-			<pre ng-show="tab==='styles'">{{component.styles | jsonFormatter}}</pre>
-			<pre ng-show="tab==='i18n'">{{component.i18n | jsonFormatter}}</pre>
-			<pre ng-show="tab==='scope'">{{component | jsonFormatter}}</pre>
+			<component id="component-{{component.id}}" data="component" ng-if="tab=='preview'" language="{{selectedLanguage}}" ng-class="selectedTheme"></component>
+			<pre ng-if="tab==='html'">{{component.template}}</pre>
+			<pre ng-if="tab==='data'">{{component.data | jsonFormatter}}</pre>
+			<pre ng-if="tab==='styles'">{{component.styles | jsonFormatter}}</pre>
+			<pre ng-if="tab==='i18n'">{{component.i18n | jsonFormatter}}</pre>
+			<pre ng-if="tab==='scope'">{{component | jsonFormatter}}</pre>
 			
 		</div>
 	</div>
