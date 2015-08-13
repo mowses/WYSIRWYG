@@ -90,7 +90,7 @@ INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n,
 		<h1><i18n id="title"></i18n></h1>
 		<p><i18n id="desc"></i18n></p>
 
-		<component id="component-2" data="data.subcomponents[''mysub1''].subcomponent" class="pink"></component>
+		<component id="component-{{data.subcomponents[''mysub1''].subcomponent.id}}" data="data.subcomponents[''mysub1''].subcomponent" config="data.subcomponents[''mysub1''].config"></component>
 		<u ng-repeat="i in data.data.times" ng-bind="i + ''...''"></u>
 	</div>', '{
 		"times": [10,9,8,7,6,5,4,3,2,1,0,"end"]
@@ -112,9 +112,11 @@ INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n,
 			"desc": "Este é um componente com subcomponente que contem outro subcomponente.."
 		}
 	}', NULL, NULL);
+INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n, "createdAt", "updatedAt") VALUES (7, 'Replacing subcomponent from existing component', 3, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n, "createdAt", "updatedAt") VALUES (9, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n, "createdAt", "updatedAt") VALUES (6, 'Overriding component data of component #3', 3, '<div>
 	<u ng-repeat="i in data.data.times" ng-bind="i + ''...''"></u>
-	<component id="component-5" data="data.subcomponents[''mysub1''].subcomponent" class="crimson"></component>
+	<component id="component-{{data.subcomponents[''mysub1''].subcomponent.id}}" data="data.subcomponents[''mysub1''].subcomponent" config="data.subcomponents[''mysub1''].config"></component>
 	
 	<p><i18n id="desc"></i18n></p>
 	<h1><i18n id="title"></i18n></h1>
@@ -130,8 +132,6 @@ INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n,
 			"color": "white"
 		}
 	}', NULL, NULL, NULL);
-INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n, "createdAt", "updatedAt") VALUES (7, 'Replacing subcomponent from existing component', 3, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n, "createdAt", "updatedAt") VALUES (9, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO components (id, name, "prototypeFrom", template, data, styles, i18n, "createdAt", "updatedAt") VALUES (4, 'Overriding component data of component #1', 1, NULL, '{
 		"apples": 441,
 		"applesEatten": 147
@@ -155,15 +155,21 @@ SELECT pg_catalog.setval('components_id_seq', 7, true);
 -- Data for Name: components_subcomponents; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO components_subcomponents (id, name, component, subcomponent, config) VALUES (2, 'mysub1', 3, 2, NULL);
-INSERT INTO components_subcomponents (id, name, component, subcomponent, config) VALUES (3, 'mysub1', 6, 5, NULL);
-INSERT INTO components_subcomponents (id, name, component, subcomponent, config) VALUES (4, 'mysub1', 5, 4, NULL);
-INSERT INTO components_subcomponents (id, name, component, subcomponent, config) VALUES (5, 'mysub1', 7, 9, NULL);
 INSERT INTO components_subcomponents (id, name, component, subcomponent, config) VALUES (1, 'mysub1', 2, 1, '{
 	"class": "yellow"
 }');
 INSERT INTO components_subcomponents (id, name, component, subcomponent, config) VALUES (6, 'mysub1', 9, 8, '{
 	"class": "black"
+}');
+INSERT INTO components_subcomponents (id, name, component, subcomponent, config) VALUES (2, 'mysub1', 3, 2, '{
+	"class": "purple"
+}');
+INSERT INTO components_subcomponents (id, name, component, subcomponent, config) VALUES (4, 'mysub1', 5, 4, NULL);
+INSERT INTO components_subcomponents (id, name, component, subcomponent, config) VALUES (3, 'mysub1', 6, 5, '{
+	"class": "crimson"
+}');
+INSERT INTO components_subcomponents (id, name, component, subcomponent, config) VALUES (5, 'mysub1', 7, 9, '{
+	"class": "pink"
 }');
 
 
